@@ -120,16 +120,6 @@ export default function HomePage({ onLaunch, onSelectTarget }) {
 
       {/* ═══════════════ HERO ═══════════════ */}
       <section className="hp-hero">
-        <motion.div
-          className="hp-badge"
-          initial={{ opacity: 0, y: -12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-        >
-          <span className="hp-badge-dot" />
-          NASA Space Apps Cairo 2026 · Planet X &amp; SPHEREx · Team Null Point
-        </motion.div>
-
         <motion.h1
           className="hp-title"
           initial={{ opacity: 0, y: 28 }}
