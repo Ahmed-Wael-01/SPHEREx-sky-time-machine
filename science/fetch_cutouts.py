@@ -441,6 +441,8 @@ def bake(job, args):
     hdus[0].header["DEC_EP"] = (dec, f"target Dec at J{args.epoch}")
 
     visits, deep_entries, det_info = [], [], {}
+    for stale in web_dir.glob("*.png"):  # frames from an earlier run would otherwise linger in git
+        stale.unlink()
     for d in [0] + dets:
         wls = [e["wavelength_um"] for e in exps if (d == 0 or e["detector"] == d) and e["wavelength_um"]]
         det_info[d] = [round(min(wls), 3), round(max(wls), 3)] if wls else None
