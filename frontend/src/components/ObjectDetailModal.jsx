@@ -78,7 +78,7 @@ export default function ObjectDetailModal({ pos, data, simbad, onClose }) {
           {activeTab === 'spectrum' ? (
             <SpectrumView points={data?.points} note={data?.note} />
           ) : (
-            <LightCurveView lightCurve={data?.light_curve} band={data?.light_curve_band} />
+            <LightCurveView lightCurve={data?.light_curve} band={data?.light_curve_band} verdict={data?.variability?.text} />
           )}
         </div>
 
@@ -197,7 +197,7 @@ function SpectrumView({ points, note }) {
   )
 }
 
-function LightCurveView({ lightCurve, band }) {
+function LightCurveView({ lightCurve, band, verdict }) {
   if (!lightCurve?.length) {
     return (
       <div className="chart-empty">
@@ -222,6 +222,7 @@ function LightCurveView({ lightCurve, band }) {
       <div className="chart-legend-top">
         <span>Brightness on each SPHEREx sky pass{band ? `, ${band} (same colour range every pass)` : ''}</span>
       </div>
+      {verdict && <p className="muted small" style={{ margin: '4px 0 0' }}>Verdict: {verdict}.</p>}
 
       <svg viewBox={`0 0 ${W} ${H}`} className="analysis-svg" role="img" aria-label="Multi-epoch light curve">
         <line x1={P.l} y1={H - P.b} x2={W - P.r} y2={H - P.b} stroke="#444" strokeWidth="1.5" />
