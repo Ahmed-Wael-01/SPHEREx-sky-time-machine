@@ -38,6 +38,7 @@ AP_R = 2.0          # aperture radius, pixels (~12"); same as Alaa's quickstart,
 ANN = (4.0, 7.0)    # sky ring, pixels
 NEIGHBOUR_ARCSEC = 15.0
 SATURATION = ["OVERFLOW", "NONLINEAR"]
+GLOW_RINGS = [(2, 4), (4, 7), (7, 10), (10, 14)]  # pixels; first one mostly outside an overloaded core
 # light-curve colour ranges to try, best first: (label, lo um, hi um)
 LC_BANDS = [("4.4-5.0 um", 4.4, 5.0), ("3.8-4.4 um", 3.8, 4.4), ("2.4-3.8 um", 2.4, 3.8),
             ("1.6-2.4 um", 1.6, 2.4), ("1.1-1.6 um", 1.1, 1.6), ("0.75-1.1 um", 0.75, 1.1)]
@@ -143,7 +144,7 @@ def measure(path, ra, dec, recentre, neighbours, mask_names):
     inside = aw > 0
     missing = float((aw * ~np.isfinite(a_img)).sum() / aw.sum())
     if missing > 0.25:
-        return None
+        return wings(img, var, x, y, to_mjy)
     filled = np.where(np.isfinite(a_img), a_img, sky)
     flux = float((aw * (filled - sky)).sum())
     err = math.sqrt(float((aw ** 2 * np.where(np.isfinite(a_var), a_var, 0)).sum()) + (aw.sum() * sky_err) ** 2)
@@ -176,6 +177,30 @@ def measure(path, ra, dec, recentre, neighbours, mask_names):
                 flux, err, method = float(coef[0]), float(cerr[0]), "deblended"
     return {"flux_mjy": flux * to_mjy, "err_mjy": err * to_mjy, "flagged": flagged,
             "saturated": saturated, "method": method, "x": round(x, 2), "y": round(y, 2)}
+
+
+def wings(img, var, x, y, to_mjy):
+    """The core is blank (too bright for the camera: NASA's file has no value there). Measure the glow around
+    it instead, in the first ring outside the blank core (2-4, 4-7, 7-10 or 10-14 px), with the sky just
+    beyond. Not the total brightness, but it rises and falls with the star, so it still shows the star
+    changing. Always flagged; the light curve only compares points measured in the same ring."""
+    for r_in, r_out in GLOW_RINGS:
+        sl, rm = ring(img.shape, x, y, r_in, r_out)
+        vals, vv = img[sl][rm], var[sl][rm]
+        ok = np.isfinite(vals)
+        if ok.mean() >= 0.7:
+            break
+    else:
+        return None
+    ssl, srm = ring(img.shape, x, y, r_out + 4, r_out + 9)
+    sky, sky_err = clipped_median(img[ssl][srm])
+    if not np.isfinite(sky):
+        return None
+    scale = rm.sum() / ok.sum()  # make up for blank pixels in the ring
+    flux = float((vals[ok] - sky).sum() * scale)
+    err = math.sqrt(float(np.nansum(vv[ok])) * scale ** 2 + (rm.sum() * sky_err) ** 2)
+    return {"flux_mjy": flux * to_mjy, "err_mjy": err * to_mjy, "flagged": True, "saturated": True,
+            "method": f"glow {r_in:g}-{r_out:g} px", "x": round(x, 2), "y": round(y, 2)}
 
 
 # ------------------------------------------------------------------ one target
@@ -229,34 +254,68 @@ def run(slug, mask_names):
         print(f"{slug}: no usable measurements")
         return None
     points.sort(key=lambda p: p["wavelength_um"])
-
-    # light curve: one colour range, one value per sky pass
-    good = [p for p in points if not p["flagged"]]
     epochs = sorted({p["epoch"] for p in points})
+
+    # the fit's own error bars ignore how imperfect a simple star shape is; widen them to match the real
+    # scatter between photos that saw (almost) the same colour
+    good = [p for p in points if not p["flagged"]] or [p for p in points if p["method"].startswith("glow")]
+    ratios = []
+    for lo in np.arange(0.7, 5.1, 0.1):
+        sel = [p for p in good if lo <= p["wavelength_um"] < lo + 0.1]
+        if len(sel) >= 4:
+            ratios.append(np.std([p["flux_mjy"] for p in sel]) / np.median([p["err_mjy"] for p in sel]))
+    err_scale = max(1.0, float(np.median(ratios))) if ratios else 1.0
+    for p in points:
+        p["err_mjy"] = round(p["err_mjy"] * err_scale, 4)
+
+    # light curve: one colour range, one value per sky pass. Each pass sees slightly different colours, and
+    # the object is brighter at some colours than others, so compare every point with the all-dates spectrum
+    # at its own colour and average the differences per pass (otherwise colour sampling looks like variability).
+    use_glow = not any(not p["flagged"] for p in points)
+    if use_glow:  # compare like with like: only the glow ring used most often
+        rings = [p["method"] for p in points if p["method"].startswith("glow")]
+        common = max(set(rings), key=rings.count) if rings else None
+        lc_pts = [p for p in points if p["method"] == common]
+    else:
+        lc_pts = [p for p in points if not p["flagged"]]
+    edges = np.arange(0.70, 5.15, 0.05)
+    centres, levels = [], []
+    for a, b in zip(edges[:-1], edges[1:]):
+        f = [p["flux_mjy"] for p in lc_pts if a <= p["wavelength_um"] < b]
+        if f:
+            centres.append((a + b) / 2)
+            levels.append(float(np.median(f)))
+    template = (lambda wl: float(np.interp(wl, centres, levels))) if centres else (lambda wl: 0.0)
     best = None
     for label, lo, hi in LC_BANDS:
-        sel = [p for p in good if lo <= p["wavelength_um"] < hi]
+        sel = [p for p in lc_pts if lo <= p["wavelength_um"] < hi]
         covered = {p["epoch"] for p in sel}
         if len(covered) < 2:
             continue
-        snr = np.median([abs(p["flux_mjy"]) / max(p["err_mjy"], 1e-9) for p in sel])
-        score = (len(covered), snr)
+        level = np.mean([template(p["wavelength_um"]) for p in sel])
+        noise = np.median([p["err_mjy"] for p in sel]) / max(abs(level), 1e-9)
+        score = (len(covered), -noise)
         if best is None or score > best[0]:
-            best = (score, label, lo, hi)
+            best = (score, label, lo, hi, level)
     light_curve, lc_band = [], None
     if best:
-        _, lc_band, lo, hi = best
+        _, lc_band, lo, hi, level = best
+        if use_glow:
+            lc_band += f", glow around the overloaded core ({common.split(' ', 1)[1]} from the centre)"
         for ep in epochs:
-            sel = [p for p in good if p["epoch"] == ep and lo <= p["wavelength_um"] < hi]
+            sel = [p for p in lc_pts if p["epoch"] == ep and lo <= p["wavelength_um"] < hi]
             if not sel:
                 continue
-            w = np.array([1 / max(p["err_mjy"], 1e-6) ** 2 for p in sel])
-            f = np.array([p["flux_mjy"] for p in sel])
+            resid = np.array([p["flux_mjy"] - template(p["wavelength_um"]) for p in sel])
+            errs = np.array([p["err_mjy"] for p in sel])
+            w = 1 / np.maximum(errs, 1e-6) ** 2
+            err = 1 / math.sqrt(w.sum())
+            if len(sel) >= 3:  # use the real scatter if it is larger
+                err = max(err, float(np.std(resid, ddof=1) / math.sqrt(len(sel))))
             mjd = float(np.median([p["mjd"] for p in sel]))
             light_curve.append({"date": mjd_to_date(mjd), "mjd": round(mjd, 3), "epoch": ep,
-                                "flux_mjy": round(float((w * f).sum() / w.sum()), 4),
-                                "err_mjy": round(float(1 / math.sqrt(w.sum())), 4), "n": len(sel),
-                                "band": lc_band})
+                                "flux_mjy": round(float(level + (w * resid).sum() / w.sum()), 4),
+                                "err_mjy": round(err, 4), "n": len(sel), "band": lc_band})
 
     # where the target is on each pass, so the website only shows this spectrum when you click near it
     positions = []
@@ -268,9 +327,13 @@ def run(slug, mask_names):
     n_flag = sum(p["flagged"] for p in points)
     n_sat = sum(p["saturated"] for p in points)
     n_deb = sum(p["method"] == "deblended" for p in points)
+    n_glow = sum(p["method"].startswith("glow") for p in points)
     note = (f"{len(points)} measurements, one per SPHEREx photo; {n_flag} flagged"
             + (f" ({n_sat} overloaded: the star is too bright for the camera there)" if n_sat else "")
-            + (f"; {n_deb} deblended from a neighbouring Gaia star" if n_deb else "") + ".")
+            + (f"; {n_deb} deblended from a neighbouring Gaia star" if n_deb else "")
+            + (f"; {n_glow} measure only the glow around an overloaded core (shows changes, not total brightness)"
+               if n_glow else "")
+            + (f"; error bars widened x{err_scale:.1f} to match the real scatter" if err_scale > 1.05 else "") + ".")
     out = {"name": slug, "label": man.get("name", slug), "ra": man["ra"], "dec": man["dec"],
            "source": "prebaked", "method": "aperture photometry r=2 px, sky ring 4-7 px; Gaia neighbours "
                                          "within 15\" fitted together", "note": note,
@@ -289,6 +352,7 @@ def plot(slug, out):
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
     except ImportError:
+        print("   (pip install matplotlib to also get a picture of the spectrum)")
         return
     pts = out["points"]
     fig, (ax, bx) = plt.subplots(1, 2, figsize=(12, 4.2), gridspec_kw={"width_ratios": [2, 1]})
