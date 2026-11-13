@@ -1,0 +1,901 @@
+{
+ "target": "rw-aur",
+ "name": "RW Aurigae",
+ "ra": 76.956,
+ "dec": 30.401,
+ "ra_j2000": 76.956,
+ "dec_j2000": 30.401,
+ "pm_mas_yr": [
+  0.0,
+  0.0
+ ],
+ "position_note": "given coordinates",
+ "fov": 0.5,
+ "pixels": 293,
+ "pixel_scale_arcsec": 6.15,
+ "orientation": "north up, east left",
+ "n_exposures": 334,
+ "n_epochs": 3,
+ "detectors": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "detector_wavelength_um": {
+  "0": [
+   0.741,
+   5.012
+  ],
+  "1": [
+   0.741,
+   1.12
+  ],
+  "2": [
+   1.094,
+   1.646
+  ],
+  "3": [
+   1.621,
+   2.421
+  ],
+  "4": [
+   2.419,
+   3.848
+  ],
+  "5": [
+   3.813,
+   4.424
+  ],
+  "6": [
+   4.409,
+   5.012
+  ]
+ },
+ "masked_flags": [
+  "TRANSIENT",
+  "SUR_ERROR",
+  "PHANTOM",
+  "NONFUNC",
+  "DICHROIC",
+  "MISSING_DATA",
+  "HOT",
+  "COLD",
+  "PHANMISS",
+  "PERSIST",
+  "OUTLIER",
+  "STREAK",
+  "SNOWBALL",
+  "GHOST",
+  "GHOST_FPA",
+  "GHOST_EXT",
+  "CROSSTALK"
+ ],
+ "source": "prebaked",
+ "generated": "2026-11-13T17:23:12Z",
+ "visits": [
+  {
+   "date": "2025-09-09",
+   "mjd": 60927.84001,
+   "epoch": 0,
+   "detector": 0,
+   "wavelength_um": [
+    0.747,
+    4.996
+   ],
+   "image_url": "/data/rw-aur/2025-09-09_all.png",
+   "diff_url": "/data/rw-aur/2025-09-09_all_diff.png",
+   "diff_sigma_mjysr": 0.004250173922628164,
+   "n_exposures": 111,
+   "flags": {
+    "TRANSIENT": 168619,
+    "OVERFLOW": 8823,
+    "NONLINEAR": 0,
+    "PERSIST": 40955,
+    "HOT": 5,
+    "COLD": 7547,
+    "MISSING_DATA": 0,
+    "OUTLIER": 102394,
+    "NONFUNC": 60997,
+    "STREAK": 6313,
+    "GHOST": 0,
+    "SNOWBALL": 1400,
+    "CROSSTALK": 17284,
+    "BLOOM": 15218
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-03-04",
+   "mjd": 61103.3311,
+   "epoch": 1,
+   "detector": 0,
+   "wavelength_um": [
+    0.741,
+    5.012
+   ],
+   "image_url": "/data/rw-aur/2026-03-04_all.png",
+   "diff_url": "/data/rw-aur/2026-03-04_all_diff.png",
+   "diff_sigma_mjysr": 0.0048444499261677265,
+   "n_exposures": 114,
+   "flags": {
+    "TRANSIENT": 103969,
+    "OVERFLOW": 10450,
+    "NONLINEAR": 0,
+    "PERSIST": 56079,
+    "HOT": 0,
+    "COLD": 8295,
+    "MISSING_DATA": 0,
+    "OUTLIER": 100730,
+    "NONFUNC": 71868,
+    "STREAK": 5134,
+    "GHOST": 0,
+    "SNOWBALL": 340,
+    "CROSSTALK": 25178,
+    "BLOOM": 14116
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-09-12",
+   "mjd": 61295.96279,
+   "epoch": 2,
+   "detector": 0,
+   "wavelength_um": [
+    0.754,
+    4.981
+   ],
+   "image_url": "/data/rw-aur/2026-09-12_all.png",
+   "diff_url": "/data/rw-aur/2026-09-12_all_diff.png",
+   "diff_sigma_mjysr": 0.0035176549572497606,
+   "n_exposures": 109,
+   "flags": {
+    "TRANSIENT": 140964,
+    "OVERFLOW": 10080,
+    "NONLINEAR": 0,
+    "PERSIST": 50592,
+    "HOT": 6,
+    "COLD": 7847,
+    "MISSING_DATA": 0,
+    "OUTLIER": 101044,
+    "NONFUNC": 68913,
+    "STREAK": 3055,
+    "GHOST": 0,
+    "SNOWBALL": 1681,
+    "CROSSTALK": 19772,
+    "BLOOM": 15385
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2025-09-03",
+   "mjd": 60921.72388,
+   "epoch": 0,
+   "detector": 1,
+   "wavelength_um": [
+    0.747,
+    1.12
+   ],
+   "image_url": "/data/rw-aur/2025-09-03_d1.png",
+   "diff_url": "/data/rw-aur/2025-09-03_d1_diff.png",
+   "diff_sigma_mjysr": 0.023146770894527435,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 19056,
+    "OVERFLOW": 834,
+    "NONLINEAR": 0,
+    "PERSIST": 8887,
+    "HOT": 0,
+    "COLD": 919,
+    "MISSING_DATA": 0,
+    "OUTLIER": 15715,
+    "NONFUNC": 7285,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 23,
+    "CROSSTALK": 17265,
+    "BLOOM": 2540
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-03-08",
+   "mjd": 61107.67709,
+   "epoch": 1,
+   "detector": 1,
+   "wavelength_um": [
+    0.741,
+    1.112
+   ],
+   "image_url": "/data/rw-aur/2026-03-08_d1.png",
+   "diff_url": "/data/rw-aur/2026-03-08_d1_diff.png",
+   "diff_sigma_mjysr": 0.02819732390344143,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 19032,
+    "OVERFLOW": 1175,
+    "NONLINEAR": 0,
+    "PERSIST": 11336,
+    "HOT": 0,
+    "COLD": 1141,
+    "MISSING_DATA": 0,
+    "OUTLIER": 18206,
+    "NONFUNC": 8651,
+    "STREAK": 1694,
+    "GHOST": 0,
+    "SNOWBALL": 15,
+    "CROSSTALK": 25158,
+    "BLOOM": 2303
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-09-08",
+   "mjd": 61291.54777,
+   "epoch": 2,
+   "detector": 1,
+   "wavelength_um": [
+    0.754,
+    1.104
+   ],
+   "image_url": "/data/rw-aur/2026-09-08_d1.png",
+   "diff_url": "/data/rw-aur/2026-09-08_d1_diff.png",
+   "diff_sigma_mjysr": 0.012027997523546219,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 25187,
+    "OVERFLOW": 1202,
+    "NONLINEAR": 0,
+    "PERSIST": 10900,
+    "HOT": 0,
+    "COLD": 1188,
+    "MISSING_DATA": 0,
+    "OUTLIER": 18431,
+    "NONFUNC": 8310,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 148,
+    "CROSSTALK": 19742,
+    "BLOOM": 2672
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2025-09-09",
+   "mjd": 60927.84076,
+   "epoch": 0,
+   "detector": 2,
+   "wavelength_um": [
+    1.105,
+    1.623
+   ],
+   "image_url": "/data/rw-aur/2025-09-09_d2.png",
+   "diff_url": "/data/rw-aur/2025-09-09_d2_diff.png",
+   "diff_sigma_mjysr": 0.007478408515453339,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 24602,
+    "OVERFLOW": 1242,
+    "NONLINEAR": 0,
+    "PERSIST": 13116,
+    "HOT": 2,
+    "COLD": 689,
+    "MISSING_DATA": 0,
+    "OUTLIER": 16668,
+    "NONFUNC": 5903,
+    "STREAK": 3264,
+    "GHOST": 0,
+    "SNOWBALL": 42,
+    "CROSSTALK": 19,
+    "BLOOM": 4421
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-03-05",
+   "mjd": 61104.21338,
+   "epoch": 1,
+   "detector": 2,
+   "wavelength_um": [
+    1.094,
+    1.646
+   ],
+   "image_url": "/data/rw-aur/2026-03-05_d2.png",
+   "diff_url": "/data/rw-aur/2026-03-05_d2_diff.png",
+   "diff_sigma_mjysr": 0.008838068693876266,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 13490,
+    "OVERFLOW": 1565,
+    "NONLINEAR": 0,
+    "PERSIST": 14583,
+    "HOT": 0,
+    "COLD": 691,
+    "MISSING_DATA": 0,
+    "OUTLIER": 16663,
+    "NONFUNC": 7357,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 14,
+    "CROSSTALK": 20,
+    "BLOOM": 4116
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-09-13",
+   "mjd": 61296.26615,
+   "epoch": 2,
+   "detector": 2,
+   "wavelength_um": [
+    1.122,
+    1.646
+   ],
+   "image_url": "/data/rw-aur/2026-09-13_d2.png",
+   "diff_url": "/data/rw-aur/2026-09-13_d2_diff.png",
+   "diff_sigma_mjysr": 0.007337410468608141,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 17751,
+    "OVERFLOW": 1514,
+    "NONLINEAR": 0,
+    "PERSIST": 16726,
+    "HOT": 0,
+    "COLD": 536,
+    "MISSING_DATA": 0,
+    "OUTLIER": 14525,
+    "NONFUNC": 5605,
+    "STREAK": 695,
+    "GHOST": 0,
+    "SNOWBALL": 184,
+    "CROSSTALK": 30,
+    "BLOOM": 4313
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2025-09-18",
+   "mjd": 60936.19454,
+   "epoch": 0,
+   "detector": 3,
+   "wavelength_um": [
+    1.621,
+    2.406
+   ],
+   "image_url": "/data/rw-aur/2025-09-18_d3.png",
+   "diff_url": "/data/rw-aur/2025-09-18_d3_diff.png",
+   "diff_sigma_mjysr": 0.006234192755073309,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 29132,
+    "OVERFLOW": 1237,
+    "NONLINEAR": 0,
+    "PERSIST": 12401,
+    "HOT": 0,
+    "COLD": 1099,
+    "MISSING_DATA": 0,
+    "OUTLIER": 22693,
+    "NONFUNC": 9113,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 51,
+    "CROSSTALK": 0,
+    "BLOOM": 4511
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-02-27",
+   "mjd": 61098.64613,
+   "epoch": 1,
+   "detector": 3,
+   "wavelength_um": [
+    1.639,
+    2.421
+   ],
+   "image_url": "/data/rw-aur/2026-02-27_d3.png",
+   "diff_url": "/data/rw-aur/2026-02-27_d3_diff.png",
+   "diff_sigma_mjysr": 0.007877560332417488,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 16031,
+    "OVERFLOW": 1591,
+    "NONLINEAR": 0,
+    "PERSIST": 16200,
+    "HOT": 0,
+    "COLD": 1054,
+    "MISSING_DATA": 0,
+    "OUTLIER": 21856,
+    "NONFUNC": 8855,
+    "STREAK": 2129,
+    "GHOST": 0,
+    "SNOWBALL": 16,
+    "CROSSTALK": 0,
+    "BLOOM": 3914
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-09-15",
+   "mjd": 61298.503,
+   "epoch": 2,
+   "detector": 3,
+   "wavelength_um": [
+    1.644,
+    2.385
+   ],
+   "image_url": "/data/rw-aur/2026-09-15_d3.png",
+   "diff_url": "/data/rw-aur/2026-09-15_d3_diff.png",
+   "diff_sigma_mjysr": 0.00618475116789341,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 20983,
+    "OVERFLOW": 1586,
+    "NONLINEAR": 0,
+    "PERSIST": 13447,
+    "HOT": 0,
+    "COLD": 1165,
+    "MISSING_DATA": 0,
+    "OUTLIER": 23219,
+    "NONFUNC": 9291,
+    "STREAK": 1700,
+    "GHOST": 0,
+    "SNOWBALL": 118,
+    "CROSSTALK": 0,
+    "BLOOM": 4712
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2025-09-03",
+   "mjd": 60921.72388,
+   "epoch": 0,
+   "detector": 4,
+   "wavelength_um": [
+    2.435,
+    3.848
+   ],
+   "image_url": "/data/rw-aur/2025-09-03_d4.png",
+   "diff_url": "/data/rw-aur/2025-09-03_d4_diff.png",
+   "diff_sigma_mjysr": 0.004558660555630922,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 22131,
+    "OVERFLOW": 2499,
+    "NONLINEAR": 0,
+    "PERSIST": 4356,
+    "HOT": 0,
+    "COLD": 1045,
+    "MISSING_DATA": 0,
+    "OUTLIER": 9584,
+    "NONFUNC": 12501,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 368,
+    "CROSSTALK": 0,
+    "BLOOM": 3276
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-03-08",
+   "mjd": 61107.67709,
+   "epoch": 1,
+   "detector": 4,
+   "wavelength_um": [
+    2.419,
+    3.818
+   ],
+   "image_url": "/data/rw-aur/2026-03-08_d4.png",
+   "diff_url": "/data/rw-aur/2026-03-08_d4_diff.png",
+   "diff_sigma_mjysr": 0.005017830524593592,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 18896,
+    "OVERFLOW": 3175,
+    "NONLINEAR": 0,
+    "PERSIST": 8843,
+    "HOT": 0,
+    "COLD": 1372,
+    "MISSING_DATA": 0,
+    "OUTLIER": 11262,
+    "NONFUNC": 20404,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 134,
+    "CROSSTALK": 0,
+    "BLOOM": 3608
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-09-08",
+   "mjd": 61291.54777,
+   "epoch": 2,
+   "detector": 4,
+   "wavelength_um": [
+    2.452,
+    3.789
+   ],
+   "image_url": "/data/rw-aur/2026-09-08_d4.png",
+   "diff_url": "/data/rw-aur/2026-09-08_d4_diff.png",
+   "diff_sigma_mjysr": 0.0046365149319171906,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 30255,
+    "OVERFLOW": 2977,
+    "NONLINEAR": 0,
+    "PERSIST": 6654,
+    "HOT": 1,
+    "COLD": 1351,
+    "MISSING_DATA": 0,
+    "OUTLIER": 11390,
+    "NONFUNC": 15987,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 314,
+    "CROSSTALK": 0,
+    "BLOOM": 3477
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2025-09-09",
+   "mjd": 60927.84076,
+   "epoch": 0,
+   "detector": 5,
+   "wavelength_um": [
+    3.827,
+    4.402
+   ],
+   "image_url": "/data/rw-aur/2025-09-09_d5.png",
+   "diff_url": "/data/rw-aur/2025-09-09_d5_diff.png",
+   "diff_sigma_mjysr": 0.00912789348512888,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 33559,
+    "OVERFLOW": 1303,
+    "NONLINEAR": 0,
+    "PERSIST": 1244,
+    "HOT": 1,
+    "COLD": 1754,
+    "MISSING_DATA": 0,
+    "OUTLIER": 14575,
+    "NONFUNC": 11695,
+    "STREAK": 2467,
+    "GHOST": 0,
+    "SNOWBALL": 366,
+    "CROSSTALK": 0,
+    "BLOOM": 318
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-03-05",
+   "mjd": 61104.21338,
+   "epoch": 1,
+   "detector": 5,
+   "wavelength_um": [
+    3.813,
+    4.424
+   ],
+   "image_url": "/data/rw-aur/2026-03-05_d5.png",
+   "diff_url": "/data/rw-aur/2026-03-05_d5_diff.png",
+   "diff_sigma_mjysr": 0.009363866411149502,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 18856,
+    "OVERFLOW": 1510,
+    "NONLINEAR": 0,
+    "PERSIST": 2668,
+    "HOT": 0,
+    "COLD": 2226,
+    "MISSING_DATA": 0,
+    "OUTLIER": 13028,
+    "NONFUNC": 14207,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 84,
+    "CROSSTALK": 0,
+    "BLOOM": 175
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-09-12",
+   "mjd": 61295.96279,
+   "epoch": 2,
+   "detector": 5,
+   "wavelength_um": [
+    3.815,
+    4.422
+   ],
+   "image_url": "/data/rw-aur/2026-09-12_d5.png",
+   "diff_url": "/data/rw-aur/2026-09-12_d5_diff.png",
+   "diff_sigma_mjysr": 0.008961081504821777,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 22996,
+    "OVERFLOW": 1159,
+    "NONLINEAR": 0,
+    "PERSIST": 1421,
+    "HOT": 5,
+    "COLD": 1647,
+    "MISSING_DATA": 0,
+    "OUTLIER": 11951,
+    "NONFUNC": 15706,
+    "STREAK": 660,
+    "GHOST": 0,
+    "SNOWBALL": 514,
+    "CROSSTALK": 0,
+    "BLOOM": 166
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2025-09-18",
+   "mjd": 60936.19529,
+   "epoch": 0,
+   "detector": 6,
+   "wavelength_um": [
+    4.409,
+    4.996
+   ],
+   "image_url": "/data/rw-aur/2025-09-18_d6.png",
+   "diff_url": "/data/rw-aur/2025-09-18_d6_diff.png",
+   "diff_sigma_mjysr": 0.013635069131851196,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 40139,
+    "OVERFLOW": 1708,
+    "NONLINEAR": 0,
+    "PERSIST": 951,
+    "HOT": 2,
+    "COLD": 2041,
+    "MISSING_DATA": 0,
+    "OUTLIER": 23159,
+    "NONFUNC": 14500,
+    "STREAK": 582,
+    "GHOST": 0,
+    "SNOWBALL": 550,
+    "CROSSTALK": 0,
+    "BLOOM": 152
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-02-27",
+   "mjd": 61098.64613,
+   "epoch": 1,
+   "detector": 6,
+   "wavelength_um": [
+    4.425,
+    5.012
+   ],
+   "image_url": "/data/rw-aur/2026-02-27_d6.png",
+   "diff_url": "/data/rw-aur/2026-02-27_d6_diff.png",
+   "diff_sigma_mjysr": 0.014176870696246624,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 17664,
+    "OVERFLOW": 1434,
+    "NONLINEAR": 0,
+    "PERSIST": 2449,
+    "HOT": 0,
+    "COLD": 1811,
+    "MISSING_DATA": 0,
+    "OUTLIER": 19715,
+    "NONFUNC": 12394,
+    "STREAK": 1311,
+    "GHOST": 0,
+    "SNOWBALL": 77,
+    "CROSSTALK": 0,
+    "BLOOM": 0
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-09-15",
+   "mjd": 61298.503,
+   "epoch": 2,
+   "detector": 6,
+   "wavelength_um": [
+    4.428,
+    4.981
+   ],
+   "image_url": "/data/rw-aur/2026-09-15_d6.png",
+   "diff_url": "/data/rw-aur/2026-09-15_d6_diff.png",
+   "diff_sigma_mjysr": 0.014272373169660568,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 23792,
+    "OVERFLOW": 1642,
+    "NONLINEAR": 0,
+    "PERSIST": 1444,
+    "HOT": 0,
+    "COLD": 1960,
+    "MISSING_DATA": 0,
+    "OUTLIER": 21528,
+    "NONFUNC": 14014,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 403,
+    "CROSSTALK": 0,
+    "BLOOM": 45
+   },
+   "predicted": {
+    "ra": 76.956,
+    "dec": 30.401,
+    "fx": 0.5,
+    "fy": 0.5
+   }
+  }
+ ],
+ "deep": [
+  {
+   "detector": 0,
+   "image_url": "/data/rw-aur/deep_all.png",
+   "n_exposures": 334,
+   "wavelength_um": [
+    0.741,
+    5.012
+   ]
+  },
+  {
+   "detector": 1,
+   "image_url": "/data/rw-aur/deep_d1.png",
+   "n_exposures": 56,
+   "wavelength_um": [
+    0.741,
+    1.12
+   ]
+  },
+  {
+   "detector": 2,
+   "image_url": "/data/rw-aur/deep_d2.png",
+   "n_exposures": 55,
+   "wavelength_um": [
+    1.094,
+    1.646
+   ]
+  },
+  {
+   "detector": 3,
+   "image_url": "/data/rw-aur/deep_d3.png",
+   "n_exposures": 55,
+   "wavelength_um": [
+    1.621,
+    2.421
+   ]
+  },
+  {
+   "detector": 4,
+   "image_url": "/data/rw-aur/deep_d4.png",
+   "n_exposures": 56,
+   "wavelength_um": [
+    2.419,
+    3.848
+   ]
+  },
+  {
+   "detector": 5,
+   "image_url": "/data/rw-aur/deep_d5.png",
+   "n_exposures": 56,
+   "wavelength_um": [
+    3.813,
+    4.424
+   ]
+  },
+  {
+   "detector": 6,
+   "image_url": "/data/rw-aur/deep_d6.png",
+   "n_exposures": 56,
+   "wavelength_um": [
+    4.409,
+    5.012
+   ]
+  }
+ ]
+}
