@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import HomePage from './components/HomePage.jsx'
 import SkyForm from './components/SkyForm.jsx'
@@ -34,6 +34,7 @@ export default function App() {
   const [view, setView] = useState(() => url.view || (url.target || url.ra ? 'app' : 'home'))
   const [query, setQuery] = useState(initialQuery)
   const [fov, setFov] = useState(() => initialQuery().fov) // field shown; changes live, no refetch
+  const keepUrlFov = useRef(url.fov !== undefined) // a shared link may ask for a closer view; honour it once
   const [manifest, setManifest] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -59,6 +60,11 @@ export default function App() {
       .then((m) => {
         if (cancelled) return
         setManifest(m)
+        // open on the whole processed photo (the widest view there is), unless the link asked for less
+        const span = (m.pixels * m.pixel_scale_arcsec) / 3600
+        const keep = keepUrlFov.current // read now: React applies the update later
+        keepUrlFov.current = false
+        setFov((f) => (keep ? Math.min(f, span) : span))
         setCatalogs(null)
         fetch(`/data/${m.target}/catalogs.json`)
           .then((r) => (r.ok && (r.headers.get('content-type') || '').includes('json') ? r.json() : null))

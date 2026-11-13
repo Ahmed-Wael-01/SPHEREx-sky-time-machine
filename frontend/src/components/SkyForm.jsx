@@ -55,13 +55,14 @@ export default function SkyForm({ query, fov, onFov, maxFov, onSubmit }) {
           />
         </label>
         <label className="fov">
-          Field of View (FoV) <b>{Number(fov).toFixed(2)}°</b> <small>({Math.round(fov * 60)}′)</small>
+          Field of View (FoV) <b>{Number(fov).toFixed(2)}°</b>{' '}
+          <small>({Math.round(fov * 60)}′{maxFov && fov >= maxFov - 0.001 ? ', whole photo' : ''})</small>
           <input
             type="range"
             min="0.03"
-            max="1.0"
-            step="0.01"
-            value={fov}
+            max={maxFov ? maxFov.toFixed(3) : 1}
+            step="0.001"
+            value={maxFov ? Math.min(fov, maxFov) : fov}
             onChange={(e) => onFov ? onFov(Number(e.target.value)) : null}
           />
         </label>

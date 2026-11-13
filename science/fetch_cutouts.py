@@ -4,7 +4,7 @@ Fetch SPHEREx cutouts for one sky position and bake them into video frames.
 
     python science/fetch_cutouts.py --target wise0855            # from science/targets.json
     python science/fetch_cutouts.py --all                        # all five test targets
-    python science/fetch_cutouts.py --ra 133.795 --dec -7.245 --slug mypatch --size 0.2
+    python science/fetch_cutouts.py --ra 133.795 --dec -7.245 --slug mypatch --size 0.5
     python science/fetch_cutouts.py --target wise0855 --offline  # reprocess cached FITS, no network
 
 Pipeline (details in README.md):
@@ -533,7 +533,7 @@ def main():
     p.add_argument("--dec", type=float)
     p.add_argument("--slug", help="output folder name for --ra/--dec")
     p.add_argument("--name", help="SIMBAD name to resolve (overrides --ra/--dec when online)")
-    p.add_argument("--size", type=float, help="field of view in degrees (default from targets.json or 0.2)")
+    p.add_argument("--size", type=float, help="field of view in degrees (default from targets.json, 0.5)")
     p.add_argument("--epoch", type=float, default=2026.0, help="epoch for the cutout centre (decimal year)")
     p.add_argument("--pmra", type=float, default=0.0, help="proper motion in RA*cos(Dec), mas/yr (no SIMBAD)")
     p.add_argument("--pmdec", type=float, default=0.0, help="proper motion in Dec, mas/yr (no SIMBAD)")
@@ -563,7 +563,7 @@ def main():
         if args.dec is None or not args.slug:
             sys.exit("--ra needs --dec and --slug")
         jobs = [{"slug": args.slug, "name": args.name, "label": args.name, "ra": args.ra, "dec": args.dec,
-                 "size": args.size or 0.2, "pm": (args.pmra, args.pmdec), "coord_epoch": args.coord_epoch,
+                 "size": args.size or 0.5, "pm": (args.pmra, args.pmdec), "coord_epoch": args.coord_epoch,
                  "use_simbad": bool(args.name) and not (args.pmra or args.pmdec)}]
 
     done = []
