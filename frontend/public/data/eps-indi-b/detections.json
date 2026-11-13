@@ -1,0 +1,219 @@
+{
+  "ra": 331.096298,
+  "dec": -56.800616,
+  "fov": 0.5,
+  "source": "prebaked",
+  "candidates": [
+    {
+      "ra": 331.0931776,
+      "dec": -56.8006157,
+      "fx": 0.503413,
+      "fy": 0.5,
+      "score": 0.9940573,
+      "kind": "mover",
+      "known_match": "Epsilon Indi B",
+      "pm_mas_yr": [
+        3982,
+        -2466.8
+      ],
+      "snr": 841.3643799,
+      "epoch": 0,
+      "detector": 5,
+      "date": "2025-05-01",
+      "offset_px": 0.619
+    },
+    {
+      "ra": 331.0962975,
+      "dec": -56.8006158,
+      "fx": 0.5,
+      "fy": 0.5,
+      "score": 0.9933832,
+      "kind": "mover",
+      "known_match": "Epsilon Indi B",
+      "pm_mas_yr": [
+        3982,
+        -2466.8
+      ],
+      "snr": 755.6535034,
+      "epoch": 1,
+      "detector": 5,
+      "date": "2025-10-06",
+      "offset_px": 0.171
+    },
+    {
+      "ra": 331.0994176,
+      "dec": -56.8023241,
+      "fx": 0.496587,
+      "fy": 0.503413,
+      "score": 0.9904172,
+      "kind": "mover",
+      "known_match": "Epsilon Indi B",
+      "pm_mas_yr": [
+        3982,
+        -2466.8
+      ],
+      "snr": 521.7692261,
+      "epoch": 2,
+      "detector": 5,
+      "date": "2026-04-25",
+      "offset_px": 1.188
+    },
+    {
+      "ra": 331.0994176,
+      "dec": -56.8023241,
+      "fx": 0.496587,
+      "fy": 0.503413,
+      "score": 0.9963482,
+      "kind": "mover",
+      "known_match": "Epsilon Indi B",
+      "pm_mas_yr": [
+        3982,
+        -2466.8
+      ],
+      "snr": 1369.1905518,
+      "epoch": 3,
+      "detector": 5,
+      "date": "2026-10-01",
+      "offset_px": 0.867
+    },
+    {
+      "ra": 331.0931776,
+      "dec": -56.8006157,
+      "fx": 0.503413,
+      "fy": 0.5,
+      "score": 0.9814622,
+      "kind": "mover",
+      "known_match": "Epsilon Indi B",
+      "pm_mas_yr": [
+        3982,
+        -2466.8
+      ],
+      "snr": 269.7197571,
+      "epoch": 0,
+      "detector": 6,
+      "date": "2025-04-30",
+      "offset_px": 0.619
+    },
+    {
+      "ra": 331.0962975,
+      "dec": -56.8006158,
+      "fx": 0.5,
+      "fy": 0.5,
+      "score": 0.9774255,
+      "kind": "mover",
+      "known_match": "Epsilon Indi B",
+      "pm_mas_yr": [
+        3982,
+        -2466.8
+      ],
+      "snr": 221.4886475,
+      "epoch": 1,
+      "detector": 6,
+      "date": "2025-10-01",
+      "offset_px": 0.197
+    },
+    {
+      "ra": 331.0994176,
+      "dec": -56.8023241,
+      "fx": 0.496587,
+      "fy": 0.503413,
+      "score": 0.9614775,
+      "kind": "mover",
+      "known_match": "Epsilon Indi B",
+      "pm_mas_yr": [
+        3982,
+        -2466.8
+      ],
+      "snr": 129.7943268,
+      "epoch": 2,
+      "detector": 6,
+      "date": "2026-04-29",
+      "offset_px": 1.188
+    },
+    {
+      "ra": 331.0994176,
+      "dec": -56.8023241,
+      "fx": 0.496587,
+      "fy": 0.503413,
+      "score": 0.9855993,
+      "kind": "mover",
+      "known_match": "Epsilon Indi B",
+      "pm_mas_yr": [
+        3982,
+        -2466.8
+      ],
+      "snr": 347.2061157,
+      "epoch": 3,
+      "detector": 6,
+      "date": "2026-09-26",
+      "offset_px": 0.884
+    }
+  ],
+  "variability": [],
+  "evaluation": {
+    "recovered": true,
+    "exposures_used": 177,
+    "threshold_sigma": 5,
+    "matching_radius_px": 2,
+    "unmatched_peaks_per_image_mean": 132.625,
+    "images": [
+      {
+        "epoch": 0,
+        "detector": 5,
+        "date": "2025-05-01",
+        "found": true,
+        "unmatched_peaks": 55
+      },
+      {
+        "epoch": 1,
+        "detector": 5,
+        "date": "2025-10-06",
+        "found": true,
+        "unmatched_peaks": 160
+      },
+      {
+        "epoch": 2,
+        "detector": 5,
+        "date": "2026-04-25",
+        "found": true,
+        "unmatched_peaks": 105
+      },
+      {
+        "epoch": 3,
+        "detector": 5,
+        "date": "2026-10-01",
+        "found": true,
+        "unmatched_peaks": 110
+      },
+      {
+        "epoch": 0,
+        "detector": 6,
+        "date": "2025-04-30",
+        "found": true,
+        "unmatched_peaks": 87
+      },
+      {
+        "epoch": 1,
+        "detector": 6,
+        "date": "2025-10-01",
+        "found": true,
+        "unmatched_peaks": 191
+      },
+      {
+        "epoch": 2,
+        "detector": 6,
+        "date": "2026-04-29",
+        "found": true,
+        "unmatched_peaks": 166
+      },
+      {
+        "epoch": 3,
+        "detector": 6,
+        "date": "2026-09-26",
+        "found": true,
+        "unmatched_peaks": 187
+      }
+    ]
+  },
+  "note": "Recovers known movers in D5/D6 difference frames. Candidate list contains matches to the predicted target position. Unmatched peaks are unvetted and can include other real sources."
+}
