@@ -187,3 +187,15 @@ input[type='range'] { accent-color: var(--blue); }
 @media (max-width: 1100px) {
   .stage.split-layout { grid-template-columns: 1fr; }
 }
+
+
+/* SIMBAD Identification Banner */
+.simbad-card { background: #0c0c10; padding: 10px 20px; border-bottom: 1px solid #23232c; }
+.simbad-header { display: flex; align-items: center; gap: 10px; font-size: 0.8rem; flex-wrap: wrap; }
+.simbad-pill { background: #1c1c24; color: #8e8ea0; border: 1px solid #323240; padding: 2px 8px; border-radius: 4px; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; }
+.simbad-querying { color: var(--muted); font-style: italic; }
+.simbad-matched { color: #34d399; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.simbad-matched b { color: #fff; }
+.simbad-discovery { color: var(--warn); background: rgba(255, 176, 32, 0.1); border: 1px dashed rgba(255, 176, 32, 0.4); padding: 3px 10px; border-radius: 6px; }
+.simbad-link { color: var(--blue); text-decoration: underline; font-weight: 500; margin-left: 4px; }
+.simbad-link:hover { color: #fff; }

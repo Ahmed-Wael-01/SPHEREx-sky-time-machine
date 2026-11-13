@@ -22,6 +22,7 @@ import os
 from pathlib import Path
 
 from flask import Flask, abort, jsonify, request, send_from_directory
+import requests
 
 from cache import cache
 import mock
@@ -160,6 +161,64 @@ def detections():
         if f.exists():  # written by Remon / Fatma's models
             return jsonify(json.loads(f.read_text()))
     return jsonify(mock.detections(ra, dec, fov, load_manifest(slug) if slug else None))
+
+
+@app.get("/api/simbad")
+def simbad_lookup():
+    """Live SIMBAD astronomical object cross-identification via Harvard mirror."""
+    try:
+        ra = float(request.args.get("ra", 0))
+        dec = float(request.args.get("dec", 0))
+    except (ValueError, TypeError):
+        return jsonify({"error": "invalid coordinates"}), 400
+
+    url = f"https://simbad.harvard.edu/simbad/sim-coo?Coord={ra}+{dec}&Radius=0.8&Radius.unit=arcmin&output.format=ASCII"
+    try:
+        r = requests.get(url, timeout=3.5)
+        text = r.text
+        lines = [line.strip() for line in text.splitlines() if line.strip()]
+        match_info = None
+        for line in lines:
+            if line.startswith("Object "):
+                parts = [p.strip() for p in line.split("---")]
+                name = parts[0].replace("Object ", "").strip()
+                otype = parts[1].strip() if len(parts) > 1 else "Astronomical Object"
+                match_info = {
+                    "match": True,
+                    "identifier": name,
+                    "otype": otype,
+                    "sp_type": "",
+                    "dist_arcsec": 0.0,
+                    "url": f"https://simbad.harvard.edu/simbad/sim-id?Ident={requests.utils.quote(name)}"
+                }
+                break
+            elif "|" in line and not line.startswith("#") and not line.startswith("-") and not line.startswith("="):
+                cols = [c.strip() for c in line.split("|")]
+                if len(cols) >= 4 and cols[0].isdigit():
+                    dist = float(cols[1]) if cols[1] != "~" else 0.0
+                    ident = cols[2].replace("NAME ", "").strip()
+                    typ = cols[3]
+                    sp = cols[10] if len(cols) > 10 and cols[10] != "~" else ""
+                    match_info = {
+                        "match": True,
+                        "identifier": ident,
+                        "otype": typ,
+                        "sp_type": sp,
+                        "dist_arcsec": dist,
+                        "url": f"https://simbad.harvard.edu/simbad/sim-id?Ident={requests.utils.quote(ident)}"
+                    }
+                    break
+
+        if match_info:
+            return jsonify(match_info)
+
+        return jsonify({
+            "match": False,
+            "message": "No known SIMBAD catalogue object within 0.8 arcmin.",
+            "discovery_candidate": True
+        })
+    except Exception as e:
+        return jsonify({"match": False, "error": str(e), "message": "SIMBAD query timeout or unavailable."})
 
 
 @app.get("/data/<path:path>")

@@ -10,7 +10,7 @@ const SPECTRAL_FEATURES = [
   { label: 'CO', wl: 4.67, desc: 'Carbon Monoxide band' },
 ]
 
-export default function ObjectDetailModal({ pos, data, onClose }) {
+export default function ObjectDetailModal({ pos, data, simbad, onClose }) {
   const [activeTab, setActiveTab] = useState('spectrum') // 'spectrum' | 'lightcurve'
 
   if (!pos) return null
@@ -27,6 +27,29 @@ export default function ObjectDetailModal({ pos, data, onClose }) {
             </p>
           </div>
           <button className="close-btn" onClick={onClose} aria-label="Close modal">✕</button>
+        </div>
+
+        {/* Live SIMBAD Astrometric Cross-Match Identification */}
+        <div className="simbad-card">
+          <div className="simbad-header">
+            <span className="simbad-pill">SIMBAD Astro Match</span>
+            {simbad === null && <span className="simbad-querying">Resolving coordinates with SIMBAD…</span>}
+            {simbad?.match && (
+              <span className="simbad-matched">
+                ✓ Known Object: <b>{simbad.identifier}</b> ({simbad.otype} {simbad.sp_type && `· ${simbad.sp_type}`}) · {simbad.dist_arcsec}″ away
+                {simbad.url && (
+                  <a href={simbad.url} target="_blank" rel="noreferrer" className="simbad-link">
+                    SIMBAD Details ↗
+                  </a>
+                )}
+              </span>
+            )}
+            {simbad && simbad.match === false && (
+              <span className="simbad-discovery">
+                ✨ <b>No known SIMBAD object within 0.8′</b> — Uncataloged Source / Potential Moving Candidate!
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="modal-tabs">

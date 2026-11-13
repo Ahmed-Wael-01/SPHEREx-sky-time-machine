@@ -1,61 +1,60 @@
 import { useEffect, useRef, useState } from 'react'
+import A from 'aladin-lite'
 
-function loadAladinScript() {
-  return new Promise((resolve, reject) => {
-    if (window.A && window.A.aladin) return resolve(window.A)
-
-    const existingScript = document.getElementById('aladin-script')
-    if (existingScript) {
-      existingScript.addEventListener('load', () => resolve(window.A))
-      return
-    }
-
-    const script = document.createElement('script')
-    script.id = 'aladin-script'
-    script.src = 'https://aladin.cds.unistra.fr/AladinLite/api/v3/latest/aladin.js'
-    script.async = true
-    script.onload = () => resolve(window.A)
-    script.onerror = () => reject(new Error('Failed to load Aladin Lite library from CDS Strasbourg'))
-    document.head.appendChild(script)
-  })
+// NASA / IPAC IRSA official high-speed HiPS tile mirrors (with CORS enabled)
+const HIPS_SURVEYS = {
+  allwise: {
+    label: 'AllWISE Infrared (NASA IRSA)',
+    url: 'https://irsa.ipac.caltech.edu/data/hips/CDS/AllWISE/RGB-W4-W2-W1',
+  },
+  dss2: {
+    label: 'DSS2 Optical Color (NASA IRSA)',
+    url: 'https://irsa.ipac.caltech.edu/data/hips/CDS/DSS2/color',
+  },
+  twomass: {
+    label: '2MASS Near-Infrared (NASA IRSA)',
+    url: 'https://irsa.ipac.caltech.edu/data/hips/CDS/2MASS/Color',
+  },
 }
 
-export default function AladinViewer({ ra, dec, fov = 0.2, targetName = '' }) {
+export default function AladinViewer({ ra, dec, fov = 0.2, targetName = '', clicked = null }) {
   const containerRef = useRef(null)
   const aladinInstance = useRef(null)
   const gaiaCatRef = useRef(null)
   const wiseCatRef = useRef(null)
+  const clickedMarkerCat = useRef(null)
 
   const [loading, setLoading] = useState(true)
   const [loadError, setLoadError] = useState(null)
   const [showGaia, setShowGaia] = useState(true)
   const [showWise, setShowWise] = useState(true)
-  const [survey, setSurvey] = useState('P/allWISE/color')
+  const [surveyKey, setSurveyKey] = useState('allwise')
 
   useEffect(() => {
     let active = true
 
-    loadAladinScript()
-      .then((A) => {
+    A.init
+      .then(() => {
         if (!active || !containerRef.current) return
 
         if (!aladinInstance.current) {
-          A.init.then(() => {
-            if (!active || !containerRef.current) return
-            try {
-              const aladin = A.aladin(containerRef.current, {
-                survey: survey,
-                fov: fov,
-                target: `${ra} ${dec}`,
-                cooFrame: 'J2000',
-                showReticle: true,
-                showLayersControl: false,
-                showZoomControl: true,
-                showFullscreenControl: false,
-              })
-              aladinInstance.current = aladin
+          try {
+            const initialSurveyUrl = HIPS_SURVEYS[surveyKey].url
 
-              // Overlay Gaia DR3 Catalog
+            const aladin = A.aladin(containerRef.current, {
+              survey: initialSurveyUrl,
+              fov: fov,
+              target: `${ra} ${dec}`,
+              cooFrame: 'J2000',
+              showReticle: true,
+              showLayersControl: false,
+              showZoomControl: true,
+              showFullscreenControl: false,
+            })
+            aladinInstance.current = aladin
+
+            // Overlay Gaia DR3 Catalog from VizieR
+            try {
               const gaia = A.catalogFromVizieR('I/355/gaiadr3', `${ra} ${dec}`, fov / 2, {
                 onClick: 'showPopup',
                 name: 'Gaia DR3 (Proper Motions)',
@@ -65,8 +64,12 @@ export default function AladinViewer({ ra, dec, fov = 0.2, targetName = '' }) {
               })
               gaiaCatRef.current = gaia
               aladin.addCatalog(gaia)
+            } catch (catErr) {
+              console.warn('Could not load Gaia DR3 catalog:', catErr)
+            }
 
-              // Overlay AllWISE Catalog
+            // Overlay AllWISE Catalog from VizieR
+            try {
               const wise = A.catalogFromVizieR('II/328/allwise', `${ra} ${dec}`, fov / 2, {
                 onClick: 'showPopup',
                 name: 'AllWISE Catalog',
@@ -76,13 +79,16 @@ export default function AladinViewer({ ra, dec, fov = 0.2, targetName = '' }) {
               })
               wiseCatRef.current = wise
               aladin.addCatalog(wise)
-
-              setLoading(false)
-            } catch (err) {
-              console.warn('Aladin init error:', err)
-              setLoading(false)
+            } catch (catErr) {
+              console.warn('Could not load AllWISE catalog:', catErr)
             }
-          })
+
+            setLoading(false)
+          } catch (err) {
+            console.error('Aladin instantiate error:', err)
+            setLoadError(`Initialization error: ${err.message || err}`)
+            setLoading(false)
+          }
         } else {
           // Re-center coordinates and FoV if target changes
           try {
@@ -95,7 +101,8 @@ export default function AladinViewer({ ra, dec, fov = 0.2, targetName = '' }) {
       })
       .catch((err) => {
         if (active) {
-          setLoadError(err.message)
+          console.error('Aladin init error:', err)
+          setLoadError(typeof err === 'string' ? err : err.message || 'WebGL2 error')
           setLoading(false)
         }
       })
@@ -104,6 +111,39 @@ export default function AladinViewer({ ra, dec, fov = 0.2, targetName = '' }) {
       active = false
     }
   }, [ra, dec, fov])
+
+  // Automatically fly to and highlight any object clicked in the SPHEREx player
+  useEffect(() => {
+    if (!clicked || !aladinInstance.current) return
+    try {
+      aladinInstance.current.gotoRaDec(clicked.ra, clicked.dec)
+
+      // Remove previous selection marker layer if present
+      if (clickedMarkerCat.current) {
+        try {
+          aladinInstance.current.removeLayers([clickedMarkerCat.current])
+        } catch (_) {}
+      }
+
+      // Add prominent highlighted marker for user's selected SPHEREx target
+      const cat = A.catalog({
+        name: 'Targeted SPHEREx Object',
+        color: '#ffb020',
+        shape: 'cross',
+        sourceSize: 18,
+        onClick: 'showPopup',
+      })
+      const src = A.source(clicked.ra, clicked.dec, {
+        popupTitle: 'Targeted SPHEREx Object',
+        popupDesc: `RA: ${clicked.ra.toFixed(5)}° · Dec: ${clicked.dec.toFixed(5)}°`,
+      })
+      cat.addSources([src])
+      aladinInstance.current.addCatalog(cat)
+      clickedMarkerCat.current = cat
+    } catch (e) {
+      console.warn('Error syncing clicked target to Aladin:', e)
+    }
+  }, [clicked])
 
   // Toggle Gaia DR3 Overlay
   const toggleGaia = () => {
@@ -121,12 +161,13 @@ export default function AladinViewer({ ra, dec, fov = 0.2, targetName = '' }) {
     wiseCatRef.current.reportChange({ visible: next })
   }
 
-  // Switch Base Survey
+  // Switch Base Survey with NASA IRSA HiPS mirrors
   const handleSurveyChange = (e) => {
-    const s = e.target.value
-    setSurvey(s)
-    if (aladinInstance.current) {
-      aladinInstance.current.setImageSurvey(s)
+    const key = e.target.value
+    setSurveyKey(key)
+    const targetUrl = HIPS_SURVEYS[key]?.url
+    if (aladinInstance.current && targetUrl) {
+      aladinInstance.current.setImageSurvey(targetUrl)
     }
   }
 
@@ -134,11 +175,13 @@ export default function AladinViewer({ ra, dec, fov = 0.2, targetName = '' }) {
     <div className="aladin-card">
       <div className="aladin-toolbar">
         <div className="survey-select">
-          <label>Base Survey: </label>
-          <select value={survey} onChange={handleSurveyChange}>
-            <option value="P/allWISE/color">AllWISE Infrared (Color)</option>
-            <option value="P/DSS2/color">DSS2 Optical (Color)</option>
-            <option value="P/2MASS/color">2MASS Near-IR</option>
+          <label>Survey: </label>
+          <select value={surveyKey} onChange={handleSurveyChange}>
+            {Object.entries(HIPS_SURVEYS).map(([k, s]) => (
+              <option key={k} value={k}>
+                {s.label}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -163,10 +206,12 @@ export default function AladinViewer({ ra, dec, fov = 0.2, targetName = '' }) {
       </div>
 
       <div className="aladin-viewport-wrap">
-        {loading && <div className="aladin-loader">Loading Aladin Lite v3 from CDS Strasbourg…</div>}
+        {loading && !loadError && (
+          <div className="aladin-loader">Connecting to NASA IRSA HiPS Archive…</div>
+        )}
         {loadError && (
           <div className="aladin-loader error">
-            Could not connect to CDS Strasbourg: {loadError}. Offline mode active.
+            <p>⚠️ {loadError}</p>
           </div>
         )}
         <div ref={containerRef} className="aladin-viewport" />
@@ -174,9 +219,8 @@ export default function AladinViewer({ ra, dec, fov = 0.2, targetName = '' }) {
 
       <div className="aladin-legend">
         <span>Target: <b>{targetName || `${ra.toFixed(4)}, ${dec.toFixed(4)}`}</b> (FoV: {fov}°)</span>
-        <span>Astrometric Legend: <span style={{ color: '#34d399' }}>● Gaia DR3</span> · <span style={{ color: '#f43f5e' }}>■ AllWISE</span></span>
+        <span>Astrometry: <span style={{ color: '#34d399' }}>● Gaia DR3</span> · <span style={{ color: '#f43f5e' }}>■ AllWISE</span></span>
       </div>
     </div>
   )
 }
-

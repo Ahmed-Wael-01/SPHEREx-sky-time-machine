@@ -58,3 +58,12 @@ export async function getSpectrum(p) {
     return null
   }
 }
+
+
+export async function getSimbad(p) {
+  try {
+    return await apiGet('/api/simbad', p)
+  } catch {
+    return null
+  }
+}

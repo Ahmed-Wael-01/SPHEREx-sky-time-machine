@@ -5,7 +5,7 @@ import MetaPanel from './components/MetaPanel.jsx'
 import SpectrumPlot from './components/SpectrumPlot.jsx'
 import ObjectDetailModal from './components/ObjectDetailModal.jsx'
 import AladinViewer from './components/AladinViewer.jsx'
-import { getFrames, getSpectrum, NotFound } from './lib/api.js'
+import { getFrames, getSpectrum, getSimbad, NotFound } from './lib/api.js'
 import { readUrl, writeUrl } from './lib/urlState.js'
 import { TARGETS, MOCK_TARGET, DEFAULT_TARGET } from './lib/targets.js'
 
@@ -40,6 +40,7 @@ export default function App() {
   const [idx, setIdx] = useState(url.t ?? 0)
   const [spectrum, setSpectrum] = useState(null)
   const [clicked, setClicked] = useState(null)
+  const [simbadData, setSimbadData] = useState(null)
   const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
@@ -48,6 +49,7 @@ export default function App() {
     setError(null)
     setSpectrum(null)
     setClicked(null)
+    setSimbadData(null)
     setShowModal(false)
 
     getFrames(query)
@@ -93,9 +95,10 @@ export default function App() {
   const onPick = useCallback(
     async (pos) => {
       setClicked(pos)
-      const spec = await getSpectrum({ ra: pos.ra, dec: pos.dec, target: query.target })
-      setSpectrum(spec)
+      setSimbadData(null)
       setShowModal(true)
+      getSpectrum({ ra: pos.ra, dec: pos.dec, target: query.target }).then(setSpectrum)
+      getSimbad({ ra: pos.ra, dec: pos.dec }).then(setSimbadData)
     },
     [query.target],
   )
@@ -224,6 +227,7 @@ export default function App() {
               dec={query.dec ?? manifest?.dec ?? -7.245}
               fov={query.fov ?? manifest?.fov ?? 0.2}
               targetName={manifest?.name || query.target}
+              clicked={clicked}
             />
           )}
         </section>
@@ -258,6 +262,7 @@ export default function App() {
         <ObjectDetailModal
           pos={clicked}
           data={spectrum}
+          simbad={simbadData}
           onClose={() => setShowModal(false)}
         />
       )}

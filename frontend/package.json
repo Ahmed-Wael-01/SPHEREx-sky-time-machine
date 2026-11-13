@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "aladin-lite": "^3.9.2-beta",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
