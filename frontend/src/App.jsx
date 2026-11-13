@@ -22,6 +22,7 @@ function initialQuery() {
 export default function App() {
   const url = useMemo(readUrl, [])
   const [query, setQuery] = useState(initialQuery)
+  const [fov, setFov] = useState(() => initialQuery().fov) // field shown; changes live, no refetch
   const [manifest, setManifest] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -74,13 +75,13 @@ export default function App() {
   useEffect(() => {
     writeUrl({
       ...(query.target ? { target: query.target } : { ra: +query.ra.toFixed(5), dec: +query.dec.toFixed(5) }),
-      fov: query.fov,
+      fov: +fov.toFixed(3),
       det: det || undefined,
       mode: mode !== 'frames' ? mode : undefined,
       t: idx || undefined,
       embed: url.embed ? 1 : undefined,
     })
-  }, [query, det, mode, idx, url.embed])
+  }, [query, fov, det, mode, idx, url.embed])
 
   const onPick = useCallback(
     async (pos) => {
@@ -89,6 +90,10 @@ export default function App() {
     },
     [query.target],
   )
+
+  // the frames cover a fixed field (set when they were processed); the viewer crops to `fov` inside it
+  const bakedSpan = manifest ? (manifest.pixels * manifest.pixel_scale_arcsec) / 3600 : null
+  const viewFov = bakedSpan ? Math.min(fov, bakedSpan) : fov
 
   const wl = (d) => manifest?.detector_wavelength_um?.[d] || (d ? NOMINAL_WL[d] : [0.75, 5.0])
 
@@ -108,7 +113,10 @@ export default function App() {
         </header>
       )}
 
-      {!url.embed && <SkyForm query={query} onSubmit={(q) => { setIdx(0); setQuery(q) }} />}
+      {!url.embed && (
+        <SkyForm query={query} fov={fov} onFov={setFov} maxFov={bakedSpan}
+          onSubmit={(q) => { setIdx(0); setQuery(q); setFov(q.fov) }} />
+      )}
 
       <main className="stage">
         <section className="viewer">
@@ -133,7 +141,7 @@ export default function App() {
           {loading && <div className="empty">Loading frames…</div>}
           {!loading && error && <div className="empty error">{error}</div>}
           {!loading && manifest && (
-            <Player manifest={manifest} frames={frames} deep={deep} mode={mode} det={det} idx={idx} setIdx={setIdx}
+            <Player manifest={manifest} frames={frames} deep={deep} mode={mode} det={det} idx={idx} setIdx={setIdx} viewFov={viewFov}
               onPick={onPick} clicked={clicked} catalogs={catalogs} />
           )}
         </section>

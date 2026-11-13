@@ -17,7 +17,21 @@ const OVERLAYS = [
   ['scale', 'Scale bar', '#f5f5f5'],
 ]
 
-export default function Player({ manifest, frames, deep, mode, det, idx, setIdx, onPick, clicked, catalogs }) {
+// Scale bar outside the zoomed layer so it stays in the corner; length is true on the sky.
+function ScaleBar({ span, scale }) {
+  const visibleArcsec = (span / scale) * 3600
+  const options = [5, 10, 15, 30, 60, 120, 300, 600, 1200]
+  const arcsec = options.reduce((best, o) => (Math.abs(o - visibleArcsec * 0.2) < Math.abs(best - visibleArcsec * 0.2) ? o : best))
+  const pct = (arcsec / visibleArcsec) * 100
+  const label = arcsec >= 60 ? `${arcsec / 60}′` : `${arcsec}″`
+  return (
+    <div className="scalebar" style={{ width: `${pct}%` }}>
+      <span>{label}</span>
+    </div>
+  )
+}
+
+export default function Player({ manifest, frames, deep, mode, det, idx, setIdx, onPick, clicked, catalogs, viewFov }) {
   const [playing, setPlaying] = useState(true)
   const [fps, setFps] = useState(2)
   const [zoom, setZoom] = useState(1)
@@ -34,6 +48,8 @@ export default function Player({ manifest, frames, deep, mode, det, idx, setIdx,
   const n = frames.length
   const wcs = useMemo(() => makeWcs(manifest), [manifest])
   const rgbAllowed = det === 0 && !isDiff
+  // crop to the chosen field of view, then apply the zoom menu on top
+  const scale = (viewFov ? wcs.span / viewFov : 1) * zoom
   const useRgb = cmap === 'rgb' && rgbAllowed
 
   // preload frames of the current detector/mode so playback doesn't flicker
@@ -103,7 +119,7 @@ export default function Player({ manifest, frames, deep, mode, det, idx, setIdx,
   return (
     <div className="player">
       <div className="frame-box">
-        <div className="frame-inner" style={{ transform: `scale(${zoom})` }} onClick={click}
+        <div className="frame-inner" style={{ transform: `scale(${scale})` }} onClick={click}
           onMouseMove={move} onMouseLeave={() => setHover(null)}>
           {useRgb && rgbUrls ? (
             <FrameCanvas rgb={{ ...rgbUrls, gamma }} onGrey={onGrey} alt={`3-colour SPHEREx frame ${frame.date || 'deep stack'}`} />
@@ -113,13 +129,14 @@ export default function Player({ manifest, frames, deep, mode, det, idx, setIdx,
             <div className="empty">No difference image (only one visit)</div>
           )}
           <Overlay manifest={manifest} wcs={wcs} show={show} frame={isDeep ? null : frame} pathFrames={pathFrames}
-            catalogs={catalogs} epochYear={epochYear} clicked={clicked} />
+            catalogs={catalogs} epochYear={epochYear} clicked={clicked} scale={scale} />
         </div>
         <div className="stamp">
           {isDeep ? `Deep stack · ${frame.n_exposures} exposures` : `${frame.date} · visit ${idx + 1}/${n}`}
           {useRgb && <span className="rgb-key"> · <b style={{ color: '#6f8cff' }}>B</b> 0.75–1.6 <b style={{ color: '#4ade80' }}>G</b> 1.6–3.8 <b style={{ color: '#ff6b5a' }}>R</b> 3.8–5 µm</span>}
         </div>
-        <div className="compass" aria-hidden>N ↑ · E ←</div>
+        <div className="compass" aria-hidden>N ↑ · E ← · {((wcs.span / scale) * 60).toFixed(1)}′ across</div>
+        {show.scale && <ScaleBar span={wcs.span} scale={scale} />}
         {hover && (
           <div className="readout">
             {fmtRA(hover.ra)} {fmtDec(hover.dec)}

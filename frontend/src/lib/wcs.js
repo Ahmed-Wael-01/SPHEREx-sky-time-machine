@@ -50,13 +50,17 @@ export function gridStep(spanDeg) {
 }
 
 // Grid polylines in image fractions: lines of constant Dec and of constant RA.
-export function gridLines(wcs, manifest) {
-  const step = gridStep(wcs.span)
-  const raStep = step / Math.max(Math.cos(manifest.dec * D), 0.05)
+export function gridLines(wcs, manifest, scale = 1) {
+  const step = gridStep(wcs.span / scale)
+  // RA lines on round steps of time (1 s of time = 1/240 deg)
+  const raSpan = wcs.span / scale / Math.max(Math.cos(manifest.dec * D), 0.05)
+  const TIME = [1, 2, 5, 10, 15, 20, 30, 60, 120, 300, 600, 1200, 1800, 3600]
+  const raStep = (TIME.find((t) => raSpan / (t / 240) <= 6) ?? 7200) / 240
   const half = wcs.span * 0.75
   const lines = []
   const decLo = Math.floor((manifest.dec - half) / step) * step
-  for (let dec = decLo; dec <= manifest.dec + half; dec += step) {
+  for (let j = 0; decLo + j * step <= manifest.dec + half; j++) {
+    const dec = decLo + j * step
     const pts = []
     for (let i = 0; i <= 40; i++) {
       const ra = manifest.ra - half / Math.cos(manifest.dec * D) + (i / 40) * 2 * half / Math.cos(manifest.dec * D)
@@ -67,7 +71,8 @@ export function gridLines(wcs, manifest) {
   }
   const raHalf = half / Math.max(Math.cos(manifest.dec * D), 0.05)
   const raLo = Math.floor((manifest.ra - raHalf) / raStep) * raStep
-  for (let ra = raLo; ra <= manifest.ra + raHalf; ra += raStep) {
+  for (let j = 0; raLo + j * raStep <= manifest.ra + raHalf; j++) {
+    const ra = raLo + j * raStep
     const pts = []
     for (let i = 0; i <= 40; i++) {
       const dec = manifest.dec - half + (i / 40) * 2 * half
@@ -76,5 +81,5 @@ export function gridLines(wcs, manifest) {
     }
     lines.push({ kind: 'ra', value: ((ra % 360) + 360) % 360, pts })
   }
-  return { step, lines }
+  return { step, raStep, lines }
 }

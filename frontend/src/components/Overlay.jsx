@@ -5,10 +5,23 @@ import { gridLines, propagate, mjdToYear } from '../lib/wcs.js'
 import { fmtRA, fmtDec } from '../lib/coords.js'
 
 const V = 1000
+// show seconds only when the grid is finer than 1 arcmin (Dec) or 1 minute of time (RA)
+const decLabel = (v, step) => {
+  const r = Math.round(v * 3600) / 3600 // whole arcseconds, so float error can't turn 16′ into 15′59.99″
+  return step >= 1 / 60 - 1e-9 ? fmtDec(r).slice(0, 7) : fmtDec(r)
+}
+const raLabel = (v, raStep) => {
+  const r = Math.round(v * 240) / 240 // whole seconds of time
+  return raStep * 240 >= 60 - 1e-6 ? fmtRA(r).slice(0, 6) : fmtRA(r).slice(0, 8) + 's'
+}
 const inside = (p) => p && p.fx > -0.02 && p.fx < 1.02 && p.fy > -0.02 && p.fy < 1.02
 
-export default function Overlay({ manifest, wcs, show, frame, pathFrames, catalogs, epochYear, clicked }) {
-  const grid = useMemo(() => (show.grid ? gridLines(wcs, manifest) : null), [show.grid, wcs, manifest])
+export default function Overlay({ manifest, wcs, show, frame, pathFrames, catalogs, epochYear, clicked, scale = 1 }) {
+  const grid = useMemo(() => (show.grid ? gridLines(wcs, manifest, scale) : null), [show.grid, wcs, manifest, scale])
+  const k = 1 / scale // keeps markers and text the same size on screen at any zoom
+  const lo = 0.5 - 0.5 * k
+  const hi = 0.5 + 0.5 * k
+  const w = hi - lo
 
   const gaia = useMemo(() => {
     if (!show.gaia || !catalogs?.gaia) return []
@@ -27,9 +40,6 @@ export default function Overlay({ manifest, wcs, show, frame, pathFrames, catalo
   const path = show.path ? pathFrames.filter((f) => f.predicted).map((f) => f.predicted) : []
   const pxFrac = 1 / manifest.pixels
 
-  // scale bar: 1 arcmin, or 30" for small fields
-  const barArcsec = wcs.span * 3600 > 400 ? 60 : 30
-  const barFrac = barArcsec / 3600 / wcs.span
 
   return (
     <svg className="overlay" viewBox={`0 0 ${V} ${V}`} preserveAspectRatio="none" aria-hidden>
@@ -40,12 +50,12 @@ export default function Overlay({ manifest, wcs, show, frame, pathFrames, catalo
           ))}
           {grid.lines.map((l, i) => {
             const p = l.kind === 'dec'
-              ? l.pts.find((q) => q.fx > 0.01 && q.fx < 0.2 && q.fy > 0.03 && q.fy < 0.97)
-              : l.pts.find((q) => q.fy > 0.86 && q.fy < 0.98 && q.fx > 0.03 && q.fx < 0.97)
+              ? l.pts.find((q) => q.fx > lo + 0.01 * w && q.fx < lo + 0.25 * w && q.fy > lo + 0.05 * w && q.fy < hi - 0.03 * w)
+              : l.pts.find((q) => q.fy > lo + 0.03 * w && q.fy < lo + 0.12 * w && q.fx > lo + 0.08 * w && q.fx < hi - 0.3 * w)
             if (!p) return null
             return (
-              <text key={`t${i}`} x={p.fx * V + 6} y={p.fy * V - 6} className="ov-label">
-                {l.kind === 'dec' ? fmtDec(l.value).slice(0, 7) : fmtRA(l.value).slice(0, 6)}
+              <text key={`t${i}`} x={p.fx * V + 6 * k} y={p.fy * V - 6 * k} className="ov-label" style={{ fontSize: 22 * k, strokeWidth: 3 * k }}>
+                {l.kind === 'dec' ? decLabel(l.value, grid.step) : raLabel(l.value, grid.raStep)}
               </text>
             )
           })}
@@ -53,16 +63,16 @@ export default function Overlay({ manifest, wcs, show, frame, pathFrames, catalo
       )}
 
       {gaia.map((s, i) => (
-        <circle key={`g${i}`} cx={s.fx * V} cy={s.fy * V} r={Math.max(4, 14 - (s.g ?? 18) * 0.5)} className="ov-gaia" />
+        <circle key={`g${i}`} cx={s.fx * V} cy={s.fy * V} r={Math.max(4, 14 - (s.g ?? 18) * 0.5) * k} className="ov-gaia" />
       ))}
       {wise.map((s, i) => (
-        <rect key={`w${i}`} x={s.fx * V - 7} y={s.fy * V - 7} width="14" height="14" className="ov-wise" />
+        <rect key={`w${i}`} x={s.fx * V - 7 * k} y={s.fy * V - 7 * k} width={14 * k} height={14 * k} className="ov-wise" />
       ))}
 
       {path.length > 1 && (
         <g className="ov-path">
           <polyline points={path.map((p) => `${p.fx * V},${p.fy * V}`).join(' ')} />
-          {path.map((p, i) => <circle key={i} cx={p.fx * V} cy={p.fy * V} r="3" />)}
+          {path.map((p, i) => <circle key={i} cx={p.fx * V} cy={p.fy * V} r={3 * k} />)}
         </g>
       )}
 
@@ -74,17 +84,11 @@ export default function Overlay({ manifest, wcs, show, frame, pathFrames, catalo
 
       {clicked && (
         <g className="ov-pick">
-          <line x1={clicked.fx * V - 12} x2={clicked.fx * V + 12} y1={clicked.fy * V} y2={clicked.fy * V} />
-          <line x1={clicked.fx * V} x2={clicked.fx * V} y1={clicked.fy * V - 12} y2={clicked.fy * V + 12} />
+          <line x1={clicked.fx * V - 12 * k} x2={clicked.fx * V + 12 * k} y1={clicked.fy * V} y2={clicked.fy * V} />
+          <line x1={clicked.fx * V} x2={clicked.fx * V} y1={clicked.fy * V - 12 * k} y2={clicked.fy * V + 12 * k} />
         </g>
       )}
 
-      {show.scale && (
-        <g className="ov-scale">
-          <line x1={V - 30 - barFrac * V} x2={V - 30} y1={V - 30} y2={V - 30} />
-          <text x={V - 30 - (barFrac * V) / 2} y={V - 42} textAnchor="middle">{barArcsec === 60 ? '1′' : '30″'}</text>
-        </g>
-      )}
     </svg>
   )
 }
