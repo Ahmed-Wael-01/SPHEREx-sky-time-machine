@@ -126,8 +126,8 @@ export default function HomePage({ onLaunch, onSelectTarget }) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 0.25 }}
         >
-          SPHEREx Sky<br />
-          <span className="hp-title-accent">Time Machine</span>
+          SPHER<span className="hp-title-x">Ex</span> SKY<br />
+          <span className="hp-title-accent">TIME MACHINE</span>
         </motion.h1>
 
         <motion.p

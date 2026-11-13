@@ -1082,17 +1082,24 @@ input[type='range'] {
 
 .hp-title {
   font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(2.4rem, 6vw, 4.2rem);
-  font-weight: 700;
-  line-height: 1.1;
+  font-size: clamp(3rem, 7.5vw, 5.5rem);
+  font-weight: 800;
+  line-height: 1.0;
   color: var(--white);
   margin: 0;
-  letter-spacing: -0.02em;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.hp-title-x {
+  text-transform: none;  /* keep the 'x' lowercase */
+  letter-spacing: 0;
 }
 
 .hp-title-accent {
   color: #2f6bff;
   display: block;
+  letter-spacing: 0.06em;
 }
 
 .hp-subtitle {
@@ -1382,7 +1389,7 @@ input[type='range'] {
 
   /* Home hero */
   .hp-hero { padding-top: 6vh; gap: 1.1rem; }
-  .hp-title { font-size: clamp(1.9rem, 8vw, 2.8rem); }
+  .hp-title { font-size: clamp(2.2rem, 10vw, 3.5rem); letter-spacing: 0.03em; }
   .hp-subtitle { font-size: 0.92rem; }
 
   /* CTA buttons: stack */
