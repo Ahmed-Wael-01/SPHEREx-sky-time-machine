@@ -212,13 +212,14 @@ def simbad_lookup():
         if match_info:
             return jsonify(match_info)
 
+        # "No match" is common for faint sources and is not evidence of anything new.
         return jsonify({
             "match": False,
-            "message": "No known SIMBAD catalogue object within 0.8 arcmin.",
-            "discovery_candidate": True
+            "message": "No SIMBAD object within 0.8 arcmin.",
         })
     except Exception as e:
-        return jsonify({"match": False, "error": str(e), "message": "SIMBAD query timeout or unavailable."})
+        # unreachable / timeout: say so, never report it as "no match"
+        return jsonify({"match": None, "error": str(e), "message": "SIMBAD lookup unavailable right now."})
 
 
 @app.get("/data/<path:path>")

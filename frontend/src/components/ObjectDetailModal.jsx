@@ -45,9 +45,12 @@ export default function ObjectDetailModal({ pos, data, simbad, onClose }) {
               </span>
             )}
             {simbad && simbad.match === false && (
-              <span className="simbad-discovery">
-                ✨ <b>No known SIMBAD object within 0.8′</b> — Uncataloged Source / Potential Moving Candidate!
+              <span className="simbad-querying">
+                No SIMBAD object within 0.8′. Many faint stars are not in SIMBAD, so this alone is not a discovery.
               </span>
+            )}
+            {simbad && simbad.match == null && simbad.error !== undefined && (
+              <span className="simbad-querying">SIMBAD lookup unavailable right now.</span>
             )}
           </div>
         </div>

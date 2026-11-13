@@ -77,14 +77,14 @@ const STATS = [
   { num: '102',    label: 'Spectral Bands',    sub: '0.75 – 5.0 µm IR' },
   { num: '6',      label: 'LVF Detectors',     sub: 'Linear Variable Filter' },
   { num: '4+',     label: 'Survey Passes',     sub: 'Multi-epoch flip-book' },
-  { num: '< 0.8″', label: 'Astrometric Match', sub: 'Gaia DR3 · WISE · SIMBAD' },
+  { num: '0.2″',   label: 'Alignment vs Gaia', sub: 'Measured on WISE 0855 field' },
 ]
 
 /* ── Features ── */
 const FEATURES = [
   { icon: '🎞️', title: 'Flip-Book & Diff Engine',     desc: 'Rapid epoch switching with blink comparator and difference imaging.' },
   { icon: '🔬', title: '102-Band Spectrophotometry',   desc: 'Click-to-extract SEDs with molecular markers (H₂O, CH₄, CO₂, CO).' },
-  { icon: '🌐', title: 'Gaia / WISE / SIMBAD Overlay', desc: 'Live catalog cross-match flags uncatalogued movers automatically.' },
+  { icon: '🌐', title: 'Gaia / WISE / SIMBAD Overlay', desc: 'Gaia stars moved to each date; AllWISE sources; SIMBAD lookup on click.' },
 ]
 
 /* ══════════════════════════════════════════════════
@@ -137,7 +137,7 @@ export default function HomePage({ onLaunch, onSelectTarget }) {
           transition={{ duration: 0.7, delay: 0.45 }}
         >
           Multi-epoch infrared explorer · 102-band spectrophotometry ·
-          Planet X analog detection
+          spot what moves and what changes
         </motion.p>
 
         <motion.div

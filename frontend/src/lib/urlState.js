@@ -12,7 +12,7 @@ export function readUrl() {
     ra: p.get('ra') ? (Number.isNaN(parseRA(p.get('ra'))) ? undefined : parseRA(p.get('ra'))) : undefined,
     dec: p.get('dec') ? (Number.isNaN(parseDec(p.get('dec'))) ? undefined : parseDec(p.get('dec'))) : undefined,
     fov: num('fov'),
-    det: num('det'),
+    det: p.get('det') === 'long' ? 'long' : num('det'),
     mode: p.get('mode') || undefined,
     t: num('t'),
     embed: p.get('embed') === '1',

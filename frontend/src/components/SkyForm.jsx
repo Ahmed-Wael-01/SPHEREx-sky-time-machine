@@ -72,12 +72,6 @@ export default function SkyForm({ query, fov, onFov, maxFov, onSubmit }) {
       </form>
       {err && <p className="form-err">{err}</p>}
 
-      {maxFov && fov > maxFov + 0.005 && (
-        <p className="form-note">
-          This target was processed at {maxFov.toFixed(2)}°, so that is the widest view right now. Wider fields need a
-          new run: <code>fetch_cutouts.py --size {fov.toFixed(2)}</code>.
-        </p>
-      )}
 
       {/* Story Mode Target Showcase Pills */}
       <div className="targets-section">
@@ -97,15 +91,6 @@ export default function SkyForm({ query, fov, onFov, maxFov, onSubmit }) {
               {t.tag && <span className="pill-tag">{t.tag}</span>}
             </button>
           ))}
-          <button
-            type="button"
-            className={`target-pill mock ${query.target === 'mock' ? 'on' : ''}`}
-            onClick={() => pick(MOCK_TARGET)}
-            title="Smoke test pipeline offline with synthetic data"
-          >
-            <span className="pill-title">Synthetic Test</span>
-            <span className="pill-tag">Offline</span>
-          </button>
         </div>
       </div>
 

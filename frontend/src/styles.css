@@ -972,6 +972,15 @@ input[type='range'] {
   text-align: center;
 }
 
+/* movers: close-up box, blink, 4-5 um button */
+.loupe { position: absolute; left: 10px; top: 10px; width: 36%; aspect-ratio: 1; overflow: hidden; border: 1px solid rgba(245,245,245,0.7); border-radius: 6px; background: #000; box-shadow: 0 4px 18px rgba(0,0,0,0.6); pointer-events: none; }
+.loupe-inner { position: absolute; }
+.loupe-label { position: absolute; left: 6px; bottom: 4px; font-size: 0.7rem; color: #f5f5f5; text-shadow: 0 0 3px #000; }
+.blink { background: transparent; border: 1px solid var(--line); border-radius: 8px; padding: 7px 12px; cursor: pointer; }
+.blink.on { background: var(--blue); border-color: var(--blue); }
+.blink:disabled { opacity: 0.4; cursor: default; }
+.seg button.long:not(.on) { border-color: rgba(255, 90, 31, 0.6); }
+.loupe-ref line { stroke: #ffd23f; stroke-width: 2; }
 
 /* ==========================================================================
    Home Page â€” Redesigned (minimal + motion)
