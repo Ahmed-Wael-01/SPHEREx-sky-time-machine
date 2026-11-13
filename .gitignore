@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Node
+node_modules/
+frontend/dist/
+
+# Raw SPHEREx cutouts and float stacks (regenerate with science/fetch_cutouts.py)
+science/cache/
+science/output/
+*.part
+
+# Env / OS
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Logs
+*.log
