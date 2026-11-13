@@ -27,6 +27,15 @@
   "manifest": "/data/mock/manifest.json"
  },
  {
+  "target": "r-dra",
+  "name": "R Draconis",
+  "ra": 248.1675,
+  "dec": 66.755,
+  "fov": 0.5,
+  "source": "prebaked",
+  "manifest": "/data/r-dra/manifest.json"
+ },
+ {
   "target": "rw-aur",
   "name": "RW Aurigae",
   "ra": 76.956,
