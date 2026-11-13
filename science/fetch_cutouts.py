@@ -317,7 +317,10 @@ def weighted_stack(scis, vars_):
     return mean.astype(np.float32), var.astype(np.float32)
 
 
-def split_epochs(mjds, gap_days):
+def split_epochs(mjds, gap_days, max_span_days=90.0, chunk_days=60.0):
+    """Group photos into survey passes: a new pass starts after a gap > gap_days.
+    Near the ecliptic poles SPHEREx looks almost continuously, so gaps may never come;
+    any pass longer than max_span_days is then cut into chunk_days pieces."""
     order = np.argsort(mjds)
     labels = np.zeros(len(mjds), int)
     e = 0
@@ -325,7 +328,22 @@ def split_epochs(mjds, gap_days):
         if mjds[order[k]] - mjds[order[k - 1]] > gap_days:
             e += 1
         labels[order[k]] = e
-    return labels
+    out = np.zeros(len(mjds), int)
+    nxt = 0
+    for g in range(labels.max() + 1):
+        sel = labels == g
+        t0, t1 = mjds[sel].min(), mjds[sel].max()
+        if t1 - t0 > max_span_days:
+            n = int(math.ceil((t1 - t0) / chunk_days))
+            sub = np.minimum(((mjds[sel] - t0) / ((t1 - t0) / n)).astype(int), n - 1)
+            used = np.unique(sub)
+            remap = {u: i for i, u in enumerate(used)}
+            out[sel] = nxt + np.array([remap[v] for v in sub])
+            nxt += len(used)
+        else:
+            out[sel] = nxt
+            nxt += 1
+    return out
 
 
 # --------------------------------------------------------------------------- PNG output
@@ -388,8 +406,11 @@ def bake(job, args):
     else:
         # SPHEREx frames are rotated relative to north-up; ask for ~1.45x so the square grid has no empty corners
         rows = tap_query(ra, dec, round(size * 1.45, 4))
-        if args.max_exposures:
-            rows = rows[: args.max_exposures]
+        if args.max_exposures and len(rows) > args.max_exposures:
+            # an even spread over all dates and detectors, not just the first N
+            keep = np.unique(np.linspace(0, len(rows) - 1, args.max_exposures).round().astype(int))
+            rows = [rows[i] for i in keep]
+            log(f"  keeping {len(rows)} photos spread evenly over the dates (--max-exposures)")
         rows = download_all(rows, cache_dir, args.workers)
         index_file.write_text(json.dumps({"ra": ra, "dec": dec, "size": size,
                                           "queried": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -542,7 +563,8 @@ def main():
                    help="photos closer than this (days) form one survey pass; SPHEREx revisits a spot ~every 6 months")
     p.add_argument("--mask", default=",".join(DEFAULT_MASK), help="comma-separated flag names to mask")
     p.add_argument("--workers", type=int, default=6, help="parallel downloads")
-    p.add_argument("--max-exposures", type=int, default=0, help="limit for quick tests (0 = all)")
+    p.add_argument("--max-exposures", type=int, default=0,
+                   help="download at most N photos, spread evenly over all dates (0 = all)")
     p.add_argument("--offline", action="store_true", help="reuse science/cache/<slug>; no network")
     p.add_argument("--no-catalogs", action="store_true", help="skip the Gaia/AllWISE overlay download")
     args = p.parse_args()
