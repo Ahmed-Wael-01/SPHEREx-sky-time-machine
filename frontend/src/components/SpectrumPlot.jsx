@@ -13,15 +13,16 @@ export default function SpectrumPlot({ data, pos, onClick }) {
         <span className="expand-indicator" title="Click to view full 102-band spectrum and light curve">Details ↗</span>
       </div>
       <p className="muted small">{fmtRA(pos.ra)} {fmtDec(pos.dec)}</p>
-      {!data && <p className="muted">Loading or unavailable…</p>}
-      {data && <Plot pts={data.points} />}
+      {!data && <p className="muted">Loading…</p>}
+      {data && data.points?.length > 0 && <Plot pts={data.points} />}
+      {data?.note && <p className="muted small">{data.note}</p>}
       {data?.source === 'mock' && <p className="banner small">Placeholder spectrum (mock), not a measurement</p>}
     </div>
   )
 }
 
 function Plot({ pts }) {
-  if (!pts?.length) return <p className="muted">No points.</p>
+  if (!pts?.length) return null
   const ys = pts.map((p) => p.flux_mjy)
   const yMax = Math.max(...ys.map((y, i) => y + pts[i].err_mjy)) * 1.05
   const yMin = Math.min(0, ...ys)

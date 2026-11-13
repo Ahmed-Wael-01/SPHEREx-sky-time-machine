@@ -50,7 +50,11 @@ export default function ObjectDetailModal({ pos, data, simbad, onClose }) {
               </span>
             )}
             {simbad && simbad.match == null && simbad.error !== undefined && (
-              <span className="simbad-querying">SIMBAD lookup unavailable right now.</span>
+              <span className="simbad-querying">
+                {import.meta.env.VITE_STATIC === '1'
+                  ? 'Object lookup (SIMBAD) needs our live server; this public copy of the site runs without it.'
+                  : 'SIMBAD lookup unavailable right now.'}
+              </span>
             )}
           </div>
         </div>
@@ -72,9 +76,9 @@ export default function ObjectDetailModal({ pos, data, simbad, onClose }) {
 
         <div className="modal-body">
           {activeTab === 'spectrum' ? (
-            <SpectrumView points={data?.points} />
+            <SpectrumView points={data?.points} note={data?.note} />
           ) : (
-            <LightCurveView lightCurve={data?.light_curve} />
+            <LightCurveView lightCurve={data?.light_curve} band={data?.light_curve_band} />
           )}
         </div>
 
@@ -98,9 +102,9 @@ export default function ObjectDetailModal({ pos, data, simbad, onClose }) {
   )
 }
 
-function SpectrumView({ points }) {
+function SpectrumView({ points, note }) {
   if (!points?.length) {
-    return <div className="chart-empty">Extracting aperture photometry across 102 channels…</div>
+    return <div className="chart-empty">{note || 'No spectrum measured at this position.'}</div>
   }
 
   const W = 620
@@ -108,7 +112,8 @@ function SpectrumView({ points }) {
   const P = { l: 52, r: 24, t: 30, b: 38 }
   const ys = points.map((p) => p.flux_mjy)
   const yMax = Math.max(...ys.map((y, i) => y + (points[i].err_mjy || 0))) * 1.15 || 1
-  const yMin = Math.max(0, Math.min(...ys) * 0.8)
+  // measurements can dip below zero (a faint object plus noise), so let the axis go there too
+  const yMin = Math.min(0, ...ys.map((y, i) => y - (points[i].err_mjy || 0)))
 
   const xMap = (wl) => P.l + ((wl - 0.75) / (5.0 - 0.75)) * (W - P.l - P.r)
   const yMap = (f) => H - P.b - ((f - yMin) / (yMax - yMin || 1)) * (H - P.t - P.b)
@@ -149,8 +154,9 @@ function SpectrumView({ points }) {
           </g>
         ))}
 
+        {yMin < 0 && <line x1={P.l} x2={W - P.r} y1={yMap(0)} y2={yMap(0)} stroke="#555" strokeDasharray="2 3" />}
         {/* Y Axis Ticks */}
-        {[0, yMax * 0.5, yMax].map((val, idx) => (
+        {[yMin < 0 ? yMin : 0, yMax * 0.5, yMax].map((val, idx) => (
           <g key={idx}>
             <text x={P.l - 8} y={yMap(val) + 4} fill="#888" fontSize="10" textAnchor="end">
               {val.toFixed(2)}
@@ -191,7 +197,7 @@ function SpectrumView({ points }) {
   )
 }
 
-function LightCurveView({ lightCurve }) {
+function LightCurveView({ lightCurve, band }) {
   if (!lightCurve?.length) {
     return (
       <div className="chart-empty">
@@ -204,8 +210,9 @@ function LightCurveView({ lightCurve }) {
   const H = 220
   const P = { l: 52, r: 30, t: 25, b: 40 }
   const fluxes = lightCurve.map((d) => d.flux_mjy)
-  const minF = Math.max(0, Math.min(...fluxes) * 0.85)
-  const maxF = Math.max(...fluxes) * 1.15 || 1
+  // axis from zero (or below), so small changes don't look dramatic; error bars show what is noise
+  const minF = Math.min(0, ...lightCurve.map((d) => d.flux_mjy - (d.err_mjy || 0)))
+  const maxF = Math.max(...lightCurve.map((d) => d.flux_mjy + (d.err_mjy || 0))) * 1.15 || 1
 
   const xMap = (idx) => P.l + (idx / Math.max(lightCurve.length - 1, 1)) * (W - P.l - P.r)
   const yMap = (f) => H - P.b - ((f - minF) / (maxF - minF || 1)) * (H - P.t - P.b)
@@ -213,7 +220,7 @@ function LightCurveView({ lightCurve }) {
   return (
     <div className="chart-container">
       <div className="chart-legend-top">
-        <span>Flux variability across SPHEREx survey passes</span>
+        <span>Brightness on each SPHEREx sky pass{band ? `, ${band} (same colour range every pass)` : ''}</span>
       </div>
 
       <svg viewBox={`0 0 ${W} ${H}`} className="analysis-svg" role="img" aria-label="Multi-epoch light curve">
@@ -230,6 +237,10 @@ function LightCurveView({ lightCurve }) {
 
         {lightCurve.map((pt, i) => (
           <g key={i}>
+            {pt.err_mjy > 0 && (
+              <line x1={xMap(i)} x2={xMap(i)} y1={yMap(pt.flux_mjy - pt.err_mjy)} y2={yMap(pt.flux_mjy + pt.err_mjy)}
+                stroke="rgba(47, 107, 255, 0.6)" strokeWidth="1.5" />
+            )}
             <circle cx={xMap(i)} cy={yMap(pt.flux_mjy)} r="5" fill="#ffffff" stroke="#2f6bff" strokeWidth="2" />
             <text x={xMap(i)} y={H - P.b + 18} fill="#999" fontSize="11" textAnchor="middle">
               {pt.date}

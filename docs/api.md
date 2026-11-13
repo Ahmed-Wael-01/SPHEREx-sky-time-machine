@@ -40,7 +40,9 @@ Exactly the `manifest.json` that `science/fetch_cutouts.py` writes to `frontend/
 
 ## `GET /api/spectrum?ra=&dec=[&target=]`
 
-Serves `frontend/public/data/<slug>/spectrum.json` if it exists (Alaa's photometry output), else mock.
+Serves `frontend/public/data/<slug>/spectrum.json` if it exists, else mock. The file is made by
+`python science/make_spectrum.py --target <slug>` (one aperture measurement per photo, Gaia neighbours within 15"
+fitted together) and is also read directly by the static site when you click within 30" of the target.
 
 ```json
 {"ra": 133.795, "dec": -7.245, "name": "wise0855", "source": "prebaked",
