@@ -538,7 +538,8 @@ def main():
     p.add_argument("--pmra", type=float, default=0.0, help="proper motion in RA*cos(Dec), mas/yr (no SIMBAD)")
     p.add_argument("--pmdec", type=float, default=0.0, help="proper motion in Dec, mas/yr (no SIMBAD)")
     p.add_argument("--coord-epoch", type=float, default=2000.0, help="epoch of --ra/--dec (decimal year)")
-    p.add_argument("--gap-days", type=float, default=20.0, help="time gap that separates survey passes")
+    p.add_argument("--gap-days", type=float, default=60.0,
+                   help="photos closer than this (days) form one survey pass; SPHEREx revisits a spot ~every 6 months")
     p.add_argument("--mask", default=",".join(DEFAULT_MASK), help="comma-separated flag names to mask")
     p.add_argument("--workers", type=int, default=6, help="parallel downloads")
     p.add_argument("--max-exposures", type=int, default=0, help="limit for quick tests (0 = all)")
