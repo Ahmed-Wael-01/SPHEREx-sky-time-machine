@@ -22,7 +22,7 @@ export const TARGETS = [
     dec: 4.693364,
     fov: 0.5,
     blurb: 'Fastest proper motion of any star (~10.3 arcsec/yr). Core stays saturated but unmasked without artifact holes.',
-    tip: 'Play through epochs to watch it visibly leap across pixel coordinates against background stars.',
+    tip: 'So bright it overloads the camera. Switch to Difference (Movers): the orange/blue pair flips between 2025 and 2026 as it moves north.',
   },
   {
     slug: 'eps-indi-b',

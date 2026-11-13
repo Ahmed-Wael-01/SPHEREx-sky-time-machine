@@ -83,8 +83,10 @@ function focusStretch(g, focus) {
   if (vals.length < 10) return (v) => v
   vals.sort((a, b) => a - b)
   const lo = vals[Math.floor(vals.length * 0.5)]
-  const hi = Math.max(vals[Math.floor(vals.length * 0.995)], lo + 8)
-  return (v) => Math.max(0, Math.min(255, ((v - lo) / (hi - lo)) * 255))
+  // brightest pixel in the box -> white, with a square-root curve so faint targets stay visible
+  // and a bright star (Barnard's) keeps its shape instead of filling the box with white
+  const hi = Math.max(vals[vals.length - 1], lo + 8)
+  return (v) => Math.max(0, Math.min(255, Math.sqrt(Math.max(0, (v - lo) / (hi - lo))) * 255))
 }
 
 export default function FrameCanvas({ single, rgb, onGrey, alt, focus }) {
