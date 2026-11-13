@@ -56,11 +56,31 @@ export async function getFrames(p) {
   }
 }
 
+// Static site: each target folder may hold spectrum.json (science/make_spectrum.py). It describes the
+// target only, so it is shown when the click lands within NEAR_ARCSEC of where the target is on some date.
+const NEAR_ARCSEC = 30
+
+async function staticSpectrum({ ra, dec, target }) {
+  if (!target) return { points: [], note: 'Spectra of positions outside our five targets need the live server.' }
+  let s
+  try {
+    const r = await fetch(dataUrl(`/data/${target}/spectrum.json`))
+    if (!r.ok || !(r.headers.get('content-type') || '').includes('json')) throw new Error('none')
+    s = await r.json()
+  } catch {
+    return { points: [], note: 'This target\'s spectrum has not been measured yet.' }
+  }
+  const spots = s.positions?.length ? s.positions : [[s.ra, s.dec]]
+  const near = spots.some(([a, d]) => sepDeg(ra, dec, a, d) * 3600 <= NEAR_ARCSEC)
+  if (!near) return { points: [], note: `Click the target itself: measured spectra exist for ${s.label || target} only (other spots need the live server).` }
+  return { ...s, _via: 'static' }
+}
+
 export async function getSpectrum(p) {
   try {
     return await apiGet('/api/spectrum', p)
   } catch {
-    return null
+    return staticSpectrum(p)
   }
 }
 
