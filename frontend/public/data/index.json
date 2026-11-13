@@ -1,0 +1,20 @@
+[
+ {
+  "target": "mock",
+  "name": "Synthetic test field (not real data)",
+  "ra": 133.794972,
+  "dec": -7.245,
+  "fov": 0.2,
+  "source": "prebaked",
+  "manifest": "/data/mock/manifest.json"
+ },
+ {
+  "target": "wise0855",
+  "name": "WISE 0855",
+  "ra": 133.75987,
+  "dec": -7.242248,
+  "fov": 0.2,
+  "source": "prebaked",
+  "manifest": "/data/wise0855/manifest.json"
+ }
+]

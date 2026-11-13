@@ -1,0 +1,881 @@
+{
+ "target": "mock",
+ "name": "Synthetic test field (not real data)",
+ "ra": 133.794972,
+ "dec": -7.245,
+ "ra_j2000": 133.8532427906153,
+ "dec_j2000": -7.461666666666667,
+ "pm_mas_yr": [
+  -8000.0,
+  30000.0
+ ],
+ "position_note": "catalogue position (epoch 2026.0) + proper motion",
+ "fov": 0.2,
+ "pixels": 119,
+ "pixel_scale_arcsec": 6.15,
+ "orientation": "north up, east left",
+ "n_exposures": 72,
+ "n_epochs": 4,
+ "detectors": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "detector_wavelength_um": {
+  "0": null,
+  "1": null,
+  "2": null,
+  "3": null,
+  "4": null,
+  "5": null,
+  "6": null
+ },
+ "masked_flags": [
+  "TRANSIENT",
+  "SUR_ERROR",
+  "PHANTOM",
+  "NONFUNC",
+  "DICHROIC",
+  "MISSING_DATA",
+  "HOT",
+  "COLD",
+  "PHANMISS",
+  "PERSIST",
+  "OUTLIER"
+ ],
+ "source": "prebaked",
+ "generated": "2026-11-13T07:03:05Z",
+ "visits": [
+  {
+   "date": "2025-05-05",
+   "mjd": 60800.3,
+   "epoch": 0,
+   "detector": 0,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-05-05_all.png",
+   "diff_url": "/data/mock/2025-05-05_all_diff.png",
+   "diff_sigma_mjysr": 0.023053281009197235,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 108,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 72,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.796449,
+    "dec": -7.250492,
+    "fx": 0.4928,
+    "fy": 0.527
+   }
+  },
+  {
+   "date": "2025-11-05",
+   "mjd": 60984.3,
+   "epoch": 1,
+   "detector": 0,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-11-05_all.png",
+   "diff_url": "/data/mock/2025-11-05_all_diff.png",
+   "diff_sigma_mjysr": 0.023161251097917557,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 108,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 72,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.795319,
+    "dec": -7.246294,
+    "fx": 0.4983,
+    "fy": 0.5064
+   }
+  },
+  {
+   "date": "2026-05-05",
+   "mjd": 61165.3,
+   "epoch": 2,
+   "detector": 0,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-05-05_all.png",
+   "diff_url": "/data/mock/2026-05-05_all_diff.png",
+   "diff_sigma_mjysr": 0.0230429507791996,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 108,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 72,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.794209,
+    "dec": -7.242164,
+    "fx": 0.5037,
+    "fy": 0.486
+   }
+  },
+  {
+   "date": "2026-10-29",
+   "mjd": 61342.3,
+   "epoch": 3,
+   "detector": 0,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-10-29_all.png",
+   "diff_url": "/data/mock/2026-10-29_all_diff.png",
+   "diff_sigma_mjysr": 0.022554589435458183,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 108,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 72,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.793123,
+    "dec": -7.238126,
+    "fx": 0.509,
+    "fy": 0.4662
+   }
+  },
+  {
+   "date": "2025-05-04",
+   "mjd": 60799.3,
+   "epoch": 0,
+   "detector": 1,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-05-04_d1.png",
+   "diff_url": "/data/mock/2025-05-04_d1_diff.png",
+   "diff_sigma_mjysr": 0.05654694512486458,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.796455,
+    "dec": -7.250514,
+    "fx": 0.4928,
+    "fy": 0.5271
+   }
+  },
+  {
+   "date": "2025-11-04",
+   "mjd": 60983.3,
+   "epoch": 1,
+   "detector": 1,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-11-04_d1.png",
+   "diff_url": "/data/mock/2025-11-04_d1_diff.png",
+   "diff_sigma_mjysr": 0.057323671877384186,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.795326,
+    "dec": -7.246316,
+    "fx": 0.4983,
+    "fy": 0.5065
+   }
+  },
+  {
+   "date": "2026-05-04",
+   "mjd": 61164.3,
+   "epoch": 2,
+   "detector": 1,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-05-04_d1.png",
+   "diff_url": "/data/mock/2026-05-04_d1_diff.png",
+   "diff_sigma_mjysr": 0.05576959624886513,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.794215,
+    "dec": -7.242187,
+    "fx": 0.5037,
+    "fy": 0.4862
+   }
+  },
+  {
+   "date": "2026-10-28",
+   "mjd": 61341.3,
+   "epoch": 3,
+   "detector": 1,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-10-28_d1.png",
+   "diff_url": "/data/mock/2026-10-28_d1_diff.png",
+   "diff_sigma_mjysr": 0.05526217818260193,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.793129,
+    "dec": -7.238149,
+    "fx": 0.509,
+    "fy": 0.4663
+   }
+  },
+  {
+   "date": "2025-05-04",
+   "mjd": 60799.7,
+   "epoch": 0,
+   "detector": 2,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-05-04_d2.png",
+   "diff_url": "/data/mock/2025-05-04_d2_diff.png",
+   "diff_sigma_mjysr": 0.055448830127716064,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.796452,
+    "dec": -7.250505,
+    "fx": 0.4928,
+    "fy": 0.5271
+   }
+  },
+  {
+   "date": "2025-11-04",
+   "mjd": 60983.7,
+   "epoch": 1,
+   "detector": 2,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-11-04_d2.png",
+   "diff_url": "/data/mock/2025-11-04_d2_diff.png",
+   "diff_sigma_mjysr": 0.054533451795578,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.795323,
+    "dec": -7.246307,
+    "fx": 0.4983,
+    "fy": 0.5064
+   }
+  },
+  {
+   "date": "2026-05-04",
+   "mjd": 61164.7,
+   "epoch": 2,
+   "detector": 2,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-05-04_d2.png",
+   "diff_url": "/data/mock/2026-05-04_d2_diff.png",
+   "diff_sigma_mjysr": 0.05592620372772217,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.794213,
+    "dec": -7.242178,
+    "fx": 0.5037,
+    "fy": 0.4861
+   }
+  },
+  {
+   "date": "2026-10-28",
+   "mjd": 61341.7,
+   "epoch": 3,
+   "detector": 2,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-10-28_d2.png",
+   "diff_url": "/data/mock/2026-10-28_d2_diff.png",
+   "diff_sigma_mjysr": 0.05576890707015991,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.793126,
+    "dec": -7.238139,
+    "fx": 0.509,
+    "fy": 0.4663
+   }
+  },
+  {
+   "date": "2025-05-05",
+   "mjd": 60800.1,
+   "epoch": 0,
+   "detector": 3,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-05-05_d3.png",
+   "diff_url": "/data/mock/2025-05-05_d3_diff.png",
+   "diff_sigma_mjysr": 0.05495624616742134,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.79645,
+    "dec": -7.250496,
+    "fx": 0.4928,
+    "fy": 0.527
+   }
+  },
+  {
+   "date": "2025-11-05",
+   "mjd": 60984.1,
+   "epoch": 1,
+   "detector": 3,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-11-05_d3.png",
+   "diff_url": "/data/mock/2025-11-05_d3_diff.png",
+   "diff_sigma_mjysr": 0.055033087730407715,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.795321,
+    "dec": -7.246298,
+    "fx": 0.4983,
+    "fy": 0.5064
+   }
+  },
+  {
+   "date": "2026-05-05",
+   "mjd": 61165.1,
+   "epoch": 2,
+   "detector": 3,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-05-05_d3.png",
+   "diff_url": "/data/mock/2026-05-05_d3_diff.png",
+   "diff_sigma_mjysr": 0.05678752809762955,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.79421,
+    "dec": -7.242169,
+    "fx": 0.5037,
+    "fy": 0.4861
+   }
+  },
+  {
+   "date": "2026-10-29",
+   "mjd": 61342.1,
+   "epoch": 3,
+   "detector": 3,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-10-29_d3.png",
+   "diff_url": "/data/mock/2026-10-29_d3_diff.png",
+   "diff_sigma_mjysr": 0.055200543254613876,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.793124,
+    "dec": -7.23813,
+    "fx": 0.509,
+    "fy": 0.4662
+   }
+  },
+  {
+   "date": "2025-05-05",
+   "mjd": 60800.5,
+   "epoch": 0,
+   "detector": 4,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-05-05_d4.png",
+   "diff_url": "/data/mock/2025-05-05_d4_diff.png",
+   "diff_sigma_mjysr": 0.055129606276750565,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.796447,
+    "dec": -7.250487,
+    "fx": 0.4928,
+    "fy": 0.527
+   }
+  },
+  {
+   "date": "2025-11-05",
+   "mjd": 60984.5,
+   "epoch": 1,
+   "detector": 4,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-11-05_d4.png",
+   "diff_url": "/data/mock/2025-11-05_d4_diff.png",
+   "diff_sigma_mjysr": 0.05597316101193428,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.795318,
+    "dec": -7.246289,
+    "fx": 0.4983,
+    "fy": 0.5063
+   }
+  },
+  {
+   "date": "2026-05-05",
+   "mjd": 61165.5,
+   "epoch": 2,
+   "detector": 4,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-05-05_d4.png",
+   "diff_url": "/data/mock/2026-05-05_d4_diff.png",
+   "diff_sigma_mjysr": 0.05566377937793732,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.794208,
+    "dec": -7.242159,
+    "fx": 0.5037,
+    "fy": 0.486
+   }
+  },
+  {
+   "date": "2026-10-29",
+   "mjd": 61342.5,
+   "epoch": 3,
+   "detector": 4,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-10-29_d4.png",
+   "diff_url": "/data/mock/2026-10-29_d4_diff.png",
+   "diff_sigma_mjysr": 0.05549579858779907,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.793122,
+    "dec": -7.238121,
+    "fx": 0.509,
+    "fy": 0.4662
+   }
+  },
+  {
+   "date": "2025-05-05",
+   "mjd": 60800.9,
+   "epoch": 0,
+   "detector": 5,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-05-05_d5.png",
+   "diff_url": "/data/mock/2025-05-05_d5_diff.png",
+   "diff_sigma_mjysr": 0.05565100908279419,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.796445,
+    "dec": -7.250478,
+    "fx": 0.4928,
+    "fy": 0.5269
+   }
+  },
+  {
+   "date": "2025-11-05",
+   "mjd": 60984.9,
+   "epoch": 1,
+   "detector": 5,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-11-05_d5.png",
+   "diff_url": "/data/mock/2025-11-05_d5_diff.png",
+   "diff_sigma_mjysr": 0.057787880301475525,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.795316,
+    "dec": -7.24628,
+    "fx": 0.4983,
+    "fy": 0.5063
+   }
+  },
+  {
+   "date": "2026-05-05",
+   "mjd": 61165.9,
+   "epoch": 2,
+   "detector": 5,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-05-05_d5.png",
+   "diff_url": "/data/mock/2026-05-05_d5_diff.png",
+   "diff_sigma_mjysr": 0.05596109852194786,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.794205,
+    "dec": -7.24215,
+    "fx": 0.5037,
+    "fy": 0.486
+   }
+  },
+  {
+   "date": "2026-10-29",
+   "mjd": 61342.9,
+   "epoch": 3,
+   "detector": 5,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-10-29_d5.png",
+   "diff_url": "/data/mock/2026-10-29_d5_diff.png",
+   "diff_sigma_mjysr": 0.05476885288953781,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.793119,
+    "dec": -7.238112,
+    "fx": 0.509,
+    "fy": 0.4661
+   }
+  },
+  {
+   "date": "2025-05-06",
+   "mjd": 60801.3,
+   "epoch": 0,
+   "detector": 6,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-05-06_d6.png",
+   "diff_url": "/data/mock/2025-05-06_d6_diff.png",
+   "diff_sigma_mjysr": 0.05619252473115921,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.796442,
+    "dec": -7.250469,
+    "fx": 0.4928,
+    "fy": 0.5269
+   }
+  },
+  {
+   "date": "2025-11-06",
+   "mjd": 60985.3,
+   "epoch": 1,
+   "detector": 6,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2025-11-06_d6.png",
+   "diff_url": "/data/mock/2025-11-06_d6_diff.png",
+   "diff_sigma_mjysr": 0.05542301386594772,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.795313,
+    "dec": -7.246271,
+    "fx": 0.4983,
+    "fy": 0.5063
+   }
+  },
+  {
+   "date": "2026-05-06",
+   "mjd": 61166.3,
+   "epoch": 2,
+   "detector": 6,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-05-06_d6.png",
+   "diff_url": "/data/mock/2026-05-06_d6_diff.png",
+   "diff_sigma_mjysr": 0.056351397186517715,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.794203,
+    "dec": -7.242141,
+    "fx": 0.5038,
+    "fy": 0.4859
+   }
+  },
+  {
+   "date": "2026-10-30",
+   "mjd": 61343.3,
+   "epoch": 3,
+   "detector": 6,
+   "wavelength_um": null,
+   "image_url": "/data/mock/2026-10-30_d6.png",
+   "diff_url": "/data/mock/2026-10-30_d6_diff.png",
+   "diff_sigma_mjysr": 0.056319233030080795,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 18,
+    "OVERFLOW": 0,
+    "NONLINEAR": 0,
+    "PERSIST": 0,
+    "HOT": 12,
+    "COLD": 0,
+    "MISSING_DATA": 0,
+    "OUTLIER": 0,
+    "NONFUNC": 0
+   },
+   "predicted": {
+    "ra": 133.793117,
+    "dec": -7.238103,
+    "fx": 0.5091,
+    "fy": 0.4661
+   }
+  }
+ ],
+ "deep": [
+  {
+   "detector": 0,
+   "image_url": "/data/mock/deep_all.png",
+   "n_exposures": 72,
+   "wavelength_um": null
+  },
+  {
+   "detector": 1,
+   "image_url": "/data/mock/deep_d1.png",
+   "n_exposures": 12,
+   "wavelength_um": null
+  },
+  {
+   "detector": 2,
+   "image_url": "/data/mock/deep_d2.png",
+   "n_exposures": 12,
+   "wavelength_um": null
+  },
+  {
+   "detector": 3,
+   "image_url": "/data/mock/deep_d3.png",
+   "n_exposures": 12,
+   "wavelength_um": null
+  },
+  {
+   "detector": 4,
+   "image_url": "/data/mock/deep_d4.png",
+   "n_exposures": 12,
+   "wavelength_um": null
+  },
+  {
+   "detector": 5,
+   "image_url": "/data/mock/deep_d5.png",
+   "n_exposures": 12,
+   "wavelength_um": null
+  },
+  {
+   "detector": 6,
+   "image_url": "/data/mock/deep_d6.png",
+   "n_exposures": 12,
+   "wavelength_um": null
+  }
+ ]
+}
