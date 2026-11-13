@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
 import HomePage from './components/HomePage.jsx'
 import SkyForm from './components/SkyForm.jsx'
 import Player from './components/Player.jsx'
@@ -130,35 +131,54 @@ export default function App() {
   return (
     <div className={`app ${url.embed ? 'embed' : ''}`}>
       {!url.embed && (
-        <header className="top">
-          <div className="brand">
-            <span className="logo" aria-hidden>
+        <header className="top-nav">
+          {/* Brand */}
+          <div className="nav-brand">
+            <span className="nav-logo" aria-hidden>
               <span />
             </span>
-            <div>
-              <h1>SPHEREx Sky Time Machine</h1>
-              <p>NASA Space Apps Cairo 2026 · Challenge: Planet X and SPHEREx · Team Null Point</p>
-            </div>
+            <span className="nav-brand-name">SPHEREx</span>
           </div>
-          <div className="header-badges">
-            <nav className="header-nav" aria-label="Main Navigation">
-              <button
-                type="button"
-                className={`nav-btn ${view === 'home' ? 'active' : ''}`}
-                onClick={() => setView('home')}
-              >
-                🏠 Overview
-              </button>
-              <button
-                type="button"
-                className={`nav-btn ${view === 'app' ? 'active' : ''}`}
-                onClick={() => setView('app')}
-              >
-                🌌 Time Machine Workspace
-              </button>
-            </nav>
-            <span className="team-badge">Team Null Point</span>
-          </div>
+
+          {/* Nav links */}
+          <nav className="nav-links" aria-label="Main Navigation">
+            <button
+              type="button"
+              className={`nav-link ${view === 'home' ? 'active' : ''}`}
+              onClick={() => setView('home')}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              Overview
+              {view === 'home' && (
+                <motion.span className="nav-active-dot" layoutId="nav-dot" />
+              )}
+            </button>
+
+            <button
+              type="button"
+              className={`nav-link ${view === 'app' ? 'active' : ''}`}
+              onClick={() => setView('app')}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3m-3.5-6.5-2.1 2.1M7.6 16.4l-2.1 2.1m0-13L7.6 7.6m8.8 8.8 2.1 2.1"/>
+              </svg>
+              Time Machine
+              {view === 'app' && (
+                <motion.span className="nav-active-dot" layoutId="nav-dot" />
+              )}
+            </button>
+          </nav>
+
+          {/* Launch CTA */}
+          <button
+            type="button"
+            className="nav-cta"
+            onClick={() => view === 'home' ? setView('app') : setView('home')}
+          >
+            {view === 'home' ? '🚀 Launch' : '← Back to Overview'}
+          </button>
         </header>
       )}
 
