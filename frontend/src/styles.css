@@ -1081,25 +1081,29 @@ input[type='range'] {
 }
 
 .hp-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-size: clamp(3rem, 7.5vw, 5.5rem);
+  font-family: 'Barlow Condensed', 'Space Grotesk', sans-serif;
+  font-size: clamp(3.5rem, 9vw, 7rem);
   font-weight: 800;
-  line-height: 1.0;
+  font-style: italic;
+  line-height: 0.95;
   color: var(--white);
   margin: 0;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.01em;
   text-transform: uppercase;
 }
 
 .hp-title-x {
-  text-transform: none;  /* keep the 'x' lowercase */
+  text-transform: none;
   letter-spacing: 0;
 }
 
 .hp-title-accent {
+  font-family: 'Barlow Condensed', 'Space Grotesk', sans-serif;
+  font-weight: 800;
+  font-style: italic;
   color: #2f6bff;
   display: block;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.01em;
 }
 
 .hp-subtitle {
