@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { motion, AnimatePresence } from 'motion/react'
+import HomePage from './components/HomePage.jsx'
 import SkyForm from './components/SkyForm.jsx'
 import Player from './components/Player.jsx'
 import MetaPanel from './components/MetaPanel.jsx'
@@ -30,6 +32,7 @@ function initialQuery() {
 
 export default function App() {
   const url = useMemo(readUrl, [])
+  const [view, setView] = useState(() => url.view || (url.target || url.ra ? 'app' : 'home'))
   const [query, setQuery] = useState(initialQuery)
   const [fov, setFov] = useState(() => initialQuery().fov) // field shown; changes live, no refetch
   const keepUrlFov = useRef(url.fov !== undefined) // a shared link may ask for a closer view; honour it once
@@ -97,6 +100,7 @@ export default function App() {
 
   useEffect(() => {
     writeUrl({
+      view: view === 'home' ? 'home' : undefined,
       ...(query.target ? { target: query.target } : { ra: +query.ra.toFixed(5), dec: +query.dec.toFixed(5) }),
       fov: +fov.toFixed(3),
       det: det === defaultDet(query.target) ? undefined : det,
@@ -104,7 +108,19 @@ export default function App() {
       t: idx || undefined,
       embed: url.embed ? 1 : undefined,
     })
-  }, [query, fov, det, mode, idx, url.embed])
+  }, [view, query, fov, det, mode, idx, url.embed])
+
+  const handleLaunchTarget = useCallback((target) => {
+    const t =
+      typeof target === 'string'
+        ? [...TARGETS, MOCK_TARGET].find((x) => x.slug === target) || TARGETS[0]
+        : target
+    setIdx(0)
+    setFov(t.fov)
+    setDet(t.det ?? 0)
+    setQuery({ target: t.slug, ra: t.ra, dec: t.dec, fov: t.fov })
+    setView('app')
+  }, [])
 
   const onPick = useCallback(
     async (pos) => {
@@ -125,112 +141,176 @@ export default function App() {
   return (
     <div className={`app ${url.embed ? 'embed' : ''}`}>
       {!url.embed && (
-        <header className="top">
-          <div className="brand">
-            <span className="logo" aria-hidden>
+        <header className="top-nav">
+          {/* Brand — click → home */}
+          <button type="button" className="nav-brand" onClick={() => setView('home')}>
+            <span className="nav-logo" aria-hidden>
               <span />
             </span>
-            <div>
-              <h1>SPHEREx Sky Time Machine</h1>
-              <p>NASA Space Apps Cairo 2026 · Challenge: Planet X and SPHEREx · Team Null Point</p>
+            <div className="nav-brand-text">
+              <span className="nav-brand-title">SPHEREx</span>
+              <span className="nav-brand-sub">Sky Time Machine</span>
             </div>
-          </div>
-          <div className="header-badges">
-            <span className="team-badge">Team Null Point</span>
-          </div>
+          </button>
+
+          {/* Nav links */}
+          <nav className="nav-links" aria-label="Main Navigation">
+            <button
+              type="button"
+              className={`nav-link ${view === 'home' ? 'active' : ''}`}
+              onClick={() => setView('home')}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              Overview
+              {view === 'home' && (
+                <motion.span className="nav-active-dot" layoutId="nav-dot" />
+              )}
+            </button>
+
+            <button
+              type="button"
+              className={`nav-link ${view === 'app' ? 'active' : ''}`}
+              onClick={() => setView('app')}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3m-3.5-6.5-2.1 2.1M7.6 16.4l-2.1 2.1m0-13L7.6 7.6m8.8 8.8 2.1 2.1"/>
+              </svg>
+              Time Machine
+              {view === 'app' && (
+                <motion.span className="nav-active-dot" layoutId="nav-dot" />
+              )}
+            </button>
+          </nav>
+
+          {/* Launch CTA */}
+          <button
+            type="button"
+            className="nav-cta"
+            onClick={() => view === 'home' ? setView('app') : setView('home')}
+          >
+            {view === 'home' ? '🚀 Launch' : '← Back to Overview'}
+          </button>
         </header>
       )}
 
-      {!url.embed && (
-        <SkyForm query={query} fov={fov} onFov={setFov} maxFov={bakedSpan}
-          onSubmit={(q) => { setIdx(0); setQuery(q); setFov(q.fov); if (q.target) setDet(defaultDet(q.target)) }} />
-      )}
-
-      <main className="stage">
-        <section className="viewer">
-          {manifest?.target === 'mock' && (
-            <div className="banner">
-              Synthetic test data: Offline smoke test scaffolding, not real SPHEREx flight data.
-            </div>
-          )}
-
-          {/* Detector & Mode Controls for SPHEREx */}
-          <div className="toolbar">
-            <div className="seg" role="group" aria-label="Detector Bandpass">
-              {detectorChoices(manifest).map((d) => (
-                <button key={d} className={`${d === det ? 'on' : ''} ${d === LONG ? 'long' : ''}`} onClick={() => setDet(d)}
-                  title={d === LONG ? 'Detectors 5 + 6 together: where cold brown dwarfs glow' : `Detector ${d}: ${wl(d)[0]}–${wl(d)[1]} µm`}>
-                  {d === 0 ? 'All Detectors' : d === LONG ? '4–5 µm' : `D${d}`}
-                  <small>{wl(d)[0].toFixed(2)}–{wl(d)[1].toFixed(2)} µm</small>
-                </button>
-              ))}
-            </div>
-            <div className="seg" role="group" aria-label="Viewing Mode">
-              {[
-                ['frames', 'Visits (Flip-book)'],
-                ['diff', 'Difference (Movers)'],
-                ['deep', 'Sum Stack (Deep)'],
-              ].map(([k, label]) => (
-                <button key={k} className={k === mode ? 'on' : ''} onClick={() => setMode(k)}>
-                  {label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {loading && <div className="empty">Connecting to NASA/IPAC IRSA archive…</div>}
-          {!loading && error && <div className="empty error">{error}</div>}
-
-          {/* SPHEREx Time Machine Player */}
-          {!loading && manifest && (
-            <Player
-              manifest={manifest}
-              frames={frames}
-              deep={deep}
-              mode={mode}
-              setMode={setMode}
-              det={det}
-              idx={idx}
-              setIdx={setIdx}
-              onPick={onPick}
-              clicked={clicked}
-              catalogs={catalogs}
-              viewFov={viewFov}
+      {view === 'home' && !url.embed ? (
+        <HomePage
+          onLaunch={(slug) => {
+            if (slug) handleLaunchTarget(slug)
+            else setView('app')
+          }}
+          onSelectTarget={handleLaunchTarget}
+        />
+      ) : (
+        <>
+          {!url.embed && (
+            <SkyForm
+              query={query}
+              fov={fov}
+              onFov={setFov}
+              maxFov={bakedSpan}
+              onSubmit={(q) => {
+                if (q.fov) setFov(q.fov)
+                setIdx(0)
+                setQuery(q)
+                if (q.target) setDet(defaultDet(q.target))
+              }}
             />
           )}
-        </section>
 
-        {/* Sidebar Metadata & Quick Spectrum Preview */}
-        <aside className="side">
-          <MetaPanel
-            manifest={manifest}
-            frame={mode === 'deep' ? deep : frames[idx]}
-            mode={mode}
-            det={det}
-            wl={wl(det)}
-          />
+          <main className="stage">
+            <section className="viewer">
+              {manifest?.target === 'mock' && (
+                <div className="banner">
+                  Synthetic test data: Offline smoke test scaffolding, not real SPHEREx flight data.
+                </div>
+              )}
 
-          {clicked && (
-            <div
-              className="spectrum-side-card interactive"
-              onClick={() => setShowModal(true)}
-              title="Click to view full 102-band infrared spectrum & light curve"
-            >
-              <SpectrumPlot data={spectrum} pos={clicked} onClick={() => setShowModal(true)} />
-              <button
-                type="button"
-                className="expand-spec-btn"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  setShowModal(true)
-                }}
-              >
-                🔬 Full 102-Band & Light Curve Analysis ↗
-              </button>
-            </div>
-          )}
-        </aside>
-      </main>
+              {/* Detector & Mode Controls for SPHEREx */}
+              <div className="toolbar">
+                <div className="seg" role="group" aria-label="Detector Bandpass">
+                  {detectorChoices(manifest).map((d) => (
+                    <button
+                      key={d}
+                      className={`${d === det ? 'on' : ''} ${d === LONG ? 'long' : ''}`}
+                      onClick={() => setDet(d)}
+                      title={d === LONG ? 'Detectors 5 + 6 together: where cold brown dwarfs glow' : `Detector ${d}: ${wl(d)[0]}–${wl(d)[1]} µm`}
+                    >
+                      {d === 0 ? 'All Detectors' : d === LONG ? '4–5 µm' : `D${d}`}
+                      <small>{wl(d)[0].toFixed(2)}–{wl(d)[1].toFixed(2)} µm</small>
+                    </button>
+                  ))}
+                </div>
+                <div className="seg" role="group" aria-label="Viewing Mode">
+                  {[
+                    ['frames', 'Visits (Flip-book)'],
+                    ['diff', 'Difference (Movers)'],
+                    ['deep', 'Sum Stack (Deep)'],
+                  ].map(([k, label]) => (
+                    <button key={k} className={k === mode ? 'on' : ''} onClick={() => setMode(k)}>
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {loading && <div className="empty">Connecting to NASA/IPAC IRSA archive…</div>}
+              {!loading && error && <div className="empty error">{error}</div>}
+
+              {/* SPHEREx Time Machine Player */}
+              {!loading && manifest && (
+                <Player
+                  manifest={manifest}
+                  frames={frames}
+                  deep={deep}
+                  mode={mode}
+                  setMode={setMode}
+                  det={det}
+                  idx={idx}
+                  setIdx={setIdx}
+                  onPick={onPick}
+                  clicked={clicked}
+                  catalogs={catalogs}
+                  viewFov={viewFov}
+                />
+              )}
+            </section>
+
+            {/* Sidebar Metadata & Quick Spectrum Preview */}
+            <aside className="side">
+              <MetaPanel
+                manifest={manifest}
+                frame={mode === 'deep' ? deep : frames[idx]}
+                mode={mode}
+                det={det}
+                wl={wl(det)}
+              />
+
+              {clicked && (
+                <div
+                  className="spectrum-side-card interactive"
+                  onClick={() => setShowModal(true)}
+                  title="Click to view full 102-band infrared spectrum & light curve"
+                >
+                  <SpectrumPlot data={spectrum} pos={clicked} onClick={() => setShowModal(true)} />
+                  <button
+                    type="button"
+                    className="expand-spec-btn"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setShowModal(true)
+                    }}
+                  >
+                    🔬 Full 102-Band & Light Curve Analysis ↗
+                  </button>
+                </div>
+              )}
+            </aside>
+          </main>
+        </>
+      )}
 
       {/* Full Analysis Modal */}
       {showModal && clicked && (

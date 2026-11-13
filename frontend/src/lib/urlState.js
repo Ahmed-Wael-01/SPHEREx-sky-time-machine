@@ -5,7 +5,9 @@ import { parseRA, parseDec } from './coords.js'
 export function readUrl() {
   const p = new URLSearchParams(window.location.search)
   const num = (k) => (p.has(k) && p.get(k) !== '' ? Number(p.get(k)) : undefined)
+  const hasTargetOrCoords = p.has('target') || p.has('ra')
   return {
+    view: p.get('view') || (hasTargetOrCoords ? 'app' : 'home'),
     target: p.get('target') || undefined,
     ra: p.get('ra') ? (Number.isNaN(parseRA(p.get('ra'))) ? undefined : parseRA(p.get('ra'))) : undefined,
     dec: p.get('dec') ? (Number.isNaN(parseDec(p.get('dec'))) ? undefined : parseDec(p.get('dec'))) : undefined,
