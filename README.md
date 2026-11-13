@@ -39,6 +39,10 @@ cd frontend && npm install && npm run dev   # http://localhost:5173
 
 **Everything the public sees is real SPHEREx data.** For developers only, `python science/make_synthetic.py` writes fake SPHEREx-shaped cutouts so code can be smoke-tested offline; they play at `/?target=mock` (not linked anywhere in the app, labelled as synthetic). They are never used for accuracy numbers: detection and variability are trained and tested on real stars and real asteroids with catalogue labels.
 
+**Viewer options:** colour maps (heat, viridis, inferno, Null Point blue; blue–red for difference mode), contrast, and a **3-colour infrared** view on "All" (blue 0.75–1.6, green 1.6–3.8, red 3.8–5 µm; cold brown dwarfs show red). Overlays: target ring, its path over time, RA/Dec grid, scale bar, and **Gaia DR3** (moved to each frame's date with proper motion) and **AllWISE** sources. Hover shows RA/Dec. Hatched areas = no data.
+
+Catalogues come from `python science/fetch_catalogs.py --target <slug>` (run automatically after each online bake; writes `catalogs.json` next to the manifest).
+
 Shareable views: `/?target=wise0855`, `/?ra=133.795&dec=-7.245&fov=0.2&det=6&mode=diff`, `/?ra=08h55m10.8s&dec=-07:14:42.5`. Add `&embed=1` for a bare player to embed elsewhere.
 
 ## Deploy

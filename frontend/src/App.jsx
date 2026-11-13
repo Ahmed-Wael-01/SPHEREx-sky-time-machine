@@ -30,6 +30,7 @@ export default function App() {
   const [idx, setIdx] = useState(url.t ?? 0)
   const [spectrum, setSpectrum] = useState(null)
   const [clicked, setClicked] = useState(null)
+  const [catalogs, setCatalogs] = useState(null)
 
   useEffect(() => {
     let cancelled = false
@@ -41,6 +42,11 @@ export default function App() {
       .then((m) => {
         if (cancelled) return
         setManifest(m)
+        setCatalogs(null)
+        fetch(`/data/${m.target}/catalogs.json`)
+          .then((r) => (r.ok && (r.headers.get('content-type') || '').includes('json') ? r.json() : null))
+          .then((c) => !cancelled && setCatalogs(c))
+          .catch(() => {})
         const dets = [0, ...(m.detectors || [])]
         setDet((d) => (dets.includes(d) ? d : 0))
       })
@@ -127,8 +133,8 @@ export default function App() {
           {loading && <div className="empty">Loading frames…</div>}
           {!loading && error && <div className="empty error">{error}</div>}
           {!loading && manifest && (
-            <Player manifest={manifest} frames={frames} deep={deep} mode={mode} idx={idx} setIdx={setIdx}
-              onPick={onPick} clicked={clicked} />
+            <Player manifest={manifest} frames={frames} deep={deep} mode={mode} det={det} idx={idx} setIdx={setIdx}
+              onPick={onPick} clicked={clicked} catalogs={catalogs} />
           )}
         </section>
 
