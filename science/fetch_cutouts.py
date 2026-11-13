@@ -380,6 +380,23 @@ def saturated_cores(nan, t, bright=0.6):
     return out
 
 
+def small_holes(nan, max_px=4):
+    """Connected blank areas of at most max_px pixels that are fully surrounded by data."""
+    from scipy import ndimage
+    out = np.zeros_like(nan)
+    lab, n = ndimage.label(nan)
+    if n == 0:
+        return out
+    sizes = ndimage.sum(nan, lab, range(1, n + 1))
+    for k, sz in enumerate(sizes, 1):
+        if sz <= max_px:
+            blob = lab == k
+            ring = ndimage.binary_dilation(blob, iterations=1) & ~blob
+            if not nan[ring].any():
+                out |= blob
+    return out
+
+
 def to_png(a, path, lo, hi, mode="asinh"):
     from PIL import Image
     a = np.array(a, dtype=np.float64)
@@ -398,6 +415,18 @@ def to_png(a, path, lo, hi, mode="asinh"):
         sat = saturated_cores(nan, t)
         t[sat] = 1.0
         nan = nan & ~sat
+    # Tiny isolated holes (<= 4 px, e.g. one damaged pixel that no other photo covered) are filled with
+    # the median of their surroundings, for the picture only; stacks.fits keeps them blank.
+    small = small_holes(nan, max_px=4)
+    if small.any():
+        from scipy import ndimage
+        lab, n = ndimage.label(small)
+        for k in range(1, n + 1):
+            blob = lab == k
+            rim = ndimage.binary_dilation(blob, iterations=1) & ~nan
+            if rim.any():
+                t[blob] = np.median(t[rim])
+        nan = nan & ~small
     g = (t * 255).round().astype(np.uint8)
     alpha = np.where(nan, 0, 255).astype(np.uint8)  # transparent = no data (so it can't read as "fainter")
     # flip vertically: FITS row 0 is the bottom (south), PNG row 0 is the top -> north up, east left
@@ -507,23 +536,31 @@ def bake(job, args):
                 continue
             members = groups[(ep, d)]
             img, var = stacks[(ep, d)]
+            # a single-detector frame whose photos only covered part of the field would show a big hole;
+            # keep it in stacks.fits for the science scripts but leave it out of the website
+            # (the "All" view still shows that pass)
+            show = d == 0 or np.isfinite(img).mean() >= getattr(args, "min_coverage", 0.85)
             others = [e for e in exps if e["epoch"] != ep and (d == 0 or e["detector"] == d)]
             mid = float(np.median([m["mjd"] for m in members]))
             date = mjd_to_date(mid)
             base = f"{date}_{tag}"
-            to_png(img, web_dir / f"{base}.png", lo, hi)
+            if show:
+                to_png(img, web_dir / f"{base}.png", lo, hi)
             diff_url, diff_sigma = None, None
             if others:
                 ref, ref_var = weighted_stack([o["sci"] for o in others], [o["var"] for o in others])
                 diff = img - ref
                 sig = robust_sigma(diff)
-                to_png(diff, web_dir / f"{base}_diff.png", -5 * sig, 5 * sig, mode="diff")
+                if show:
+                    to_png(diff, web_dir / f"{base}_diff.png", -5 * sig, 5 * sig, mode="diff")
                 diff_url, diff_sigma = f"/data/{slug}/{base}_diff.png", sig
                 hdus.append(fits.ImageHDU(diff.astype(np.float32), header=grid.to_header(),
                                           name=f"DIFF_E{ep}_{tag.upper()}"))
             hdus.append(fits.ImageHDU(img, header=grid.to_header(), name=f"IMG_E{ep}_{tag.upper()}"))
             hdus.append(fits.ImageHDU(var, header=grid.to_header(), name=f"VAR_E{ep}_{tag.upper()}"))
 
+            if not show:
+                continue
             pra, pdec = propagate(ra2000, dec2000, pmra, pmdec, mjd_to_year(mid))
             px, py = grid.world_to_pixel_values(pra, pdec)
             flags = {}
@@ -589,6 +626,8 @@ def main():
                    help="download at most N photos, spread evenly over all dates (0 = all)")
     p.add_argument("--offline", action="store_true", help="reuse science/cache/<slug>; no network")
     p.add_argument("--no-catalogs", action="store_true", help="skip the Gaia/AllWISE overlay download")
+    p.add_argument("--min-coverage", type=float, default=0.85,
+                   help="leave single-detector frames with less than this fraction of the field covered out of the video")
     args = p.parse_args()
 
     targets = load_targets()
