@@ -99,8 +99,26 @@ export default function App() {
   }, [frames, idx])
 
   useEffect(() => {
+    const handlePopState = () => {
+      const u = readUrl()
+      setView(u.view)
+      if (u.target) {
+        const t = [...TARGETS, MOCK_TARGET].find((x) => x.slug === u.target)
+        if (t) {
+          setFov(u.fov ?? t.fov)
+          setQuery({ target: t.slug, ra: t.ra, dec: t.dec, fov: u.fov ?? t.fov })
+        }
+      } else if (u.ra !== undefined && u.dec !== undefined) {
+        setQuery({ ra: u.ra, dec: u.dec, fov: u.fov ?? 0.2 })
+      }
+    }
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
+  useEffect(() => {
     writeUrl({
-      view: view === 'home' ? 'home' : undefined,
+      view,
       ...(query.target ? { target: query.target } : { ra: +query.ra.toFixed(5), dec: +query.dec.toFixed(5) }),
       fov: +fov.toFixed(3),
       det: det === defaultDet(query.target) ? undefined : det,
