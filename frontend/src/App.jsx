@@ -8,6 +8,7 @@ import SpectrumPlot from './components/SpectrumPlot.jsx'
 import ObjectDetailModal from './components/ObjectDetailModal.jsx'
 import { getFrames, getSpectrum, getSimbad, NotFound } from './lib/api.js'
 import { readUrl, writeUrl } from './lib/urlState.js'
+import { dataUrl } from './lib/paths.js'
 import { TARGETS, MOCK_TARGET, DEFAULT_TARGET } from './lib/targets.js'
 import { detectorChoices, framesFor, deepFor, wavelengthFor, LONG } from './lib/frames.js'
 
@@ -69,7 +70,7 @@ export default function App() {
         keepUrlFov.current = false
         setFov((f) => (keep ? Math.min(f, span) : span))
         setCatalogs(null)
-        fetch(`/data/${m.target}/catalogs.json`)
+        fetch(dataUrl(`/data/${m.target}/catalogs.json`))
           .then((r) => (r.ok && (r.headers.get('content-type') || '').includes('json') ? r.json() : null))
           .then((c) => !cancelled && setCatalogs(c))
           .catch(() => {})

@@ -2,9 +2,10 @@
 // Home page: /
 // Sky Time Machine viewer page: /viewer/target=<slug> (or /viewer?target=<slug>)
 import { parseRA, parseDec } from './coords.js'
+import { sitePath, fullPath } from './paths.js'
 
 export function readUrl() {
-  const pathname = window.location.pathname.replace(/\/+$/, '') // strip trailing slashes
+  const pathname = sitePath(window.location.pathname).replace(/\/+$/, '') // strip base + trailing slashes
   const p = new URLSearchParams(window.location.search)
   const num = (k) => (p.has(k) && p.get(k) !== '' ? Number(p.get(k)) : undefined)
 
@@ -21,14 +22,8 @@ export function readUrl() {
   // Determine view:
   // If on /viewer* or explicitly ?view=app: view is 'app'.
   // Otherwise if path is '/' (root), view is strictly 'home' (clean landing page).
-  let view = 'home'
-  if (isViewerPath || p.get('view') === 'app') {
-    view = 'app'
-  } else if (pathname === '' || pathname === '/') {
-    view = 'home'
-  } else if (target || p.has('ra')) {
-    view = 'app'
-  }
+  // A plain "/" is the home page; older shared links like "/?target=wise0855" still open the viewer.
+  const view = isViewerPath || p.get('view') === 'app' || target || p.has('ra') ? 'app' : 'home'
 
   return {
     view,
@@ -43,13 +38,19 @@ export function readUrl() {
   }
 }
 
+// Switching between the home page and the viewer adds a browser-history step (so Back works);
+// changes inside the viewer (date, detector, zoom) just update the address in place.
+function go(url, view) {
+  const full = fullPath(url)
+  if (window.location.pathname + window.location.search === full) return
+  if (readUrl().view !== view) window.history.pushState(null, '', full)
+  else window.history.replaceState(null, '', full)
+}
+
 export function writeUrl(state) {
   // When on Home page, the URL must be strictly "/" with NO query params
   if (state.view === 'home') {
-    const targetUrl = state.embed ? '/?embed=1' : '/'
-    if (window.location.pathname + window.location.search !== targetUrl) {
-      window.history.replaceState(null, '', targetUrl)
-    }
+    go(state.embed ? '/?embed=1' : '/', 'home')
     return
   }
 
@@ -70,9 +71,5 @@ export function writeUrl(state) {
   }
 
   const queryString = p.toString()
-  const targetUrl = queryString ? `${basePath}?${queryString}` : basePath
-
-  if (window.location.pathname + window.location.search !== targetUrl) {
-    window.history.replaceState(null, '', targetUrl)
-  }
+  go(queryString ? `${basePath}?${queryString}` : basePath, 'app')
 }

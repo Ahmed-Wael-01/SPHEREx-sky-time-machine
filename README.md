@@ -47,11 +47,15 @@ Shareable views: `/?target=wise0855`, `/?ra=133.795&dec=-7.245&fov=0.2&det=6&mod
 
 ## Deploy
 
-**Website (Vercel, free):** vercel.com → Add New → Project → import this repo → Root Directory `frontend` (framework: Vite) → Deploy. It works on its own: with no API it reads the baked files in `public/data`.
+**Website (GitHub Pages, free):** repo Settings → Pages → Source: **GitHub Actions**. Every push to `main` then builds and publishes `https://<user>.github.io/SPHEREx-sky-time-machine/` (`.github/workflows/pages.yml`). It is static only: frames, overlays and the close-up work from the files in `public/data`; the spectrum and SIMBAD panels need the API and say so when it is missing.
+
+**Website (Vercel, free, alternative):** vercel.com → Add New → Project → import this repo → Root Directory `frontend` (framework: Vite) → Deploy. It works on its own: with no API it reads the baked files in `public/data`.
 
 **API (Render, free):** render.com → New → Blueprint → this repo (uses `render.yaml`). When it's live, add `VITE_API_BASE=https://<your-service>.onrender.com` in Vercel → Settings → Environment Variables and redeploy. Free Render services sleep after inactivity; the site keeps working from static files while it wakes.
 
-New frames: run the pipeline, commit `frontend/public/data/`, push. Both services redeploy automatically.
+New frames: run the pipeline, commit `frontend/public/data/`, push. The site redeploys automatically.
+
+Pictures vs. science data: in the website pictures, overloaded star cores are drawn white and small isolated holes (≤ 40 px, pixels flagged in the only photo of that spot) are painted with their surroundings. `stacks.fits` keeps all of these blank, and every measurement uses `stacks.fits`.
 
 ## How the pipeline works (`science/fetch_cutouts.py`)
 

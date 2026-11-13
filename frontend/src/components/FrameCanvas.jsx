@@ -1,6 +1,7 @@
 // Draws a frame with a colour map, or a 3-colour composite of three grey frames, on a canvas.
 import { useEffect, useRef } from 'react'
 import { gammaTable } from '../lib/colormaps.js'
+import { dataUrl } from '../lib/paths.js'
 
 const greyCache = new Map() // url -> Promise<{w, h, data: Uint8ClampedArray (grey)}>
 
@@ -27,7 +28,7 @@ export function loadGrey(url) {
           resolve({ w: c.width, h: c.height, data: g, alpha: a })
         }
         img.onerror = () => resolve(null)
-        img.src = url
+        img.src = dataUrl(url)
       }),
     )
   }
