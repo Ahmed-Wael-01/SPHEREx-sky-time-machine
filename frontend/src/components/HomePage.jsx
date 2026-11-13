@@ -148,17 +148,13 @@ export default function HomePage({ onLaunch, onSelectTarget }) {
         >
           <button
             type="button"
-            className="hp-btn primary"
+            className="hp-btn ghost"
             onClick={() => onLaunch()}
           >
-            🚀 Launch Time Machine
-          </button>
-          <button
-            type="button"
-            className="hp-btn outline"
-            onClick={() => onSelectTarget ? onSelectTarget(TARGETS[0]) : onLaunch('wise0855')}
-          >
-            🪐 Explore WISE 0855
+            Launch Time Machine
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
           </button>
         </motion.div>
       </section>
