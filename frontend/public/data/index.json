@@ -9,6 +9,15 @@
   "manifest": "/data/barnards-star/manifest.json"
  },
  {
+  "target": "eps-indi-b",
+  "name": "Epsilon Indi B",
+  "ra": 331.096298,
+  "dec": -56.800616,
+  "fov": 0.5,
+  "source": "prebaked",
+  "manifest": "/data/eps-indi-b/manifest.json"
+ },
+ {
   "target": "mock",
   "name": "Synthetic test field (not real data)",
   "ra": 133.794972,
