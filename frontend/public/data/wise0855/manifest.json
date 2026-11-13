@@ -15,7 +15,7 @@
  "pixel_scale_arcsec": 6.15,
  "orientation": "north up, east left",
  "n_exposures": 258,
- "n_epochs": 4,
+ "n_epochs": 3,
  "detectors": [
   1,
   2,
@@ -74,7 +74,7 @@
   "CROSSTALK"
  ],
  "source": "prebaked",
- "generated": "2026-11-13T16:19:06Z",
+ "generated": "2026-11-13T16:23:14Z",
  "visits": [
   {
    "date": "2025-05-06",
@@ -114,7 +114,7 @@
   },
   {
    "date": "2025-11-07",
-   "mjd": 60986.78728,
+   "mjd": 60986.92199,
    "epoch": 1,
    "detector": 0,
    "wavelength_um": [
@@ -123,71 +123,35 @@
    ],
    "image_url": "/data/wise0855/2025-11-07_all.png",
    "diff_url": "/data/wise0855/2025-11-07_all_diff.png",
-   "diff_sigma_mjysr": 0.004644722677767277,
-   "n_exposures": 110,
+   "diff_sigma_mjysr": 0.004479915369302034,
+   "n_exposures": 128,
    "flags": {
-    "TRANSIENT": 97842,
-    "OVERFLOW": 6547,
+    "TRANSIENT": 114985,
+    "OVERFLOW": 7553,
     "NONLINEAR": 0,
-    "PERSIST": 88259,
+    "PERSIST": 113007,
     "HOT": 6,
-    "COLD": 8719,
+    "COLD": 10363,
     "MISSING_DATA": 0,
-    "OUTLIER": 283941,
-    "NONFUNC": 67651,
-    "STREAK": 7802,
+    "OUTLIER": 333412,
+    "NONFUNC": 78154,
+    "STREAK": 11921,
     "GHOST": 0,
-    "SNOWBALL": 390,
+    "SNOWBALL": 529,
     "CROSSTALK": 5460,
-    "BLOOM": 3935
+    "BLOOM": 4598
    },
    "predicted": {
-    "ra": 133.760208,
+    "ra": 133.760207,
     "dec": -7.242276,
     "fx": 0.4993,
     "fy": 0.5001
    }
   },
   {
-   "date": "2025-12-12",
-   "mjd": 61021.82352,
-   "epoch": 2,
-   "detector": 0,
-   "wavelength_um": [
-    1.287,
-    4.736
-   ],
-   "image_url": "/data/wise0855/2025-12-12_all.png",
-   "diff_url": "/data/wise0855/2025-12-12_all_diff.png",
-   "diff_sigma_mjysr": 0.004769341088831425,
-   "n_exposures": 18,
-   "flags": {
-    "TRANSIENT": 17143,
-    "OVERFLOW": 1006,
-    "NONLINEAR": 0,
-    "PERSIST": 24748,
-    "HOT": 0,
-    "COLD": 1644,
-    "MISSING_DATA": 0,
-    "OUTLIER": 49471,
-    "NONFUNC": 10503,
-    "STREAK": 4119,
-    "GHOST": 0,
-    "CROSSTALK": 0,
-    "BLOOM": 663,
-    "SNOWBALL": 139
-   },
-   "predicted": {
-    "ra": 133.75999,
-    "dec": -7.242258,
-    "fx": 0.4998,
-    "fy": 0.5
-   }
-  },
-  {
    "date": "2026-05-02",
    "mjd": 61162.40228,
-   "epoch": 3,
+   "epoch": 2,
    "detector": 0,
    "wavelength_um": [
     0.744,
@@ -295,7 +259,7 @@
   {
    "date": "2026-05-03",
    "mjd": 61163.28706,
-   "epoch": 3,
+   "epoch": 2,
    "detector": 1,
    "wavelength_um": [
     0.744,
@@ -366,7 +330,7 @@
   },
   {
    "date": "2025-11-07",
-   "mjd": 60986.78728,
+   "mjd": 60986.85667,
    "epoch": 1,
    "detector": 2,
    "wavelength_um": [
@@ -375,71 +339,35 @@
    ],
    "image_url": "/data/wise0855/2025-11-07_d2.png",
    "diff_url": "/data/wise0855/2025-11-07_d2_diff.png",
-   "diff_sigma_mjysr": 0.008046984672546387,
-   "n_exposures": 19,
+   "diff_sigma_mjysr": 0.007251208182424307,
+   "n_exposures": 25,
    "flags": {
-    "TRANSIENT": 12739,
-    "OVERFLOW": 658,
+    "TRANSIENT": 17527,
+    "OVERFLOW": 860,
     "NONLINEAR": 0,
-    "PERSIST": 32056,
+    "PERSIST": 44833,
     "HOT": 0,
-    "COLD": 812,
+    "COLD": 1130,
     "MISSING_DATA": 0,
-    "OUTLIER": 53694,
-    "NONFUNC": 6365,
-    "STREAK": 2284,
+    "OUTLIER": 72534,
+    "NONFUNC": 8443,
+    "STREAK": 3419,
     "GHOST": 0,
-    "SNOWBALL": 17,
+    "SNOWBALL": 28,
     "CROSSTALK": 6,
-    "BLOOM": 1263
+    "BLOOM": 1723
    },
    "predicted": {
-    "ra": 133.760208,
+    "ra": 133.760207,
     "dec": -7.242276,
     "fx": 0.4993,
     "fy": 0.5001
    }
   },
   {
-   "date": "2025-12-12",
-   "mjd": 61021.85786,
-   "epoch": 2,
-   "detector": 2,
-   "wavelength_um": [
-    1.287,
-    1.447
-   ],
-   "image_url": "/data/wise0855/2025-12-12_d2.png",
-   "diff_url": "/data/wise0855/2025-12-12_d2_diff.png",
-   "diff_sigma_mjysr": 0.006988526321947575,
-   "n_exposures": 6,
-   "flags": {
-    "TRANSIENT": 4788,
-    "OVERFLOW": 202,
-    "NONLINEAR": 0,
-    "PERSIST": 12777,
-    "HOT": 0,
-    "COLD": 318,
-    "MISSING_DATA": 0,
-    "OUTLIER": 18840,
-    "NONFUNC": 2078,
-    "STREAK": 1135,
-    "GHOST": 0,
-    "CROSSTALK": 0,
-    "BLOOM": 460,
-    "SNOWBALL": 11
-   },
-   "predicted": {
-    "ra": 133.759989,
-    "dec": -7.242258,
-    "fx": 0.4998,
-    "fy": 0.5
-   }
-  },
-  {
    "date": "2026-05-02",
    "mjd": 61162.67515,
-   "epoch": 3,
+   "epoch": 2,
    "detector": 2,
    "wavelength_um": [
     1.111,
@@ -509,81 +437,45 @@
    }
   },
   {
-   "date": "2025-11-12",
-   "mjd": 60991.7418,
+   "date": "2025-11-14",
+   "mjd": 60993.5066,
    "epoch": 1,
    "detector": 3,
    "wavelength_um": [
     1.631,
     2.385
    ],
-   "image_url": "/data/wise0855/2025-11-12_d3.png",
-   "diff_url": "/data/wise0855/2025-11-12_d3_diff.png",
-   "diff_sigma_mjysr": 0.0044082715176045895,
-   "n_exposures": 18,
+   "image_url": "/data/wise0855/2025-11-14_d3.png",
+   "diff_url": "/data/wise0855/2025-11-14_d3_diff.png",
+   "diff_sigma_mjysr": 0.004385011270642281,
+   "n_exposures": 21,
    "flags": {
-    "TRANSIENT": 16992,
-    "OVERFLOW": 648,
+    "TRANSIENT": 19869,
+    "OVERFLOW": 766,
     "NONLINEAR": 0,
-    "PERSIST": 26579,
+    "PERSIST": 30504,
     "HOT": 0,
-    "COLD": 1334,
+    "COLD": 1618,
     "MISSING_DATA": 0,
-    "OUTLIER": 61157,
-    "NONFUNC": 9599,
-    "STREAK": 2973,
+    "OUTLIER": 72516,
+    "NONFUNC": 11437,
+    "STREAK": 4394,
     "GHOST": 0,
-    "SNOWBALL": 32,
+    "SNOWBALL": 40,
     "CROSSTALK": 0,
-    "BLOOM": 1043
+    "BLOOM": 1242
    },
    "predicted": {
-    "ra": 133.760177,
-    "dec": -7.242274,
+    "ra": 133.760166,
+    "dec": -7.242273,
     "fx": 0.4994,
-    "fy": 0.5001
-   }
-  },
-  {
-   "date": "2025-12-12",
-   "mjd": 61021.35142,
-   "epoch": 2,
-   "detector": 3,
-   "wavelength_um": [
-    1.899,
-    2.034
-   ],
-   "image_url": "/data/wise0855/2025-12-12_d3.png",
-   "diff_url": "/data/wise0855/2025-12-12_d3_diff.png",
-   "diff_sigma_mjysr": 0.007285818457603455,
-   "n_exposures": 3,
-   "flags": {
-    "TRANSIENT": 2877,
-    "OVERFLOW": 118,
-    "NONLINEAR": 0,
-    "PERSIST": 3925,
-    "HOT": 0,
-    "COLD": 284,
-    "MISSING_DATA": 0,
-    "OUTLIER": 11359,
-    "NONFUNC": 1838,
-    "STREAK": 1421,
-    "GHOST": 0,
-    "SNOWBALL": 8,
-    "CROSSTALK": 0,
-    "BLOOM": 199
-   },
-   "predicted": {
-    "ra": 133.759993,
-    "dec": -7.242259,
-    "fx": 0.4998,
     "fy": 0.5
    }
   },
   {
    "date": "2026-04-26",
    "mjd": 61156.08551,
-   "epoch": 3,
+   "epoch": 2,
    "detector": 3,
    "wavelength_um": [
     1.639,
@@ -691,7 +583,7 @@
   {
    "date": "2026-05-03",
    "mjd": 61163.28706,
-   "epoch": 3,
+   "epoch": 2,
    "detector": 4,
    "wavelength_um": [
     2.427,
@@ -762,7 +654,7 @@
   },
   {
    "date": "2025-11-07",
-   "mjd": 60986.78728,
+   "mjd": 60986.85667,
    "epoch": 1,
    "detector": 5,
    "wavelength_um": [
@@ -771,71 +663,35 @@
    ],
    "image_url": "/data/wise0855/2025-11-07_d5.png",
    "diff_url": "/data/wise0855/2025-11-07_d5_diff.png",
-   "diff_sigma_mjysr": 0.007779313251376152,
-   "n_exposures": 19,
+   "diff_sigma_mjysr": 0.007640356197953224,
+   "n_exposures": 25,
    "flags": {
-    "TRANSIENT": 18375,
-    "OVERFLOW": 1333,
+    "TRANSIENT": 24979,
+    "OVERFLOW": 1711,
     "NONLINEAR": 0,
-    "PERSIST": 9633,
+    "PERSIST": 17165,
     "HOT": 3,
-    "COLD": 2093,
+    "COLD": 2816,
     "MISSING_DATA": 0,
-    "OUTLIER": 38596,
-    "NONFUNC": 14675,
-    "STREAK": 2131,
+    "OUTLIER": 50837,
+    "NONFUNC": 18522,
+    "STREAK": 3295,
     "GHOST": 0,
-    "SNOWBALL": 93,
+    "SNOWBALL": 197,
     "CROSSTALK": 0,
-    "BLOOM": 32
+    "BLOOM": 36
    },
    "predicted": {
-    "ra": 133.760208,
+    "ra": 133.760207,
     "dec": -7.242276,
     "fx": 0.4993,
     "fy": 0.5001
    }
   },
   {
-   "date": "2025-12-12",
-   "mjd": 61021.85786,
-   "epoch": 2,
-   "detector": 5,
-   "wavelength_um": [
-    4.047,
-    4.225
-   ],
-   "image_url": "/data/wise0855/2025-12-12_d5.png",
-   "diff_url": "/data/wise0855/2025-12-12_d5_diff.png",
-   "diff_sigma_mjysr": 0.010232714004814625,
-   "n_exposures": 6,
-   "flags": {
-    "TRANSIENT": 6604,
-    "OVERFLOW": 378,
-    "NONLINEAR": 0,
-    "PERSIST": 7532,
-    "HOT": 0,
-    "COLD": 723,
-    "MISSING_DATA": 0,
-    "OUTLIER": 12241,
-    "NONFUNC": 3847,
-    "STREAK": 1164,
-    "GHOST": 0,
-    "SNOWBALL": 104,
-    "CROSSTALK": 0,
-    "BLOOM": 4
-   },
-   "predicted": {
-    "ra": 133.759989,
-    "dec": -7.242258,
-    "fx": 0.4998,
-    "fy": 0.5
-   }
-  },
-  {
    "date": "2026-05-02",
    "mjd": 61162.67515,
-   "epoch": 3,
+   "epoch": 2,
    "detector": 5,
    "wavelength_um": [
     3.835,
@@ -905,81 +761,45 @@
    }
   },
   {
-   "date": "2025-11-12",
-   "mjd": 60991.7418,
+   "date": "2025-11-14",
+   "mjd": 60993.5066,
    "epoch": 1,
    "detector": 6,
    "wavelength_um": [
     4.418,
     4.982
    ],
-   "image_url": "/data/wise0855/2025-11-12_d6.png",
-   "diff_url": "/data/wise0855/2025-11-12_d6_diff.png",
-   "diff_sigma_mjysr": 0.01296344492584467,
-   "n_exposures": 18,
+   "image_url": "/data/wise0855/2025-11-14_d6.png",
+   "diff_url": "/data/wise0855/2025-11-14_d6_diff.png",
+   "diff_sigma_mjysr": 0.012524779886007309,
+   "n_exposures": 21,
    "flags": {
-    "TRANSIENT": 18827,
-    "OVERFLOW": 1605,
+    "TRANSIENT": 21701,
+    "OVERFLOW": 1913,
     "NONLINEAR": 0,
-    "PERSIST": 8475,
+    "PERSIST": 8989,
     "HOT": 2,
-    "COLD": 1943,
+    "COLD": 2262,
     "MISSING_DATA": 0,
-    "OUTLIER": 42922,
-    "NONFUNC": 14912,
-    "STREAK": 414,
+    "OUTLIER": 49953,
+    "NONFUNC": 17652,
+    "STREAK": 813,
     "GHOST": 0,
-    "SNOWBALL": 191,
+    "SNOWBALL": 207,
     "CROSSTALK": 0,
     "BLOOM": 0
    },
    "predicted": {
-    "ra": 133.760177,
-    "dec": -7.242274,
+    "ra": 133.760166,
+    "dec": -7.242273,
     "fx": 0.4994,
-    "fy": 0.5001
-   }
-  },
-  {
-   "date": "2025-12-12",
-   "mjd": 61021.35142,
-   "epoch": 2,
-   "detector": 6,
-   "wavelength_um": [
-    4.634,
-    4.736
-   ],
-   "image_url": "/data/wise0855/2025-12-12_d6.png",
-   "diff_url": "/data/wise0855/2025-12-12_d6_diff.png",
-   "diff_sigma_mjysr": 0.0215932447463274,
-   "n_exposures": 3,
-   "flags": {
-    "TRANSIENT": 2874,
-    "OVERFLOW": 308,
-    "NONLINEAR": 0,
-    "PERSIST": 514,
-    "HOT": 0,
-    "COLD": 319,
-    "MISSING_DATA": 0,
-    "OUTLIER": 7031,
-    "NONFUNC": 2740,
-    "STREAK": 399,
-    "GHOST": 0,
-    "SNOWBALL": 16,
-    "CROSSTALK": 0,
-    "BLOOM": 0
-   },
-   "predicted": {
-    "ra": 133.759993,
-    "dec": -7.242259,
-    "fx": 0.4998,
     "fy": 0.5
    }
   },
   {
    "date": "2026-04-26",
    "mjd": 61156.08551,
-   "epoch": 3,
+   "epoch": 2,
    "detector": 6,
    "wavelength_um": [
     4.424,
