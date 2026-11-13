@@ -5,10 +5,13 @@ const W = 300
 const H = 170
 const P = { l: 36, r: 8, t: 10, b: 26 }
 
-export default function SpectrumPlot({ data, pos }) {
+export default function SpectrumPlot({ data, pos, onClick }) {
   return (
-    <div className="panel">
-      <h3>Spectrum</h3>
+    <div className={`panel spectrum-panel ${onClick ? 'clickable' : ''}`} onClick={onClick}>
+      <div className="panel-title-row">
+        <h3>Spectrum</h3>
+        <span className="expand-indicator" title="Click to view full 102-band spectrum and light curve">Details ↗</span>
+      </div>
       <p className="muted small">{fmtRA(pos.ra)} {fmtDec(pos.dec)}</p>
       {!data && <p className="muted">Loading or unavailable…</p>}
       {data && <Plot pts={data.points} />}

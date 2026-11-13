@@ -4,7 +4,6 @@ import Player from './components/Player.jsx'
 import MetaPanel from './components/MetaPanel.jsx'
 import SpectrumPlot from './components/SpectrumPlot.jsx'
 import ObjectDetailModal from './components/ObjectDetailModal.jsx'
-import AladinViewer from './components/AladinViewer.jsx'
 import { getFrames, getSpectrum, getSimbad, NotFound } from './lib/api.js'
 import { readUrl, writeUrl } from './lib/urlState.js'
 import { TARGETS, MOCK_TARGET, DEFAULT_TARGET } from './lib/targets.js'
@@ -36,7 +35,6 @@ export default function App() {
   const [loading, setLoading] = useState(false)
   const [det, setDet] = useState(url.det ?? 0)
   const [mode, setMode] = useState(url.mode ?? 'frames') // frames | diff | deep
-  const [viewTab, setViewTab] = useState('player') // 'player' | 'aladin' | 'split'
   const [idx, setIdx] = useState(url.t ?? 0)
   const [spectrum, setSpectrum] = useState(null)
   const [clicked, setClicked] = useState(null)
@@ -96,7 +94,6 @@ export default function App() {
     async (pos) => {
       setClicked(pos)
       setSimbadData(null)
-      setShowModal(true)
       getSpectrum({ ra: pos.ra, dec: pos.dec, target: query.target }).then(setSpectrum)
       getSimbad({ ra: pos.ra, dec: pos.dec }).then(setSimbadData)
     },
@@ -114,7 +111,7 @@ export default function App() {
               <span />
             </span>
             <div>
-              <h1>SPHEREx Sky Time Machine youssef</h1>
+              <h1>SPHEREx Sky Time Machine</h1>
               <p>NASA Space Apps Cairo 2026 · Challenge: Planet X and SPHEREx · Team Null Point</p>
             </div>
           </div>
@@ -134,37 +131,7 @@ export default function App() {
         />
       )}
 
-      {/* Main View Switching Navigation */}
-      <div className="view-switcher">
-        <div className="view-tabs" role="tablist">
-          <button
-            role="tab"
-            aria-selected={viewTab === 'player'}
-            className={viewTab === 'player' ? 'vtab active' : 'vtab'}
-            onClick={() => setViewTab('player')}
-          >
-            🎬 SPHEREx Time Machine
-          </button>
-          <button
-            role="tab"
-            aria-selected={viewTab === 'aladin'}
-            className={viewTab === 'aladin' ? 'vtab active' : 'vtab'}
-            onClick={() => setViewTab('aladin')}
-          >
-            🌌 Aladin Lite Reference (Gaia DR3 & WISE)
-          </button>
-          <button
-            role="tab"
-            aria-selected={viewTab === 'split'}
-            className={viewTab === 'split' ? 'vtab active' : 'vtab'}
-            onClick={() => setViewTab('split')}
-          >
-            ◫ Dual Comparison (Split View)
-          </button>
-        </div>
-      </div>
-
-      <main className={`stage ${viewTab === 'split' ? 'split-layout' : ''}`}>
+      <main className="stage">
         <section className="viewer">
           {manifest?.target === 'mock' && (
             <div className="banner">
@@ -173,40 +140,38 @@ export default function App() {
           )}
 
           {/* Detector & Mode Controls for SPHEREx */}
-          {(viewTab === 'player' || viewTab === 'split') && (
-            <div className="toolbar">
-              <div className="seg" role="group" aria-label="Detector Bandpass">
-                {[0, ...(manifest?.detectors || [1, 2, 3, 4, 5, 6])].map((d) => (
-                  <button
-                    key={d}
-                    className={d === det ? 'on' : ''}
-                    onClick={() => setDet(d)}
-                    title={`Detector ${d}: ${wl(d)[0]}–${wl(d)[1]} µm`}
-                  >
-                    {d === 0 ? 'All Detectors' : `D${d}`}
-                    <small>{wl(d)[0].toFixed(2)}–{wl(d)[1].toFixed(2)} µm</small>
-                  </button>
-                ))}
-              </div>
-              <div className="seg" role="group" aria-label="Viewing Mode">
-                {[
-                  ['frames', 'Visits (Flip-book)'],
-                  ['diff', 'Difference (Movers)'],
-                  ['deep', 'Sum Stack (Deep)'],
-                ].map(([k, label]) => (
-                  <button key={k} className={k === mode ? 'on' : ''} onClick={() => setMode(k)}>
-                    {label}
-                  </button>
-                ))}
-              </div>
+          <div className="toolbar">
+            <div className="seg" role="group" aria-label="Detector Bandpass">
+              {[0, ...(manifest?.detectors || [1, 2, 3, 4, 5, 6])].map((d) => (
+                <button
+                  key={d}
+                  className={d === det ? 'on' : ''}
+                  onClick={() => setDet(d)}
+                  title={`Detector ${d}: ${wl(d)[0]}–${wl(d)[1]} µm`}
+                >
+                  {d === 0 ? 'All Detectors' : `D${d}`}
+                  <small>{wl(d)[0].toFixed(2)}–{wl(d)[1].toFixed(2)} µm</small>
+                </button>
+              ))}
             </div>
-          )}
+            <div className="seg" role="group" aria-label="Viewing Mode">
+              {[
+                ['frames', 'Visits (Flip-book)'],
+                ['diff', 'Difference (Movers)'],
+                ['deep', 'Sum Stack (Deep)'],
+              ].map(([k, label]) => (
+                <button key={k} className={k === mode ? 'on' : ''} onClick={() => setMode(k)}>
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
 
           {loading && <div className="empty">Connecting to NASA/IPAC IRSA archive…</div>}
           {!loading && error && <div className="empty error">{error}</div>}
 
           {/* SPHEREx Time Machine Player */}
-          {!loading && manifest && (viewTab === 'player' || viewTab === 'split') && (
+          {!loading && manifest && (
             <Player
               manifest={manifest}
               frames={frames}
@@ -216,17 +181,6 @@ export default function App() {
               idx={idx}
               setIdx={setIdx}
               onPick={onPick}
-              clicked={clicked}
-            />
-          )}
-
-          {/* Aladin Lite Reference Sky Map */}
-          {(viewTab === 'aladin' || viewTab === 'split') && (
-            <AladinViewer
-              ra={query.ra ?? manifest?.ra ?? 133.795}
-              dec={query.dec ?? manifest?.dec ?? -7.245}
-              fov={query.fov ?? manifest?.fov ?? 0.2}
-              targetName={manifest?.name || query.target}
               clicked={clicked}
             />
           )}
@@ -243,14 +197,21 @@ export default function App() {
           />
 
           {clicked && (
-            <div className="spectrum-side-card">
-              <SpectrumPlot data={spectrum} pos={clicked} />
+            <div
+              className="spectrum-side-card interactive"
+              onClick={() => setShowModal(true)}
+              title="Click to view full 102-band infrared spectrum & light curve"
+            >
+              <SpectrumPlot data={spectrum} pos={clicked} onClick={() => setShowModal(true)} />
               <button
                 type="button"
                 className="expand-spec-btn"
-                onClick={() => setShowModal(true)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setShowModal(true)
+                }}
               >
-                🔬 Full 102-Band & Light Curve Analysis
+                🔬 Full 102-Band & Light Curve Analysis ↗
               </button>
             </div>
           )}
@@ -269,7 +230,7 @@ export default function App() {
 
       {!url.embed && (
         <footer className="foot">
-          Data source: NASA SPHEREx Infrared Science Archive (IRSA) · Gaia DR3 & AllWISE via CDS Strasbourg VizieR.
+          Data source: NASA SPHEREx Infrared Science Archive (IRSA) · SIMBAD Astronomical Database.
           Built for NASA Space Apps 2026, “Planet X and SPHEREx”.
         </footer>
       )}
