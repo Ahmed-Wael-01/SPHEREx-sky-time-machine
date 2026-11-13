@@ -863,6 +863,36 @@ input[type='range'] {
   cursor: not-allowed;
 }
 
+/* Colour maps + Overlays */
+.frame-canvas { width: 100%; height: 100%; image-rendering: pixelated; display: block; }
+.overlay { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+.overlay * { vector-effect: non-scaling-stroke; }
+.ov-grid polyline { fill: none; stroke: rgba(200, 200, 200, 0.45); stroke-width: 1; stroke-dasharray: 4 4; }
+.ov-label { fill: rgba(230, 230, 230, 0.85); font-size: 22px; font-family: 'Space Grotesk', sans-serif; paint-order: stroke; stroke: rgba(0,0,0,0.7); stroke-width: 3px; }
+.ov-gaia { fill: none; stroke: #22d3ee; stroke-width: 1.2; opacity: 0.9; }
+.ov-wise { fill: none; stroke: #ff7a1a; stroke-width: 1.2; opacity: 0.9; }
+.ov-path polyline { fill: none; stroke: #ffd23f; stroke-width: 1.5; }
+.ov-path circle { fill: #ffd23f; }
+.ov-target { fill: none; stroke: var(--blue); stroke-width: 2.5; }
+.ov-pick line { stroke: var(--warn); stroke-width: 2; }
+.ov-scale line { stroke: #f5f5f5; stroke-width: 2.5; }
+.ov-scale text { fill: #f5f5f5; font-size: 24px; font-family: 'Space Grotesk', sans-serif; paint-order: stroke; stroke: rgba(0,0,0,0.7); stroke-width: 3px; }
+.readout { position: absolute; right: 10px; bottom: 10px; background: rgba(0, 0, 0, 0.75); padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.rgb-key { font-size: 0.78rem; }
+.controls.look { margin-top: 8px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; font-size: 0.8rem; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.chip i { width: 8px; height: 8px; border-radius: 50%; display: inline-block; opacity: 0.5; }
+.chip.on { border-color: var(--white); }
+.chip.on i { opacity: 1; }
+.chip:disabled { opacity: 0.35; cursor: default; }
+
+.scalebar { position: absolute; right: 14px; bottom: 44px; height: 0; border-top: 2px solid #f5f5f5; box-shadow: 0 0 0 1px rgba(0,0,0,0.4); pointer-events: none; }
+.scalebar span { position: absolute; left: 50%; bottom: 4px; transform: translateX(-50%); font-size: 0.75rem; text-shadow: 0 0 3px #000; white-space: nowrap; }
+.form-note { color: var(--muted); margin: 8px 0 0; font-size: 0.8rem; }
+.form-note code { color: var(--white); }
+.coords .fov small { color: var(--muted); }
+
 /* Footer */
 .foot {
   margin-top: 24px;

@@ -2,16 +2,14 @@ import { useEffect, useState } from 'react'
 import { TARGETS, MOCK_TARGET } from '../lib/targets.js'
 import { parseRA, parseDec } from '../lib/coords.js'
 
-export default function SkyForm({ query, onSubmit }) {
+export default function SkyForm({ query, fov, onFov, maxFov, onSubmit }) {
   const [ra, setRa] = useState(String(query.ra ?? ''))
   const [dec, setDec] = useState(String(query.dec ?? ''))
-  const [fov, setFov] = useState(query.fov ?? 0.2)
   const [err, setErr] = useState(null)
 
   useEffect(() => {
     if (query.ra !== undefined) setRa(String(query.ra))
     if (query.dec !== undefined) setDec(String(query.dec))
-    if (query.fov !== undefined) setFov(query.fov)
   }, [query])
 
   const submit = (e) => {
@@ -57,14 +55,14 @@ export default function SkyForm({ query, onSubmit }) {
           />
         </label>
         <label className="fov">
-          Field of View (FoV) <b>{Number(fov).toFixed(2)}°</b>
+          Field of View (FoV) <b>{Number(fov).toFixed(2)}°</b> <small>({Math.round(fov * 60)}′)</small>
           <input
             type="range"
-            min="0.05"
+            min="0.03"
             max="1.0"
-            step="0.05"
+            step="0.01"
             value={fov}
-            onChange={(e) => setFov(e.target.value)}
+            onChange={(e) => onFov ? onFov(Number(e.target.value)) : null}
           />
         </label>
         <button type="submit" className="go">
@@ -72,6 +70,13 @@ export default function SkyForm({ query, onSubmit }) {
         </button>
       </form>
       {err && <p className="form-err">{err}</p>}
+
+      {maxFov && fov > maxFov + 0.005 && (
+        <p className="form-note">
+          This target was processed at {maxFov.toFixed(2)}°, so that is the widest view right now. Wider fields need a
+          new run: <code>fetch_cutouts.py --size {fov.toFixed(2)}</code>.
+        </p>
+      )}
 
       {/* Story Mode Target Showcase Pills */}
       <div className="targets-section">

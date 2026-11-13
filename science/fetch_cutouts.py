@@ -359,8 +359,9 @@ def to_png(a, path, lo, hi, mode="asinh"):
         t = np.arcsinh(k * t) / np.arcsinh(k)
     t[nan] = 0.0
     g = (t * 255).round().astype(np.uint8)
+    alpha = np.where(nan, 0, 255).astype(np.uint8)  # transparent = no data (so it can't read as "fainter")
     # flip vertically: FITS row 0 is the bottom (south), PNG row 0 is the top -> north up, east left
-    Image.fromarray(g[::-1], mode="L").save(path, optimize=True)
+    Image.fromarray(np.dstack([g, alpha])[::-1].copy()).save(path, optimize=True)  # 2 channels -> PNG "LA"
 
 
 # --------------------------------------------------------------------------- main bake
@@ -441,6 +442,8 @@ def bake(job, args):
     hdus[0].header["DEC_EP"] = (dec, f"target Dec at J{args.epoch}")
 
     visits, deep_entries, det_info = [], [], {}
+    for stale in web_dir.glob("*.png"):  # frames from an earlier run would otherwise linger in git
+        stale.unlink()
     for d in [0] + dets:
         wls = [e["wavelength_um"] for e in exps if (d == 0 or e["detector"] == d) and e["wavelength_um"]]
         det_info[d] = [round(min(wls), 3), round(max(wls), 3)] if wls else None
@@ -540,6 +543,7 @@ def main():
     p.add_argument("--workers", type=int, default=6, help="parallel downloads")
     p.add_argument("--max-exposures", type=int, default=0, help="limit for quick tests (0 = all)")
     p.add_argument("--offline", action="store_true", help="reuse science/cache/<slug>; no network")
+    p.add_argument("--no-catalogs", action="store_true", help="skip the Gaia/AllWISE overlay download")
     args = p.parse_args()
 
     targets = load_targets()
@@ -568,6 +572,13 @@ def main():
             m = bake(job, args)
             if m:
                 done.append(job["slug"])
+                if not args.offline and not args.no_catalogs and job["slug"] != "mock":
+                    try:
+                        sys.path.insert(0, str(Path(__file__).resolve().parent))
+                        import fetch_catalogs
+                        fetch_catalogs.run(job["slug"])
+                    except Exception as e:
+                        log(f"  catalogues skipped: {e!r}")
         except Exception as e:
             log(f"  !! {job['slug']} failed: {e!r}")
     write_index()

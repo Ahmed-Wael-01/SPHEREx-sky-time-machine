@@ -30,6 +30,7 @@ function initialQuery() {
 export default function App() {
   const url = useMemo(readUrl, [])
   const [query, setQuery] = useState(initialQuery)
+  const [fov, setFov] = useState(() => initialQuery().fov) // field shown; changes live, no refetch
   const [manifest, setManifest] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -40,6 +41,7 @@ export default function App() {
   const [clicked, setClicked] = useState(null)
   const [simbadData, setSimbadData] = useState(null)
   const [showModal, setShowModal] = useState(false)
+  const [catalogs, setCatalogs] = useState(null)
 
   useEffect(() => {
     let cancelled = false
@@ -54,6 +56,11 @@ export default function App() {
       .then((m) => {
         if (cancelled) return
         setManifest(m)
+        setCatalogs(null)
+        fetch(`/data/${m.target}/catalogs.json`)
+          .then((r) => (r.ok && (r.headers.get('content-type') || '').includes('json') ? r.json() : null))
+          .then((c) => !cancelled && setCatalogs(c))
+          .catch(() => {})
         const dets = [0, ...(m.detectors || [])]
         setDet((d) => (dets.includes(d) ? d : 0))
       })
@@ -82,13 +89,13 @@ export default function App() {
   useEffect(() => {
     writeUrl({
       ...(query.target ? { target: query.target } : { ra: +query.ra.toFixed(5), dec: +query.dec.toFixed(5) }),
-      fov: query.fov,
+      fov: +fov.toFixed(3),
       det: det || undefined,
       mode: mode !== 'frames' ? mode : undefined,
       t: idx || undefined,
       embed: url.embed ? 1 : undefined,
     })
-  }, [query, det, mode, idx, url.embed])
+  }, [query, fov, det, mode, idx, url.embed])
 
   const onPick = useCallback(
     async (pos) => {
@@ -99,6 +106,10 @@ export default function App() {
     },
     [query.target],
   )
+
+  // the frames cover a fixed field (set when they were processed); the viewer crops to `fov` inside it
+  const bakedSpan = manifest ? (manifest.pixels * manifest.pixel_scale_arcsec) / 3600 : null
+  const viewFov = bakedSpan ? Math.min(fov, bakedSpan) : fov
 
   const wl = (d) => manifest?.detector_wavelength_um?.[d] || (d ? NOMINAL_WL[d] : [0.75, 5.0])
 
@@ -124,7 +135,11 @@ export default function App() {
       {!url.embed && (
         <SkyForm
           query={query}
+          fov={fov}
+          onFov={setFov}
+          maxFov={bakedSpan}
           onSubmit={(q) => {
+            if (q.fov) setFov(q.fov)
             setIdx(0)
             setQuery(q)
           }}
@@ -178,10 +193,13 @@ export default function App() {
               deep={deep}
               mode={mode}
               setMode={setMode}
+              det={det}
               idx={idx}
               setIdx={setIdx}
               onPick={onPick}
               clicked={clicked}
+              catalogs={catalogs}
+              viewFov={viewFov}
             />
           )}
         </section>

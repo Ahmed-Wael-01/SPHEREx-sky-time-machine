@@ -1,0 +1,4 @@
+# Minimal deps for the deployed API (the science pipeline needs the root requirements.txt)
+flask>=3.0
+gunicorn>=22
+redis>=5

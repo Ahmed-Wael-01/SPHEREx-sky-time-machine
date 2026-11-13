@@ -1,0 +1,15 @@
+# Render blueprint: free web service for the Flask API.
+# Render dashboard -> New -> Blueprint -> pick this repo. Then set VITE_API_BASE in Vercel to the service URL.
+services:
+  - type: web
+    name: spherex-sky-time-machine-api
+    runtime: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: gunicorn --chdir backend app:app --bind 0.0.0.0:$PORT --workers 2 --timeout 60
+    healthCheckPath: /api/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      # - key: REDIS_URL        # add when a Redis instance exists (Render Key Value or Upstash)
+      #   sync: false

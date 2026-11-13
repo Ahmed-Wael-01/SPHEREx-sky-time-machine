@@ -44,10 +44,16 @@
   "COLD",
   "PHANMISS",
   "PERSIST",
-  "OUTLIER"
+  "OUTLIER",
+  "STREAK",
+  "SNOWBALL",
+  "GHOST",
+  "GHOST_FPA",
+  "GHOST_EXT",
+  "CROSSTALK"
  ],
  "source": "prebaked",
- "generated": "2026-11-13T07:03:05Z",
+ "generated": "2026-11-13T12:11:12Z",
  "visits": [
   {
    "date": "2025-05-05",
@@ -57,7 +63,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-05-05_all.png",
    "diff_url": "/data/mock/2025-05-05_all_diff.png",
-   "diff_sigma_mjysr": 0.023053281009197235,
+   "diff_sigma_mjysr": 0.023048225790262222,
    "n_exposures": 18,
    "flags": {
     "TRANSIENT": 108,
@@ -85,7 +91,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-11-05_all.png",
    "diff_url": "/data/mock/2025-11-05_all_diff.png",
-   "diff_sigma_mjysr": 0.023161251097917557,
+   "diff_sigma_mjysr": 0.023163218051195145,
    "n_exposures": 18,
    "flags": {
     "TRANSIENT": 108,
@@ -113,7 +119,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-05-05_all.png",
    "diff_url": "/data/mock/2026-05-05_all_diff.png",
-   "diff_sigma_mjysr": 0.0230429507791996,
+   "diff_sigma_mjysr": 0.02302677370607853,
    "n_exposures": 18,
    "flags": {
     "TRANSIENT": 108,
@@ -141,7 +147,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-10-29_all.png",
    "diff_url": "/data/mock/2026-10-29_all_diff.png",
-   "diff_sigma_mjysr": 0.022554589435458183,
+   "diff_sigma_mjysr": 0.02256661094725132,
    "n_exposures": 18,
    "flags": {
     "TRANSIENT": 108,
@@ -169,7 +175,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-05-04_d1.png",
    "diff_url": "/data/mock/2025-05-04_d1_diff.png",
-   "diff_sigma_mjysr": 0.05654694512486458,
+   "diff_sigma_mjysr": 0.05650678649544716,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -197,7 +203,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-11-04_d1.png",
    "diff_url": "/data/mock/2025-11-04_d1_diff.png",
-   "diff_sigma_mjysr": 0.057323671877384186,
+   "diff_sigma_mjysr": 0.05734282732009888,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -225,7 +231,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-05-04_d1.png",
    "diff_url": "/data/mock/2026-05-04_d1_diff.png",
-   "diff_sigma_mjysr": 0.05576959624886513,
+   "diff_sigma_mjysr": 0.05572950467467308,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -253,7 +259,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-10-28_d1.png",
    "diff_url": "/data/mock/2026-10-28_d1_diff.png",
-   "diff_sigma_mjysr": 0.05526217818260193,
+   "diff_sigma_mjysr": 0.055265605449676514,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -281,7 +287,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-05-04_d2.png",
    "diff_url": "/data/mock/2025-05-04_d2_diff.png",
-   "diff_sigma_mjysr": 0.055448830127716064,
+   "diff_sigma_mjysr": 0.05551256611943245,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -309,7 +315,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-11-04_d2.png",
    "diff_url": "/data/mock/2025-11-04_d2_diff.png",
-   "diff_sigma_mjysr": 0.054533451795578,
+   "diff_sigma_mjysr": 0.054548218846321106,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -337,7 +343,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-05-04_d2.png",
    "diff_url": "/data/mock/2026-05-04_d2_diff.png",
-   "diff_sigma_mjysr": 0.05592620372772217,
+   "diff_sigma_mjysr": 0.05589238181710243,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -365,7 +371,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-10-28_d2.png",
    "diff_url": "/data/mock/2026-10-28_d2_diff.png",
-   "diff_sigma_mjysr": 0.05576890707015991,
+   "diff_sigma_mjysr": 0.05577128008008003,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -393,7 +399,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-05-05_d3.png",
    "diff_url": "/data/mock/2025-05-05_d3_diff.png",
-   "diff_sigma_mjysr": 0.05495624616742134,
+   "diff_sigma_mjysr": 0.054922379553318024,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -421,7 +427,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-11-05_d3.png",
    "diff_url": "/data/mock/2025-11-05_d3_diff.png",
-   "diff_sigma_mjysr": 0.055033087730407715,
+   "diff_sigma_mjysr": 0.055017683655023575,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -449,7 +455,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-05-05_d3.png",
    "diff_url": "/data/mock/2026-05-05_d3_diff.png",
-   "diff_sigma_mjysr": 0.05678752809762955,
+   "diff_sigma_mjysr": 0.056788284331560135,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -477,7 +483,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-10-29_d3.png",
    "diff_url": "/data/mock/2026-10-29_d3_diff.png",
-   "diff_sigma_mjysr": 0.055200543254613876,
+   "diff_sigma_mjysr": 0.05520046502351761,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -505,7 +511,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-05-05_d4.png",
    "diff_url": "/data/mock/2025-05-05_d4_diff.png",
-   "diff_sigma_mjysr": 0.055129606276750565,
+   "diff_sigma_mjysr": 0.055128466337919235,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -533,7 +539,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-11-05_d4.png",
    "diff_url": "/data/mock/2025-11-05_d4_diff.png",
-   "diff_sigma_mjysr": 0.05597316101193428,
+   "diff_sigma_mjysr": 0.05597205087542534,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -561,7 +567,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-05-05_d4.png",
    "diff_url": "/data/mock/2026-05-05_d4_diff.png",
-   "diff_sigma_mjysr": 0.05566377937793732,
+   "diff_sigma_mjysr": 0.05564304068684578,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -589,7 +595,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-10-29_d4.png",
    "diff_url": "/data/mock/2026-10-29_d4_diff.png",
-   "diff_sigma_mjysr": 0.05549579858779907,
+   "diff_sigma_mjysr": 0.05551241338253021,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -617,7 +623,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-05-05_d5.png",
    "diff_url": "/data/mock/2025-05-05_d5_diff.png",
-   "diff_sigma_mjysr": 0.05565100908279419,
+   "diff_sigma_mjysr": 0.05566480755805969,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -645,7 +651,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-11-05_d5.png",
    "diff_url": "/data/mock/2025-11-05_d5_diff.png",
-   "diff_sigma_mjysr": 0.057787880301475525,
+   "diff_sigma_mjysr": 0.05778391659259796,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -673,7 +679,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-05-05_d5.png",
    "diff_url": "/data/mock/2026-05-05_d5_diff.png",
-   "diff_sigma_mjysr": 0.05596109852194786,
+   "diff_sigma_mjysr": 0.055946651846170425,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -701,7 +707,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-10-29_d5.png",
    "diff_url": "/data/mock/2026-10-29_d5_diff.png",
-   "diff_sigma_mjysr": 0.05476885288953781,
+   "diff_sigma_mjysr": 0.05475512146949768,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -729,7 +735,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-05-06_d6.png",
    "diff_url": "/data/mock/2025-05-06_d6_diff.png",
-   "diff_sigma_mjysr": 0.05619252473115921,
+   "diff_sigma_mjysr": 0.05622192099690437,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -757,7 +763,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2025-11-06_d6.png",
    "diff_url": "/data/mock/2025-11-06_d6_diff.png",
-   "diff_sigma_mjysr": 0.05542301386594772,
+   "diff_sigma_mjysr": 0.055390920490026474,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -785,7 +791,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-05-06_d6.png",
    "diff_url": "/data/mock/2026-05-06_d6_diff.png",
-   "diff_sigma_mjysr": 0.056351397186517715,
+   "diff_sigma_mjysr": 0.056351400911808014,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
@@ -813,7 +819,7 @@
    "wavelength_um": null,
    "image_url": "/data/mock/2026-10-30_d6.png",
    "diff_url": "/data/mock/2026-10-30_d6_diff.png",
-   "diff_sigma_mjysr": 0.056319233030080795,
+   "diff_sigma_mjysr": 0.05631900206208229,
    "n_exposures": 3,
    "flags": {
     "TRANSIENT": 18,
