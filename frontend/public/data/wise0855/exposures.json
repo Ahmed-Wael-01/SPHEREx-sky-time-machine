@@ -4465,7 +4465,7 @@
  },
  {
   "mjd": 61020.803689,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.2868420225496868,
@@ -4496,7 +4496,7 @@
  },
  {
   "mjd": 61020.803689,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.046958838747607,
@@ -4528,7 +4528,7 @@
  },
  {
   "mjd": 61021.07544,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.3173837181927963,
@@ -4560,7 +4560,7 @@
  },
  {
   "mjd": 61021.07544,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.082069192823873,
@@ -4592,7 +4592,7 @@
  },
  {
   "mjd": 61021.282827,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.899053450025731,
@@ -4624,7 +4624,7 @@
  },
  {
   "mjd": 61021.282827,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.6336318678150645,
@@ -4656,7 +4656,7 @@
  },
  {
   "mjd": 61021.351418,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.987900773344319,
@@ -4688,7 +4688,7 @@
  },
  {
   "mjd": 61021.351418,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.701836655605074,
@@ -4720,7 +4720,7 @@
  },
  {
   "mjd": 61021.823521,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.348319919997063,
@@ -4752,7 +4752,7 @@
  },
  {
   "mjd": 61021.823521,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.117431076061534,
@@ -4784,7 +4784,7 @@
  },
  {
   "mjd": 61021.8922,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.380430785033834,
@@ -4816,7 +4816,7 @@
  },
  {
   "mjd": 61021.8922,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.15313811398849,
@@ -4848,7 +4848,7 @@
  },
  {
   "mjd": 61022.029133,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.0335710266727305,
@@ -4880,7 +4880,7 @@
  },
  {
   "mjd": 61022.029133,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.736051789048427,
@@ -4912,7 +4912,7 @@
  },
  {
   "mjd": 61022.231084,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.4130462127843222,
@@ -4944,7 +4944,7 @@
  },
  {
   "mjd": 61022.231084,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.188811916737317,
@@ -4976,7 +4976,7 @@
  },
  {
   "mjd": 61022.368105,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.446974446667236,
@@ -5008,7 +5008,7 @@
  },
  {
   "mjd": 61022.368105,
-  "epoch": 2,
+  "epoch": 1,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.224685491824952,
@@ -5040,7 +5040,7 @@
  },
  {
   "mjd": 61151.197933,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.6385414265694151,
@@ -5072,7 +5072,7 @@
  },
  {
   "mjd": 61151.197933,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.423780163128667,
@@ -5104,7 +5104,7 @@
  },
  {
   "mjd": 61151.199425,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.6762079854969736,
@@ -5136,7 +5136,7 @@
  },
  {
   "mjd": 61151.199425,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.454978634214914,
@@ -5168,7 +5168,7 @@
  },
  {
   "mjd": 61151.200918,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.7142420395928177,
@@ -5200,7 +5200,7 @@
  },
  {
   "mjd": 61151.200918,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.486351726068999,
@@ -5232,7 +5232,7 @@
  },
  {
   "mjd": 61152.757304,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.7538495684695485,
@@ -5264,7 +5264,7 @@
  },
  {
   "mjd": 61152.757304,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.5186660881120755,
@@ -5296,7 +5296,7 @@
  },
  {
   "mjd": 61152.758796,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.7937090130361115,
@@ -5328,7 +5328,7 @@
  },
  {
   "mjd": 61152.758796,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.551008162463329,
@@ -5360,7 +5360,7 @@
  },
  {
   "mjd": 61152.760288,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.8360071585718913,
@@ -5392,7 +5392,7 @@
  },
  {
   "mjd": 61152.760288,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.584122324669405,
@@ -5424,7 +5424,7 @@
  },
  {
   "mjd": 61153.436457,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.8782792365231813,
@@ -5455,7 +5455,7 @@
  },
  {
   "mjd": 61153.436457,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.617317467670837,
@@ -5487,7 +5487,7 @@
  },
  {
   "mjd": 61153.437949,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.92183099992334,
@@ -5519,7 +5519,7 @@
  },
  {
   "mjd": 61153.437949,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.651088066790163,
@@ -5551,7 +5551,7 @@
  },
  {
   "mjd": 61153.439442,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 1.9654016194823885,
@@ -5583,7 +5583,7 @@
  },
  {
   "mjd": 61153.439442,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.685145452918851,
@@ -5615,7 +5615,7 @@
  },
  {
   "mjd": 61153.440934,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.011128386690995,
@@ -5647,7 +5647,7 @@
  },
  {
   "mjd": 61153.440934,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.7191713843643806,
@@ -5679,7 +5679,7 @@
  },
  {
   "mjd": 61156.085511,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.1535629406318932,
@@ -5710,7 +5710,7 @@
  },
  {
   "mjd": 61156.085511,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.821564719990442,
@@ -5742,7 +5742,7 @@
  },
  {
   "mjd": 61156.152716,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.0569968761455897,
@@ -5773,7 +5773,7 @@
  },
  {
   "mjd": 61156.152716,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.753118626133735,
@@ -5805,7 +5805,7 @@
  },
  {
   "mjd": 61156.154226,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.1050886414195333,
@@ -5837,7 +5837,7 @@
  },
  {
   "mjd": 61156.154226,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.787160382942895,
@@ -5869,7 +5869,7 @@
  },
  {
   "mjd": 61156.493181,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.258342060754014,
@@ -5901,7 +5901,7 @@
  },
  {
   "mjd": 61156.493181,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.895448393490754,
@@ -5933,7 +5933,7 @@
  },
  {
   "mjd": 61156.494673,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.3106845682052404,
@@ -5964,7 +5964,7 @@
  },
  {
   "mjd": 61156.494673,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.931277780319728,
@@ -5996,7 +5996,7 @@
  },
  {
   "mjd": 61160.770817,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.15687841353551,
@@ -6028,7 +6028,7 @@
  },
  {
   "mjd": 61160.770817,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.824908493844667,
@@ -6060,7 +6060,7 @@
  },
  {
   "mjd": 61161.586867,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.111132851136258,
@@ -6092,7 +6092,7 @@
  },
  {
   "mjd": 61161.586867,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 3.8345901720001816,
@@ -6124,7 +6124,7 @@
  },
  {
   "mjd": 61161.58836,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.137028326979266,
@@ -6156,7 +6156,7 @@
  },
  {
   "mjd": 61161.58836,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 3.8674873505719356,
@@ -6188,7 +6188,7 @@
  },
  {
   "mjd": 61161.589852,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.1644422053178736,
@@ -6220,7 +6220,7 @@
  },
  {
   "mjd": 61161.589852,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 3.90109235580654,
@@ -6252,7 +6252,7 @@
  },
  {
   "mjd": 61161.591344,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.1921403514012003,
@@ -6284,7 +6284,7 @@
  },
  {
   "mjd": 61161.591344,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 3.9348404532538934,
@@ -6316,7 +6316,7 @@
  },
  {
   "mjd": 61161.655174,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 1.0908476229248267,
@@ -6348,7 +6348,7 @@
  },
  {
   "mjd": 61161.655174,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 3.73525618932226,
@@ -6380,7 +6380,7 @@
  },
  {
   "mjd": 61162.333972,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.7439249812908781,
@@ -6412,7 +6412,7 @@
  },
  {
   "mjd": 61162.333972,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 2.4266935756590975,
@@ -6444,7 +6444,7 @@
  },
  {
   "mjd": 61162.335464,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.7613450267918782,
@@ -6476,7 +6476,7 @@
  },
  {
   "mjd": 61162.335464,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 2.475693311718673,
@@ -6508,7 +6508,7 @@
  },
  {
   "mjd": 61162.336956,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.7790471711578205,
@@ -6540,7 +6540,7 @@
  },
  {
   "mjd": 61162.336956,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 2.542808477103118,
@@ -6572,7 +6572,7 @@
  },
  {
   "mjd": 61162.401532,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.220727741728939,
@@ -6604,7 +6604,7 @@
  },
  {
   "mjd": 61162.401532,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 3.9691291274024314,
@@ -6636,7 +6636,7 @@
  },
  {
   "mjd": 61162.403024,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.2497765042971813,
@@ -6668,7 +6668,7 @@
  },
  {
   "mjd": 61162.403024,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.003682921153386,
@@ -6700,7 +6700,7 @@
  },
  {
   "mjd": 61162.673655,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.4442351122654673,
@@ -6732,7 +6732,7 @@
  },
  {
   "mjd": 61162.673655,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.222114040420403,
@@ -6764,7 +6764,7 @@
  },
  {
   "mjd": 61162.675147,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.4793377162630075,
@@ -6796,7 +6796,7 @@
  },
  {
   "mjd": 61162.675147,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.258463867298,
@@ -6828,7 +6828,7 @@
  },
  {
   "mjd": 61163.215717,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.40495478484768,
@@ -6860,7 +6860,7 @@
  },
  {
   "mjd": 61163.215717,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.180305618873593,
@@ -6892,7 +6892,7 @@
  },
  {
   "mjd": 61163.217209,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.4389027527058962,
@@ -6924,7 +6924,7 @@
  },
  {
   "mjd": 61163.217209,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.216361220085462,
@@ -6956,7 +6956,7 @@
  },
  {
   "mjd": 61163.28333,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.7976250098005793,
@@ -6988,7 +6988,7 @@
  },
  {
   "mjd": 61163.28333,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 2.6112950363124967,
@@ -7020,7 +7020,7 @@
  },
  {
   "mjd": 61163.284822,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.8162593518057429,
@@ -7052,7 +7052,7 @@
  },
  {
   "mjd": 61163.284822,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 2.6825204363325135,
@@ -7084,7 +7084,7 @@
  },
  {
   "mjd": 61163.286314,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.8358546987976732,
@@ -7116,7 +7116,7 @@
  },
  {
   "mjd": 61163.286314,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 2.75571278724259,
@@ -7148,7 +7148,7 @@
  },
  {
   "mjd": 61163.287807,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.8554642414150475,
@@ -7180,7 +7180,7 @@
  },
  {
   "mjd": 61163.287807,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 2.830617878627618,
@@ -7212,7 +7212,7 @@
  },
  {
   "mjd": 61164.570098,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.9694812869670463,
@@ -7244,7 +7244,7 @@
  },
  {
   "mjd": 61164.570098,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 3.268608699941393,
@@ -7276,7 +7276,7 @@
  },
  {
   "mjd": 61164.63899,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.8758800299207734,
@@ -7308,7 +7308,7 @@
  },
  {
   "mjd": 61164.63899,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 2.907053341807477,
@@ -7340,7 +7340,7 @@
  },
  {
   "mjd": 61164.640482,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.8966194700702937,
@@ -7372,7 +7372,7 @@
  },
  {
   "mjd": 61164.640482,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 2.9863366740160577,
@@ -7404,7 +7404,7 @@
  },
  {
   "mjd": 61165.320205,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.9180015517433648,
@@ -7436,7 +7436,7 @@
  },
  {
   "mjd": 61165.320205,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 3.069821989672221,
@@ -7468,7 +7468,7 @@
  },
  {
   "mjd": 61165.588651,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.9398651321059709,
@@ -7499,7 +7499,7 @@
  },
  {
   "mjd": 61165.588651,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 3.1544331188371286,
@@ -7531,7 +7531,7 @@
  },
  {
   "mjd": 61165.590143,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 1,
   "bandpass": "SPHEREx-D1",
   "wavelength_um": 0.9621467096203956,
@@ -7563,7 +7563,7 @@
  },
  {
   "mjd": 61165.590143,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 4,
   "bandpass": "SPHEREx-D4",
   "wavelength_um": 3.2405232487544855,
@@ -7595,7 +7595,7 @@
  },
  {
   "mjd": 61168.984738,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.1569412301186888,
@@ -7627,7 +7627,7 @@
  },
  {
   "mjd": 61168.984738,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.824951933566474,
@@ -7659,7 +7659,7 @@
  },
  {
   "mjd": 61169.194223,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.207651220700667,
@@ -7691,7 +7691,7 @@
  },
  {
   "mjd": 61169.194223,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.859707648431488,
@@ -7723,7 +7723,7 @@
  },
  {
   "mjd": 61169.527653,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.258236549870801,
@@ -7755,7 +7755,7 @@
  },
  {
   "mjd": 61169.527653,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.895382655732672,
@@ -7787,7 +7787,7 @@
  },
  {
   "mjd": 61169.933208,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.3106201726218334,
@@ -7819,7 +7819,7 @@
  },
  {
   "mjd": 61169.933208,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.931234527084318,
@@ -7851,7 +7851,7 @@
  },
  {
   "mjd": 61171.09635,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 3,
   "bandpass": "SPHEREx-D3",
   "wavelength_um": 2.3632592370878185,
@@ -7883,7 +7883,7 @@
  },
  {
   "mjd": 61171.09635,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 6,
   "bandpass": "SPHEREx-D6",
   "wavelength_um": 4.967301874438447,
@@ -7915,7 +7915,7 @@
  },
  {
   "mjd": 61171.567192,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.4442742681770153,
@@ -7947,7 +7947,7 @@
  },
  {
   "mjd": 61171.567192,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.222158474510472,
@@ -7979,7 +7979,7 @@
  },
  {
   "mjd": 61172.175304,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.4792400457307098,
@@ -8011,7 +8011,7 @@
  },
  {
   "mjd": 61172.175304,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.258371296896206,
@@ -8043,7 +8043,7 @@
  },
  {
   "mjd": 61173.064066,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.5151455258213513,
@@ -8075,7 +8075,7 @@
  },
  {
   "mjd": 61173.064066,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.295001296604696,
@@ -8107,7 +8107,7 @@
  },
  {
   "mjd": 61173.676175,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.5523335314177824,
@@ -8139,7 +8139,7 @@
  },
  {
   "mjd": 61173.676175,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.331870070832323,
@@ -8171,7 +8171,7 @@
  },
  {
   "mjd": 61174.287218,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 2,
   "bandpass": "SPHEREx-D2",
   "wavelength_um": 1.589712248520419,
@@ -8203,7 +8203,7 @@
  },
  {
   "mjd": 61174.287218,
-  "epoch": 3,
+  "epoch": 2,
   "detector": 5,
   "bandpass": "SPHEREx-D5",
   "wavelength_um": 4.368779826362568,

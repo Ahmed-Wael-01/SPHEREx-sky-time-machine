@@ -259,7 +259,11 @@ export default function Player({
               <FrameCanvas rgb={{ ...rgbUrls, gamma }} alt="close-up" />
             ) : (
               <FrameCanvas single={{ url: src, lut, lutName, gamma }} alt="close-up"
-                focus={isDiff ? undefined : { ...loupeCenter, r: (LOUPE_ARCMIN / 60 / wcs.span) * 0.6 }} />
+                focus={isDiff ? undefined : {
+                  ...loupeCenter,
+                  r: (LOUPE_ARCMIN / 60 / wcs.span) * 0.6,
+                  refUrl: Array.isArray(deep?.image_url) ? deep.image_url[0] : deep?.image_url,
+                }} />
             )}
           </Loupe>
         )}

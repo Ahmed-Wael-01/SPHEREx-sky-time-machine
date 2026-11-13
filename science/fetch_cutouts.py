@@ -317,7 +317,10 @@ def weighted_stack(scis, vars_):
     return mean.astype(np.float32), var.astype(np.float32)
 
 
-def split_epochs(mjds, gap_days):
+def split_epochs(mjds, gap_days, max_span_days=90.0, chunk_days=60.0):
+    """Group photos into survey passes: a new pass starts after a gap > gap_days.
+    Near the ecliptic poles SPHEREx looks almost continuously, so gaps may never come;
+    any pass longer than max_span_days is then cut into chunk_days pieces."""
     order = np.argsort(mjds)
     labels = np.zeros(len(mjds), int)
     e = 0
@@ -325,7 +328,22 @@ def split_epochs(mjds, gap_days):
         if mjds[order[k]] - mjds[order[k - 1]] > gap_days:
             e += 1
         labels[order[k]] = e
-    return labels
+    out = np.zeros(len(mjds), int)
+    nxt = 0
+    for g in range(labels.max() + 1):
+        sel = labels == g
+        t0, t1 = mjds[sel].min(), mjds[sel].max()
+        if t1 - t0 > max_span_days:
+            n = int(math.ceil((t1 - t0) / chunk_days))
+            sub = np.minimum(((mjds[sel] - t0) / ((t1 - t0) / n)).astype(int), n - 1)
+            used = np.unique(sub)
+            remap = {u: i for i, u in enumerate(used)}
+            out[sel] = nxt + np.array([remap[v] for v in sub])
+            nxt += len(used)
+        else:
+            out[sel] = nxt
+            nxt += 1
+    return out
 
 
 # --------------------------------------------------------------------------- PNG output
@@ -347,6 +365,38 @@ def stretch_limits(ref):
     return lo, hi
 
 
+def saturated_cores(nan, t, bright=0.6):
+    """Holes (connected blank pixels) whose 2-pixel rim is mostly bright (stretched value > `bright`)."""
+    from scipy import ndimage
+    out = np.zeros_like(nan)
+    lab, n = ndimage.label(nan)
+    for k in range(1, n + 1):
+        blob = lab == k
+        if blob.sum() > 400:  # a big blank area is an edge of the field, not a star
+            continue
+        rim = ndimage.binary_dilation(blob, iterations=2) & ~nan
+        if rim.any() and np.median(t[rim]) > bright:
+            out |= blob
+    return out
+
+
+def small_holes(nan, max_px=4):
+    """Connected blank areas of at most max_px pixels that are fully surrounded by data."""
+    from scipy import ndimage
+    out = np.zeros_like(nan)
+    lab, n = ndimage.label(nan)
+    if n == 0:
+        return out
+    sizes = ndimage.sum(nan, lab, range(1, n + 1))
+    for k, sz in enumerate(sizes, 1):
+        if sz <= max_px:
+            blob = lab == k
+            ring = ndimage.binary_dilation(blob, iterations=1) & ~blob
+            if not nan[ring].any():
+                out |= blob
+    return out
+
+
 def to_png(a, path, lo, hi, mode="asinh"):
     from PIL import Image
     a = np.array(a, dtype=np.float64)
@@ -358,6 +408,25 @@ def to_png(a, path, lo, hi, mode="asinh"):
         k = 10.0
         t = np.arcsinh(k * t) / np.arcsinh(k)
     t[nan] = 0.0
+    if mode != "diff":
+        # A blank hole whose edge is bright is the core of a star too bright to measure (the camera
+        # overloaded; NASA's file has no valid value there). Show it white, like any overexposed photo,
+        # instead of as missing data. True gaps (dark or no surroundings) stay transparent.
+        sat = saturated_cores(nan, t)
+        t[sat] = 1.0
+        nan = nan & ~sat
+    # Tiny isolated holes (<= 4 px, e.g. one damaged pixel that no other photo covered) are filled with
+    # the median of their surroundings, for the picture only; stacks.fits keeps them blank.
+    small = small_holes(nan, max_px=4)
+    if small.any():
+        from scipy import ndimage
+        lab, n = ndimage.label(small)
+        for k in range(1, n + 1):
+            blob = lab == k
+            rim = ndimage.binary_dilation(blob, iterations=1) & ~nan
+            if rim.any():
+                t[blob] = np.median(t[rim])
+        nan = nan & ~small
     g = (t * 255).round().astype(np.uint8)
     alpha = np.where(nan, 0, 255).astype(np.uint8)  # transparent = no data (so it can't read as "fainter")
     # flip vertically: FITS row 0 is the bottom (south), PNG row 0 is the top -> north up, east left
@@ -388,8 +457,11 @@ def bake(job, args):
     else:
         # SPHEREx frames are rotated relative to north-up; ask for ~1.45x so the square grid has no empty corners
         rows = tap_query(ra, dec, round(size * 1.45, 4))
-        if args.max_exposures:
-            rows = rows[: args.max_exposures]
+        if args.max_exposures and len(rows) > args.max_exposures:
+            # an even spread over all dates and detectors, not just the first N
+            keep = np.unique(np.linspace(0, len(rows) - 1, args.max_exposures).round().astype(int))
+            rows = [rows[i] for i in keep]
+            log(f"  keeping {len(rows)} photos spread evenly over the dates (--max-exposures)")
         rows = download_all(rows, cache_dir, args.workers)
         index_file.write_text(json.dumps({"ra": ra, "dec": dec, "size": size,
                                           "queried": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
@@ -464,23 +536,31 @@ def bake(job, args):
                 continue
             members = groups[(ep, d)]
             img, var = stacks[(ep, d)]
+            # a single-detector frame whose photos only covered part of the field would show a big hole;
+            # keep it in stacks.fits for the science scripts but leave it out of the website
+            # (the "All" view still shows that pass)
+            show = d == 0 or np.isfinite(img).mean() >= getattr(args, "min_coverage", 0.85)
             others = [e for e in exps if e["epoch"] != ep and (d == 0 or e["detector"] == d)]
             mid = float(np.median([m["mjd"] for m in members]))
             date = mjd_to_date(mid)
             base = f"{date}_{tag}"
-            to_png(img, web_dir / f"{base}.png", lo, hi)
+            if show:
+                to_png(img, web_dir / f"{base}.png", lo, hi)
             diff_url, diff_sigma = None, None
             if others:
                 ref, ref_var = weighted_stack([o["sci"] for o in others], [o["var"] for o in others])
                 diff = img - ref
                 sig = robust_sigma(diff)
-                to_png(diff, web_dir / f"{base}_diff.png", -5 * sig, 5 * sig, mode="diff")
+                if show:
+                    to_png(diff, web_dir / f"{base}_diff.png", -5 * sig, 5 * sig, mode="diff")
                 diff_url, diff_sigma = f"/data/{slug}/{base}_diff.png", sig
                 hdus.append(fits.ImageHDU(diff.astype(np.float32), header=grid.to_header(),
                                           name=f"DIFF_E{ep}_{tag.upper()}"))
             hdus.append(fits.ImageHDU(img, header=grid.to_header(), name=f"IMG_E{ep}_{tag.upper()}"))
             hdus.append(fits.ImageHDU(var, header=grid.to_header(), name=f"VAR_E{ep}_{tag.upper()}"))
 
+            if not show:
+                continue
             pra, pdec = propagate(ra2000, dec2000, pmra, pmdec, mjd_to_year(mid))
             px, py = grid.world_to_pixel_values(pra, pdec)
             flags = {}
@@ -538,12 +618,16 @@ def main():
     p.add_argument("--pmra", type=float, default=0.0, help="proper motion in RA*cos(Dec), mas/yr (no SIMBAD)")
     p.add_argument("--pmdec", type=float, default=0.0, help="proper motion in Dec, mas/yr (no SIMBAD)")
     p.add_argument("--coord-epoch", type=float, default=2000.0, help="epoch of --ra/--dec (decimal year)")
-    p.add_argument("--gap-days", type=float, default=20.0, help="time gap that separates survey passes")
+    p.add_argument("--gap-days", type=float, default=60.0,
+                   help="photos closer than this (days) form one survey pass; SPHEREx revisits a spot ~every 6 months")
     p.add_argument("--mask", default=",".join(DEFAULT_MASK), help="comma-separated flag names to mask")
     p.add_argument("--workers", type=int, default=6, help="parallel downloads")
-    p.add_argument("--max-exposures", type=int, default=0, help="limit for quick tests (0 = all)")
+    p.add_argument("--max-exposures", type=int, default=0,
+                   help="download at most N photos, spread evenly over all dates (0 = all)")
     p.add_argument("--offline", action="store_true", help="reuse science/cache/<slug>; no network")
     p.add_argument("--no-catalogs", action="store_true", help="skip the Gaia/AllWISE overlay download")
+    p.add_argument("--min-coverage", type=float, default=0.85,
+                   help="leave single-detector frames with less than this fraction of the field covered out of the video")
     args = p.parse_args()
 
     targets = load_targets()

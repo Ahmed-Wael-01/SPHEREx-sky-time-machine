@@ -82,9 +82,14 @@ function focusStretch(g, focus) {
       if (g.alpha[y * g.w + x]) vals.push(g.data[y * g.w + x])
   if (vals.length < 10) return (v) => v
   vals.sort((a, b) => a - b)
-  const lo = vals[Math.floor(vals.length * 0.5)]
-  const hi = Math.max(vals[Math.floor(vals.length * 0.995)], lo + 8)
-  return (v) => Math.max(0, Math.min(255, ((v - lo) / (hi - lo)) * 255))
+  // sky level = median; if the box is mostly a bright star's glow (median almost at the top),
+  // use a low percentile instead so the glow keeps its shape
+  let lo = vals[Math.floor(vals.length * 0.5)]
+  if (vals[vals.length - 1] - lo < 40) lo = vals[Math.floor(vals.length * 0.05)]
+  // brightest pixel in the box -> white, with a square-root curve so faint targets stay visible
+  // and a bright star (Barnard's) keeps its shape instead of filling the box with white
+  const hi = Math.max(vals[vals.length - 1], lo + 8)
+  return (v) => Math.max(0, Math.min(255, Math.sqrt(Math.max(0, (v - lo) / (hi - lo))) * 255))
 }
 
 export default function FrameCanvas({ single, rgb, onGrey, alt, focus }) {
@@ -107,7 +112,11 @@ export default function FrameCanvas({ single, rgb, onGrey, alt, focus }) {
         const ctx = cv.getContext('2d')
         const out = ctx.createImageData(g.w, g.h)
         const gt = gammaTable(single.gamma)
-        const fs = focus ? focusStretch(g, focus) : null
+        // close-up contrast: taken from a reference image (the deep stack) when given, so it stays
+        // the same on every date and real brightness changes remain visible
+        const ref = focus?.refUrl ? await loadGrey(focus.refUrl) : null
+        if (cancelled) return
+        const fs = focus ? focusStretch(ref || g, focus) : null
         for (let i = 0; i < g.data.length; i++) {
           const v = gt[fs ? Math.round(fs(g.data[i])) : g.data[i]] * 3
           out.data[i * 4] = single.lut[v]
