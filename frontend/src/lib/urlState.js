@@ -15,18 +15,19 @@ export function readUrl() {
     pathTarget = decodeURIComponent(pathMatch[1])
   }
 
-  const target = p.get('target') || pathTarget || undefined
-  const hasTargetOrCoords = Boolean(target || p.has('ra'))
+  const target = pathTarget || p.get('target') || undefined
   const isSkyTimeMachinePath = pathname.startsWith('/skytimemachine')
 
   // Determine view:
-  // If explicitly on /skytimemachine* or has target/coords, view is 'app'.
-  // Otherwise if path is '/' (root) and no target/coords, view is 'home'.
+  // If on /skytimemachine* or explicitly ?view=app: view is 'app'.
+  // Otherwise if path is '/' (root), view is strictly 'home' (clean landing page).
   let view = 'home'
-  if (isSkyTimeMachinePath || hasTargetOrCoords || p.get('view') === 'app') {
+  if (isSkyTimeMachinePath || p.get('view') === 'app') {
     view = 'app'
-  } else if (p.get('view') === 'home' || pathname === '' || pathname === '/') {
+  } else if (pathname === '' || pathname === '/') {
     view = 'home'
+  } else if (target || p.has('ra')) {
+    view = 'app'
   }
 
   return {
@@ -43,25 +44,28 @@ export function readUrl() {
 }
 
 export function writeUrl(state) {
-  const p = new URLSearchParams()
-  let basePath = '/'
-
-  if (state.view === 'app') {
-    if (state.target) {
-      basePath = `/skytimemachine/target=${encodeURIComponent(state.target)}`
-    } else {
-      basePath = '/skytimemachine'
+  // When on Home page, the URL must be strictly "/" with NO query params
+  if (state.view === 'home') {
+    const targetUrl = state.embed ? '/?embed=1' : '/'
+    if (window.location.pathname + window.location.search !== targetUrl) {
+      window.history.replaceState(null, '', targetUrl)
     }
-  } else {
-    basePath = '/'
+    return
   }
 
+  // When on Sky Time Machine, write /skytimemachine/target=<slug>
+  let basePath = '/skytimemachine'
+  if (state.target) {
+    basePath = `/skytimemachine/target=${encodeURIComponent(state.target)}`
+  }
+
+  const p = new URLSearchParams()
   for (const [k, v] of Object.entries(state)) {
     if (v === undefined || v === null || v === '' || Number.isNaN(v)) continue
-    // Skip 'view' because the path represents the view (/ vs /skytimemachine)
+    // Skip 'view'
     if (k === 'view') continue
     // If target is in the path, omit from query params
-    if (k === 'target' && state.view === 'app' && basePath.includes('/target=')) continue
+    if (k === 'target' && basePath.includes('/target=')) continue
     p.set(k, String(v))
   }
 
