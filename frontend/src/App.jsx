@@ -111,7 +111,7 @@ export default function App() {
               <span />
             </span>
             <div>
-              <h1>SPHEREx Sky Time Machine main</h1>
+              <h1>SPHEREx Sky Time Machine youssef</h1>
               <p>NASA Space Apps Cairo 2026 · Challenge: Planet X and SPHEREx · Team Null Point</p>
             </div>
           </div>
