@@ -36,18 +36,14 @@ export default function SkyForm({ query, fov, onFov, maxFov, onSubmit }) {
           <input value={dec} onChange={(e) => setDec(e.target.value)} placeholder="-7.245 or -07:14:42.5" />
         </label>
         <label className="fov">
-          Field of view <b>{fov.toFixed(2)}°</b> <small>({Math.round(fov * 60)}′)</small>
-          <input type="range" min="0.03" max="1" step="0.01" value={fov} onChange={(e) => onFov(Number(e.target.value))} />
+          Field of view <b>{fov.toFixed(2)}°</b>{' '}
+          <small>({Math.round(fov * 60)}′{maxFov && fov >= maxFov - 0.001 ? ', whole photo' : ''})</small>
+          <input type="range" min="0.03" max={maxFov ? maxFov.toFixed(3) : 1} step="0.001"
+            value={maxFov ? Math.min(fov, maxFov) : fov} onChange={(e) => onFov(Number(e.target.value))} />
         </label>
         <button type="submit" className="go">Show</button>
       </form>
       {err && <p className="form-err">{err}</p>}
-      {maxFov && fov > maxFov + 0.005 && (
-        <p className="form-note">
-          This target was processed at {maxFov.toFixed(2)}°, so that is the widest view right now. Wider fields need a
-          new run: <code>fetch_cutouts.py --size {fov.toFixed(2)}</code>.
-        </p>
-      )}
       <div className="targets">
         {TARGETS.map((t) => (
           <button key={t.slug} className={query.target === t.slug ? 'on' : ''} onClick={() => pick(t)}>{t.label}</button>
