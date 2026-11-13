@@ -27,6 +27,15 @@
   "manifest": "/data/mock/manifest.json"
  },
  {
+  "target": "rw-aur",
+  "name": "RW Aurigae",
+  "ra": 76.956,
+  "dec": 30.401,
+  "fov": 0.5,
+  "source": "prebaked",
+  "manifest": "/data/rw-aur/manifest.json"
+ },
+ {
   "target": "wise0855",
   "name": "WISE 0855",
   "ra": 133.75987,
