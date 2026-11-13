@@ -1,0 +1,75 @@
+{
+  "_note": "Positions + proper motions used by fetch_cutouts.py (no SIMBAD needed). coord_epoch = the epoch the ra/dec refer to; the pipeline propagates to each SPHEREx date. pmra is mu_alpha*cos(dec) in mas/yr. Anton: verify against Gaia DR3 / literature.",
+  "targets": [
+    {
+      "slug": "wise0855",
+      "label": "WISE 0855",
+      "simbad": "WISE J085510.83-071442.5",
+      "ra": 133.795129,
+      "dec": -7.245147,
+      "coord_epoch": 2010.5,
+      "pmra": -8123.7,
+      "pmdec": 673.2,
+      "pm_ref": "Wikipedia / Kirkpatrick et al. 2021. Position = WISE designation (2010 data); consistent with CatWISE J085508.34-071439.2 at ~2015.4",
+      "fov": 0.2,
+      "kind": "mover",
+      "blurb": "Coldest known brown dwarf, about 8 arcsec/yr. Faint; brightest near 4.5-5 um (detectors 5-6)."
+    },
+    {
+      "slug": "barnards-star",
+      "label": "Barnard's Star",
+      "simbad": "Barnard's star",
+      "ra": 269.452076,
+      "dec": 4.693364,
+      "coord_epoch": 2000.0,
+      "pmra": -801.6,
+      "pmdec": 10362.4,
+      "pm_ref": "Gaia DR3 (from memory, verify)",
+      "fov": 0.2,
+      "kind": "mover",
+      "blurb": "Fastest proper motion of any star, about 10 arcsec/yr. Bright: expect saturation flags."
+    },
+    {
+      "slug": "eps-indi-b",
+      "label": "Epsilon Indi B",
+      "simbad": "eps Ind B",
+      "ra": 331.0438,
+      "dec": -56.7828,
+      "coord_epoch": 2000.0,
+      "pmra": 3982.0,
+      "pmdec": -2466.8,
+      "pm_ref": "Wikipedia (eps Ind Ba/Bb). Position approximate, verify",
+      "fov": 0.3,
+      "kind": "mover",
+      "blurb": "Brown-dwarf pair Ba/Bb a few arcminutes from Epsilon Indi A; about 4.7 arcsec/yr."
+    },
+    {
+      "slug": "rw-aur",
+      "label": "RW Aurigae",
+      "simbad": "RW Aur",
+      "ra": 76.956,
+      "dec": 30.401,
+      "coord_epoch": 2000.0,
+      "pmra": 0.0,
+      "pmdec": 0.0,
+      "pm_ref": "negligible at SPHEREx pixel scale",
+      "fov": 0.2,
+      "kind": "variable",
+      "blurb": "Young variable star; brightness changes between visits."
+    },
+    {
+      "slug": "r-dra",
+      "label": "R Draconis",
+      "simbad": "R Dra",
+      "ra": 248.1675,
+      "dec": 66.755,
+      "coord_epoch": 2000.0,
+      "pmra": 0.0,
+      "pmdec": 0.0,
+      "pm_ref": "negligible at SPHEREx pixel scale",
+      "fov": 0.2,
+      "kind": "variable",
+      "blurb": "Mira-type variable; rises and falls over months."
+    }
+  ]
+}
