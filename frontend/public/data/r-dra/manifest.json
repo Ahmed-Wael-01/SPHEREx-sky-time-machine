@@ -74,7 +74,7 @@
   "CROSSTALK"
  ],
  "source": "prebaked",
- "generated": "2026-11-13T17:35:38Z",
+ "generated": "2026-11-13T17:51:59Z",
  "visits": [
   {
    "date": "2025-05-06",
@@ -653,42 +653,6 @@
    }
   },
   {
-   "date": "2025-07-01",
-   "mjd": 60857.68475,
-   "epoch": 1,
-   "detector": 2,
-   "wavelength_um": [
-    1.135,
-    1.135
-   ],
-   "image_url": "/data/r-dra/2025-07-01_d2.png",
-   "diff_url": "/data/r-dra/2025-07-01_d2_diff.png",
-   "diff_sigma_mjysr": 0.020046548917889595,
-   "n_exposures": 1,
-   "flags": {
-    "TRANSIENT": 550,
-    "OVERFLOW": 32,
-    "NONLINEAR": 0,
-    "PERSIST": 218,
-    "HOT": 0,
-    "COLD": 27,
-    "MISSING_DATA": 0,
-    "OUTLIER": 1345,
-    "NONFUNC": 214,
-    "STREAK": 0,
-    "GHOST": 0,
-    "SNOWBALL": 0,
-    "CROSSTALK": 0,
-    "BLOOM": 173
-   },
-   "predicted": {
-    "ra": 248.1675,
-    "dec": 66.755,
-    "fx": 0.5,
-    "fy": 0.5
-   }
-  },
-  {
    "date": "2025-12-01",
    "mjd": 61010.02259,
    "epoch": 3,
@@ -716,42 +680,6 @@
     "SNOWBALL": 0,
     "CROSSTALK": 0,
     "BLOOM": 127
-   },
-   "predicted": {
-    "ra": 248.1675,
-    "dec": 66.755,
-    "fx": 0.5,
-    "fy": 0.5
-   }
-  },
-  {
-   "date": "2025-12-12",
-   "mjd": 61021.50084,
-   "epoch": 4,
-   "detector": 2,
-   "wavelength_um": [
-    1.213,
-    1.546
-   ],
-   "image_url": "/data/r-dra/2025-12-12_d2.png",
-   "diff_url": "/data/r-dra/2025-12-12_d2_diff.png",
-   "diff_sigma_mjysr": 0.012273373082280159,
-   "n_exposures": 3,
-   "flags": {
-    "TRANSIENT": 2227,
-    "OVERFLOW": 97,
-    "NONLINEAR": 0,
-    "PERSIST": 545,
-    "HOT": 0,
-    "COLD": 92,
-    "MISSING_DATA": 0,
-    "OUTLIER": 5955,
-    "NONFUNC": 743,
-    "STREAK": 0,
-    "GHOST": 0,
-    "SNOWBALL": 0,
-    "CROSSTALK": 0,
-    "BLOOM": 415
    },
    "predicted": {
     "ra": 248.1675,
