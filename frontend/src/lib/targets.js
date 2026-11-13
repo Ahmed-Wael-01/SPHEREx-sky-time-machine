@@ -1,7 +1,9 @@
 // Keep in sync with science/targets.json (the pipeline's source of truth).
+// det = the view a target opens in ('long' = 4-5 um, where brown dwarfs glow).
 export const TARGETS = [
   {
     slug: 'wise0855',
+    det: 'long',
     label: 'WISE 0855',
     tag: 'Planet X Analog',
     kind: 'mover',
@@ -9,7 +11,7 @@ export const TARGETS = [
     dec: -7.245147,
     fov: 0.5,
     blurb: 'Coldest known brown dwarf (~250 K), ~8 arcsec/yr proper motion. Glows brightly in detectors 5-6 (4.5–5 µm).',
-    tip: 'Switch to Difference Mode and check Detectors 5 & 6 to see the dip/peak motion signature.',
+    tip: 'Opens in the 4–5 µm view where it glows. Watch the close-up box, or press First ↔ last: the dot moves west of the yellow marks.',
   },
   {
     slug: 'barnards-star',
@@ -24,6 +26,7 @@ export const TARGETS = [
   },
   {
     slug: 'eps-indi-b',
+    det: 'long',
     label: 'Epsilon Indi B',
     tag: 'Binary Brown Dwarf',
     kind: 'mover',

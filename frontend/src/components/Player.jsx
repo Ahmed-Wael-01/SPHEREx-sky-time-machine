@@ -9,6 +9,7 @@ import { fmtRA, fmtDec } from '../lib/coords.js'
 const RGB_GROUPS = { b: [1, 2], g: [3, 4], r: [5, 6] }
 
 const OVERLAYS = [
+  ['closeup', 'Close-up', '#f5f5f5'],
   ['target', 'Target', '#2f6bff'],
   ['path', 'Path', '#ffd23f'],
   ['grid', 'RA/Dec grid', '#9a9a9a'],
@@ -29,6 +30,37 @@ function ScaleBar({ span, scale }) {
   return (
     <div className="scalebar" style={{ width: `${pct}%` }}>
       <span>{label}</span>
+    </div>
+  )
+}
+
+// Close-up box in the corner: the same frame magnified around the target, with its predicted ring.
+export const LOUPE_ARCMIN = 1.2
+function Loupe({ center, span, pixels, pred, track, children }) {
+  const W = ((span * 60) / LOUPE_ARCMIN) * 100 // size of the full frame, in % of the box
+  const ring = pred ? { cx: pred.fx * 1000, cy: pred.fy * 1000, r: (1.8 / pixels) * 1000 } : null
+  const first = track?.[0]
+  const tick = (12 / W) * 1000 // fixed mark size, in frame units
+  return (
+    <div className="loupe" aria-hidden>
+      <div className="loupe-inner" style={{ width: `${W}%`, height: `${W}%`, left: `${50 - center.fx * W}%`, top: `${50 - center.fy * W}%` }}>
+        {children}
+        <svg className="overlay" viewBox="0 0 1000 1000" preserveAspectRatio="none">
+          {track?.length > 1 && (
+            <g className="ov-path">
+              <polyline points={track.map((p) => `${p.fx * 1000},${p.fy * 1000}`).join(' ')} />
+            </g>
+          )}
+          {first && (
+            <g className="loupe-ref">
+              <line x1={first.fx * 1000} x2={first.fx * 1000} y1={first.fy * 1000 - 4 * tick} y2={first.fy * 1000 - 2 * tick} />
+              <line x1={first.fx * 1000} x2={first.fx * 1000} y1={first.fy * 1000 + 2 * tick} y2={first.fy * 1000 + 4 * tick} />
+            </g>
+          )}
+          {ring && <circle cx={ring.cx} cy={ring.cy} r={ring.r} className="ov-target" />}
+        </svg>
+      </div>
+      <span className="loupe-label">Close-up {LOUPE_ARCMIN}′ · yellow = where it was first</span>
     </div>
   )
 }
@@ -54,6 +86,7 @@ export default function Player({
   const [dmap, setDmap] = useState('bluered')
   const [stretch, setStretch] = useState('normal')
   const [show, setShow] = useState({
+    closeup: true,
     target: true,
     path: false,
     grid: false,
@@ -62,7 +95,8 @@ export default function Player({
     scale: true,
   })
   const [hover, setHover] = useState(null)
-  const [isBlinking, setIsBlinking] = useState(false)
+  const [isBlinking, setIsBlinking] = useState(false) // short flash on keypress
+  const [blink, setBlink] = useState(false) // flip between the first and last pass only: the biggest time gap
   const greyRef = useRef(null)
 
   const isDeep = mode === 'deep'
@@ -77,15 +111,15 @@ export default function Player({
 
   // preload frames of the current detector/mode so playback doesn't flicker
   useEffect(() => {
-    frames.forEach((f) => loadGrey(isDiff ? f.diff_url : f.image_url))
+    frames.forEach((f) => [].concat(isDiff ? f.diff_url : f.image_url).forEach((u) => u && loadGrey(u)))
   }, [frames, isDiff])
 
   // Playback loop
   useEffect(() => {
     if (!playing || isDeep || n < 2) return
-    const id = setInterval(() => setIdx((i) => (i + 1) % n), 1000 / fps)
+    const id = setInterval(() => setIdx((i) => (blink ? (i === 0 ? n - 1 : 0) : (i + 1) % n)), 1000 / fps)
     return () => clearInterval(id)
-  }, [playing, fps, n, isDeep, setIdx])
+  }, [playing, fps, n, isDeep, setIdx, blink])
 
   // Astronomical hotkeys: Space, Arrows, 'B' (Blink), 'D' (Diff mode toggle)
   useEffect(() => {
@@ -153,10 +187,18 @@ export default function Player({
     greyRef.current = g
   }, [])
 
+  // magnifier: fixed on the target's average position, so the target visibly moves inside it
+  const loupeCenter = useMemo(() => {
+    const ps = frames.map((f) => f.predicted).filter(Boolean)
+    if (!ps.length) return { fx: 0.5, fy: 0.5 }
+    return { fx: ps.reduce((a, p) => a + p.fx, 0) / ps.length, fy: ps.reduce((a, p) => a + p.fy, 0) / ps.length }
+  }, [frames])
+
   if (!frame) return <div className="empty">No frames available for this detector.</div>
 
   const src = isDiff ? frame.diff_url : frame.image_url
-  const lutName = isDiff ? dmap : cmap === 'rgb' ? 'grey' : cmap
+  const hasSrc = Array.isArray(src) ? src.length > 0 : !!src
+  const lutName = isDiff ? dmap : (cmap === 'rgb' ? 'grey' : cmap)
   const lut = (isDiff ? DIFF_COLORMAPS : COLORMAPS)[lutName]?.lut ?? COLORMAPS.grey.lut
   const gamma = STRETCHES[stretch].gamma
   const epochYear = frame.mjd ? mjdToYear(frame.mjd) : 2026.0
@@ -174,17 +216,9 @@ export default function Player({
           title="Click to inspect 102-band infrared spectrum & light curve at this position"
         >
           {useRgb && rgbUrls ? (
-            <FrameCanvas
-              rgb={{ ...rgbUrls, gamma }}
-              onGrey={onGrey}
-              alt={`3-colour SPHEREx frame ${frame.date || 'deep stack'}`}
-            />
-          ) : src ? (
-            <FrameCanvas
-              single={{ url: src, lut, lutName, gamma }}
-              onGrey={onGrey}
-              alt={`SPHEREx frame ${frame.date || 'deep stack'}`}
-            />
+            <FrameCanvas rgb={{ ...rgbUrls, gamma }} onGrey={onGrey} alt={`3-colour SPHEREx frame ${frame.date || 'deep stack'}`} />
+          ) : hasSrc ? (
+            <FrameCanvas single={{ url: src, lut, lutName, gamma }} onGrey={onGrey} alt={`SPHEREx frame ${frame.date || 'deep stack'}`} />
           ) : (
             <div className="empty">No difference image (only one visit)</div>
           )}
@@ -218,6 +252,17 @@ export default function Player({
           N ↑ · E ← · {((wcs.span / scale) * 60).toFixed(1)}′ across
         </div>
         {show.scale && <ScaleBar span={wcs.span} scale={scale} />}
+        {show.closeup && (hasSrc || useRgb) && (
+          <Loupe center={loupeCenter} span={wcs.span} pixels={manifest.pixels} pred={isDeep ? null : frame.predicted}
+            track={frames.map((f) => f.predicted).filter(Boolean)}>
+            {useRgb && rgbUrls ? (
+              <FrameCanvas rgb={{ ...rgbUrls, gamma }} alt="close-up" />
+            ) : (
+              <FrameCanvas single={{ url: src, lut, lutName, gamma }} alt="close-up"
+                focus={isDiff ? undefined : { ...loupeCenter, r: (LOUPE_ARCMIN / 60 / wcs.span) * 0.6 }} />
+            )}
+          </Loupe>
+        )}
         {hover && (
           <div className="readout">
             {fmtRA(hover.ra)} {fmtDec(hover.dec)}
@@ -237,8 +282,12 @@ export default function Player({
         >
           {playing && !isDeep && n > 1 ? '❚❚ Pause' : '▶ Play'}
         </button>
-
-        <button
+        <button className={`blink ${blink ? 'on' : ''}`} disabled={isDeep || n < 2}
+          title="Flip between the first and last visit only: the biggest time gap, so movement is easiest to see"
+          onClick={() => { setBlink((b) => !b); setIdx(0); setPlaying(true) }}>
+          First ↔ last
+        </button>
+                <button
           className="step-btn"
           onClick={() => {
             setPlaying(false)
