@@ -28,8 +28,16 @@ def test_bad_params():
 
 
 def test_spectrum_and_detections_shape():
-    s = c.get("/api/spectrum?ra=133.795&dec=-7.245").json
+    import json
+    real = json.loads((appmod.DATA_DIR / "wise0855" / "spectrum.json").read_text())
+    ra, dec = real["positions"][0]
+    s = c.get(f"/api/spectrum?target=wise0855&ra={ra}&dec={dec}").json
     assert s["points"][0].keys() >= {"wavelength_um", "flux_mjy", "err_mjy", "date", "detector", "flagged"}
+    far = c.get("/api/spectrum?target=wise0855&ra=133.70&dec=-7.30").json
+    assert far["points"] == [] and "target itself" in far["note"]
+    none = c.get("/api/spectrum?target=rw-aur&ra=76.956&dec=30.401").json
+    assert none["points"] == [] and none["source"] == "none"
+    assert c.get("/api/spectrum?target=mock&ra=133.795&dec=-7.245").json["source"] == "mock"
     d = c.get("/api/detections?target=mock").json
     assert d["source"] == "mock" and d["candidates"]
 

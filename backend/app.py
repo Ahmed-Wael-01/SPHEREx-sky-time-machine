@@ -143,14 +143,25 @@ def frames():
     return jsonify(m)
 
 
+NEAR_ARCSEC = 30  # a measured spectrum describes the target; show it only for clicks this close to it
+
+
 @app.get("/api/spectrum")
 def spectrum():
     slug, ra, dec, _ = position_args()
-    if slug:
-        f = DATA_DIR / slug / "spectrum.json"
-        if f.exists():  # written by Alaa's photometry step
-            return jsonify(json.loads(f.read_text()))
-    return jsonify(mock.spectrum(ra, dec, slug))
+    if slug == "mock":
+        return jsonify(mock.spectrum(ra, dec, slug))
+    empty = {"ra": ra, "dec": dec, "source": "none", "points": [], "light_curve": []}
+    f = DATA_DIR / slug / "spectrum.json" if slug else None
+    if f is None or not f.exists():  # never invent points: real data only
+        return jsonify({**empty, "note": "This target's spectrum has not been measured yet." if slug
+                        else "No measured spectrum at this position."})
+    s = json.loads(f.read_text())  # written by science/make_spectrum.py
+    spots = s.get("positions") or [[s["ra"], s["dec"]]]
+    if "ra" in request.args and not any(sep_deg(ra, dec, a, d) * 3600 <= NEAR_ARCSEC for a, d in spots):
+        return jsonify({**empty, "note": f"Click the target itself: measured spectra exist for "
+                                         f"{s.get('label', slug)} only (measuring any spot on click is the next step)."})
+    return jsonify(s)
 
 
 @app.get("/api/detections")
