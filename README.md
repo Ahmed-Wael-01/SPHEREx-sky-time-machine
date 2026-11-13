@@ -30,7 +30,7 @@ python science/fetch_cutouts.py --all                                  # all fiv
 python science/fetch_cutouts.py --ra 133.795 --dec -7.245 --slug mypatch --size 0.2
 
 # 2. API
-cd backend && python app.py            # http://localhost:5000/api/health
+cd backend && c           # http://localhost:5000/api/health
 python -m pytest -q                    # backend tests
 
 # 3. Frontend

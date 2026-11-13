@@ -1,54 +1,126 @@
 import { useEffect, useState } from 'react'
-import { TARGETS } from '../lib/targets.js'
+import { TARGETS, MOCK_TARGET } from '../lib/targets.js'
 import { parseRA, parseDec } from '../lib/coords.js'
 
 export default function SkyForm({ query, onSubmit }) {
-  const [ra, setRa] = useState(String(query.ra))
-  const [dec, setDec] = useState(String(query.dec))
-  const [fov, setFov] = useState(query.fov)
+  const [ra, setRa] = useState(String(query.ra ?? ''))
+  const [dec, setDec] = useState(String(query.dec ?? ''))
+  const [fov, setFov] = useState(query.fov ?? 0.2)
   const [err, setErr] = useState(null)
 
   useEffect(() => {
-    setRa(String(query.ra))
-    setDec(String(query.dec))
-    setFov(query.fov)
+    if (query.ra !== undefined) setRa(String(query.ra))
+    if (query.dec !== undefined) setDec(String(query.dec))
+    if (query.fov !== undefined) setFov(query.fov)
   }, [query])
 
   const submit = (e) => {
     e.preventDefault()
     const r = parseRA(ra)
     const d = parseDec(dec)
-    if (Number.isNaN(r)) return setErr('RA: degrees (0–360) or hours like 08h55m10.8s')
-    if (Number.isNaN(d)) return setErr('Dec: degrees (−90 to 90) or like −07°14′42″')
+    if (Number.isNaN(r)) return setErr('RA: degrees (0–360) or sexagesimal like 08h55m10.8s')
+    if (Number.isNaN(d)) return setErr('Dec: degrees (−90 to 90) or sexagesimal like −07°14′42″')
     setErr(null)
     onSubmit({ ra: r, dec: d, fov: Number(fov) })
   }
 
-  const pick = (t) => onSubmit({ target: t.slug, ra: t.ra, dec: t.dec, fov: t.fov })
+  const pick = (t) => {
+    setErr(null)
+    onSubmit({ target: t.slug, ra: t.ra, dec: t.dec, fov: t.fov })
+  }
+
+  // Find currently selected target object
+  const currentTarget =
+    [...TARGETS, MOCK_TARGET].find((t) => t.slug === query.target) ||
+    TARGETS.find(
+      (t) => Math.abs(t.ra - query.ra) < 0.01 && Math.abs(t.dec - query.dec) < 0.01,
+    )
 
   return (
     <section className="form">
+      {/* Coordinate search input */}
       <form onSubmit={submit} className="coords">
         <label>
-          RA
-          <input value={ra} onChange={(e) => setRa(e.target.value)} placeholder="133.795 or 08h55m10.8s" />
+          Right Ascension (RA)
+          <input
+            value={ra}
+            onChange={(e) => setRa(e.target.value)}
+            placeholder="133.795 or 08h55m10.8s"
+          />
         </label>
         <label>
-          Dec
-          <input value={dec} onChange={(e) => setDec(e.target.value)} placeholder="-7.245 or -07:14:42.5" />
+          Declination (Dec)
+          <input
+            value={dec}
+            onChange={(e) => setDec(e.target.value)}
+            placeholder="-7.245 or -07:14:42.5"
+          />
         </label>
         <label className="fov">
-          Field of view <b>{Number(fov).toFixed(2)}°</b>
-          <input type="range" min="0.05" max="1" step="0.05" value={fov} onChange={(e) => setFov(e.target.value)} />
+          Field of View (FoV) <b>{Number(fov).toFixed(2)}°</b>
+          <input
+            type="range"
+            min="0.05"
+            max="1.0"
+            step="0.05"
+            value={fov}
+            onChange={(e) => setFov(e.target.value)}
+          />
         </label>
-        <button type="submit" className="go">Show</button>
+        <button type="submit" className="go">
+          Inspect Sky
+        </button>
       </form>
       {err && <p className="form-err">{err}</p>}
-      <div className="targets">
-        {TARGETS.map((t) => (
-          <button key={t.slug} className={query.target === t.slug ? 'on' : ''} onClick={() => pick(t)}>{t.label}</button>
-        ))}
+
+      {/* Story Mode Target Showcase Pills */}
+      <div className="targets-section">
+        <div className="targets-header">
+          <span className="section-label">NASA Challenge Curated Test Targets:</span>
+          <span className="section-hint">Click any benchmark to load SPHEREx epochs</span>
+        </div>
+        <div className="targets">
+          {TARGETS.map((t) => (
+            <button
+              key={t.slug}
+              type="button"
+              className={`target-pill ${query.target === t.slug ? 'on' : ''}`}
+              onClick={() => pick(t)}
+            >
+              <span className="pill-title">{t.label}</span>
+              {t.tag && <span className="pill-tag">{t.tag}</span>}
+            </button>
+          ))}
+          <button
+            type="button"
+            className={`target-pill mock ${query.target === 'mock' ? 'on' : ''}`}
+            onClick={() => pick(MOCK_TARGET)}
+            title="Smoke test pipeline offline with synthetic data"
+          >
+            <span className="pill-title">Synthetic Test</span>
+            <span className="pill-tag">Offline</span>
+          </button>
+        </div>
       </div>
+
+      {/* Target Scientific Spotlight Card for Judges */}
+      {currentTarget && (
+        <div className="target-spotlight">
+          <div className="spotlight-title">
+            <span className="spotlight-badge">{currentTarget.tag || 'Target'}</span>
+            <strong>{currentTarget.label}</strong>
+            <span className="spotlight-coords">
+              (RA: {currentTarget.ra.toFixed(4)}°, Dec: {currentTarget.dec.toFixed(4)}°)
+            </span>
+          </div>
+          <p className="spotlight-blurb">{currentTarget.blurb}</p>
+          {currentTarget.tip && (
+            <div className="spotlight-tip">
+              💡 <b>Observer Guide:</b> {currentTarget.tip}
+            </div>
+          )}
+        </div>
+      )}
     </section>
   )
 }
