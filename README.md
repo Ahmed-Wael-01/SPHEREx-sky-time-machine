@@ -41,6 +41,14 @@ cd frontend && npm install && npm run dev   # http://localhost:5173
 
 Shareable views: `/?target=wise0855`, `/?ra=133.795&dec=-7.245&fov=0.2&det=6&mode=diff`, `/?ra=08h55m10.8s&dec=-07:14:42.5`. Add `&embed=1` for a bare player to embed elsewhere.
 
+## Deploy
+
+**Website (Vercel, free):** vercel.com → Add New → Project → import this repo → Root Directory `frontend` (framework: Vite) → Deploy. It works on its own: with no API it reads the baked files in `public/data`.
+
+**API (Render, free):** render.com → New → Blueprint → this repo (uses `render.yaml`). When it's live, add `VITE_API_BASE=https://<your-service>.onrender.com` in Vercel → Settings → Environment Variables and redeploy. Free Render services sleep after inactivity; the site keeps working from static files while it wakes.
+
+New frames: run the pipeline, commit `frontend/public/data/`, push. Both services redeploy automatically.
+
 ## How the pipeline works (`science/fetch_cutouts.py`)
 
 1. **Position.** Resolve the name with SIMBAD, then apply proper motion to the cutout epoch (`--epoch`, default 2026.0).
