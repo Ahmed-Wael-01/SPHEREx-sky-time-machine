@@ -132,13 +132,16 @@ export default function App() {
     <div className={`app ${url.embed ? 'embed' : ''}`}>
       {!url.embed && (
         <header className="top-nav">
-          {/* Brand */}
-          <div className="nav-brand">
+          {/* Brand — click → home */}
+          <button type="button" className="nav-brand" onClick={() => setView('home')}>
             <span className="nav-logo" aria-hidden>
               <span />
             </span>
-            <span className="nav-brand-name">SPHEREx</span>
-          </div>
+            <div className="nav-brand-text">
+              <span className="nav-brand-title">SPHEREx</span>
+              <span className="nav-brand-sub">Sky Time Machine</span>
+            </div>
+          </button>
 
           {/* Nav links */}
           <nav className="nav-links" aria-label="Main Navigation">

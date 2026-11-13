@@ -63,10 +63,17 @@ button, input, select {
   display: flex;
   align-items: center;
   gap: 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
 }
+.nav-brand:hover .nav-brand-title { opacity: 0.85; }
 .nav-logo {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
   border: 1.5px solid rgba(255,255,255,0.7);
   display: grid;
@@ -81,13 +88,26 @@ button, input, select {
   background: #2f6bff;
   box-shadow: 0 0 6px #2f6bff;
 }
-.nav-brand-name {
+.nav-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+  gap: 1px;
+}
+.nav-brand-title {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 0.95rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: #f5f6fa;
+  transition: opacity 0.2s;
+}
+.nav-brand-sub {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #8890a0;
 }
 .nav-links {
   display: flex;
