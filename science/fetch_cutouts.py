@@ -380,7 +380,10 @@ def saturated_cores(nan, t, bright=0.6):
     return out
 
 
-def small_holes(nan, max_px=4):
+SMALL_HOLE_PX = 40
+
+
+def small_holes(nan, max_px=SMALL_HOLE_PX):
     """Connected blank areas of at most max_px pixels that are fully surrounded by data."""
     from scipy import ndimage
     out = np.zeros_like(nan)
@@ -415,9 +418,9 @@ def to_png(a, path, lo, hi, mode="asinh"):
         sat = saturated_cores(nan, t)
         t[sat] = 1.0
         nan = nan & ~sat
-    # Tiny isolated holes (<= 4 px, e.g. one damaged pixel that no other photo covered) are filled with
+    # Small isolated holes (<= 40 px: pixels the camera flagged in the only photo of that spot) are filled with
     # the median of their surroundings, for the picture only; stacks.fits keeps them blank.
-    small = small_holes(nan, max_px=4)
+    small = small_holes(nan, max_px=SMALL_HOLE_PX)
     if small.any():
         from scipy import ndimage
         lab, n = ndimage.label(small)
