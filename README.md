@@ -23,11 +23,11 @@ docs/        api.md (API contract)
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# 1. Bake frames for a target (talks to NASA/IPAC IRSA; first run downloads cutouts)
+# 1. Bake frames for a target (talks to NASA/IPAC IRSA; first run downloads ~1.75 GB per target at the default 0.5° field)
 python science/fetch_cutouts.py --target wise0855
 python science/fetch_cutouts.py --target wise0855 --max-exposures 40   # quick first test
 python science/fetch_cutouts.py --all                                  # all five test targets
-python science/fetch_cutouts.py --ra 133.795 --dec -7.245 --slug mypatch --size 0.2
+python science/fetch_cutouts.py --ra 133.795 --dec -7.245 --slug mypatch --size 0.5
 
 # 2. API
 cd backend && python app.py            # http://localhost:5000/api/health
