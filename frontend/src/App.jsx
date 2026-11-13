@@ -129,7 +129,7 @@ export default function App() {
   const wl = (d) => manifest?.detector_wavelength_um?.[d] || (d ? NOMINAL_WL[d] : [0.75, 5.0])
 
   return (
-    <div className={`app ${url.embed ? 'embed' : ''} ${view === 'home' ? 'home-view' : ''}`}>
+    <div className={`app ${url.embed ? 'embed' : ''}`}>
       {!url.embed && (
         <header className="top-nav">
           {/* Brand — click → home */}

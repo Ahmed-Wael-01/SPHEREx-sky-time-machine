@@ -23,10 +23,13 @@
 }
 
 * { box-sizing: border-box; }
-body {
+html, body {
   margin: 0;
+  padding: 0;
   background: var(--black);
   color: var(--white);
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 button, input, select {
@@ -43,27 +46,14 @@ button, input, select {
   padding: 8px;
 }
 
-/* Home page: full-width, no padding */
-.app.home-view {
-  max-width: 100%;
-  padding: 0;
-}
-
-/* ── Navbar ── */
+/* ── Navbar (aligned cleanly within .app max-width: 1200px) ── */
 .top-nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.5rem;
-  height: 58px;
-  background: rgba(6, 6, 8, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-  margin: -20px -20px 20px;
+  margin-bottom: 24px;
+  width: 100%;
+  box-sizing: border-box;
 }
 .nav-brand {
   display: flex;
@@ -992,13 +982,16 @@ input[type='range'] {
 /* root container */
 .hp-root {
   position: relative;
-  min-height: 100vh;
+  min-height: calc(100vh - 90px);
   background: var(--black);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 1.5rem 5rem;
+  padding: 0 0 5rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 /* â”€â”€ starfield canvas â”€â”€ */
@@ -1393,7 +1386,7 @@ input[type='range'] {
 /* ── Mobile (≤600px) ── */
 @media (max-width: 600px) {
   /* Navbar: compact */
-  .top-nav { padding: 0 1rem; height: 52px; margin: -20px -20px 16px; }
+  .top-nav { padding: 0; height: auto; margin: 0 0 16px; }
   .nav-brand-title { font-size: 0.85rem; }
   .nav-logo { width: 28px; height: 28px; }
 
