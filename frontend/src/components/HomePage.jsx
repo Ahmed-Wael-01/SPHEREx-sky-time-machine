@@ -1,225 +1,260 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
+import { motion } from 'motion/react'
 import { TARGETS, MOCK_TARGET } from '../lib/targets.js'
 
+/* ── Animated starfield canvas ── */
+function StarField() {
+  const canvasRef = useRef(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    let raf
+
+    const resize = () => {
+      canvas.width  = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    const NUM = 160
+    const stars = Array.from({ length: NUM }, () => ({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      r: Math.random() * 1.4 + 0.3,
+      speed: Math.random() * 0.18 + 0.04,
+      alpha: Math.random() * 0.6 + 0.3,
+      twinkle: Math.random() * Math.PI * 2,
+    }))
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      const t = Date.now() / 1000
+      stars.forEach(s => {
+        s.y += s.speed
+        s.twinkle += 0.015
+        if (s.y > canvas.height) {
+          s.y = 0
+          s.x = Math.random() * canvas.width
+        }
+        const a = s.alpha * (0.7 + 0.3 * Math.sin(s.twinkle))
+        ctx.beginPath()
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(200,215,255,${a})`
+        ctx.fill()
+      })
+      raf = requestAnimationFrame(draw)
+    }
+    draw()
+
+    return () => {
+      cancelAnimationFrame(raf)
+      window.removeEventListener('resize', resize)
+    }
+  }, [])
+
+  return <canvas ref={canvasRef} className="hp-starfield" />
+}
+
+/* ── Variants ── */
+const fadeUp = {
+  hidden: { opacity: 0, y: 32 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } },
+}
+const stagger = {
+  hidden: {},
+  show:   { transition: { staggerChildren: 0.12 } },
+}
+const fadeItem = {
+  hidden: { opacity: 0, y: 20 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
+}
+
+/* ── Stats ── */
+const STATS = [
+  { num: '102',    label: 'Spectral Bands',    sub: '0.75 – 5.0 µm IR' },
+  { num: '6',      label: 'LVF Detectors',     sub: 'Linear Variable Filter' },
+  { num: '4+',     label: 'Survey Passes',     sub: 'Multi-epoch flip-book' },
+  { num: '< 0.8″', label: 'Astrometric Match', sub: 'Gaia DR3 · WISE · SIMBAD' },
+]
+
+/* ── Features ── */
+const FEATURES = [
+  { icon: '🎞️', title: 'Flip-Book & Diff Engine',     desc: 'Rapid epoch switching with blink comparator and difference imaging.' },
+  { icon: '🔬', title: '102-Band Spectrophotometry',   desc: 'Click-to-extract SEDs with molecular markers (H₂O, CH₄, CO₂, CO).' },
+  { icon: '🌐', title: 'Gaia / WISE / SIMBAD Overlay', desc: 'Live catalog cross-match flags uncatalogued movers automatically.' },
+]
+
+/* ══════════════════════════════════════════════════
+   HomePage
+══════════════════════════════════════════════════ */
 export default function HomePage({ onLaunch, onSelectTarget }) {
   return (
-    <div className="home-container">
-      {/* Hero Section */}
-      <section className="home-hero">
-        <div className="home-hero-badge">
-          <span className="hero-pulse" />
-          <span>NASA Space Apps Cairo 2026 · Challenge: Planet X and SPHEREx · Team Null Point</span>
-        </div>
+    <div className="hp-root">
+      {/* animated starfield */}
+      <StarField />
 
-        <div className="home-hero-content">
-          <h1 className="home-title">
-            SPHEREx Sky <span className="title-highlight">Time Machine</span>
-          </h1>
-          <p className="home-subtitle">
-            An advanced multi-epoch infrared time machine and 102-channel spectrophotometry platform.
-            Uncover cold moving substellar objects, Planet X candidates, extreme variable stars, and cosmic transients across SPHEREx all-sky survey passes.
-          </p>
+      {/* ── glowing orb (Null Point singularity) ── */}
+      <motion.div
+        className="hp-orb"
+        animate={{ scale: [1, 1.10, 1], opacity: [0.55, 0.85, 0.55] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+      />
 
-          <div className="home-cta-group">
-            <button
-              type="button"
-              className="cta-btn primary"
-              onClick={() => onLaunch()}
-            >
-              🚀 Launch Sky Time Machine
-            </button>
-            <button
-              type="button"
-              className="cta-btn secondary"
-              onClick={() => onSelectTarget ? onSelectTarget(TARGETS[0]) : onLaunch('wise0855')}
-            >
-              🪐 Inspect WISE 0855 (Planet X Analog)
-            </button>
-            <button
-              type="button"
-              className="cta-btn outline"
-              onClick={() => onSelectTarget ? onSelectTarget(MOCK_TARGET) : onLaunch('mock')}
-            >
-              🧪 Synthetic Offline Test
-            </button>
-          </div>
-        </div>
+      {/* ── orbital ring SVG ── */}
+      <motion.svg
+        className="hp-orbital"
+        viewBox="0 0 400 400"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+      >
+        <ellipse cx="200" cy="200" rx="180" ry="60"
+          stroke="rgba(47,107,255,0.22)" strokeWidth="1" fill="none" />
+        <ellipse cx="200" cy="200" rx="130" ry="44"
+          stroke="rgba(47,107,255,0.16)" strokeWidth="1" fill="none" />
+        {/* orbiting dot */}
+        <circle cx="380" cy="200" r="4" fill="#2f6bff" opacity="0.9" />
+      </motion.svg>
 
-        {/* Live Metrics Row */}
-        <div className="home-stats-grid">
-          <div className="stat-card">
-            <div className="stat-num">102</div>
-            <div className="stat-label">Spectral Bands</div>
-            <div className="stat-sub">0.75 – 5.0 µm continuous IR</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-num">6</div>
-            <div className="stat-label">LVF Detectors</div>
-            <div className="stat-sub">Linear Variable Filter mosaic</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-num">4+</div>
-            <div className="stat-label">Survey Passes</div>
-            <div className="stat-sub">Multi-epoch flip-book & difference</div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-num">&lt; 0.8″</div>
-            <div className="stat-label">Astrometric Match</div>
-            <div className="stat-sub">Gaia DR3, AllWISE & SIMBAD</div>
-          </div>
-        </div>
+      {/* ═══════════════ HERO ═══════════════ */}
+      <section className="hp-hero">
+        <motion.div
+          className="hp-badge"
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
+        >
+          <span className="hp-badge-dot" />
+          NASA Space Apps Cairo 2026 · Planet X &amp; SPHEREx · Team Null Point
+        </motion.div>
+
+        <motion.h1
+          className="hp-title"
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.75, delay: 0.25 }}
+        >
+          SPHEREx Sky<br />
+          <span className="hp-title-accent">Time Machine</span>
+        </motion.h1>
+
+        <motion.p
+          className="hp-subtitle"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.7, delay: 0.45 }}
+        >
+          Multi-epoch infrared explorer · 102-band spectrophotometry ·
+          Planet X analog detection
+        </motion.p>
+
+        <motion.div
+          className="hp-cta-row"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >
+          <button
+            type="button"
+            className="hp-btn primary"
+            onClick={() => onLaunch()}
+          >
+            🚀 Launch Time Machine
+          </button>
+          <button
+            type="button"
+            className="hp-btn outline"
+            onClick={() => onSelectTarget ? onSelectTarget(TARGETS[0]) : onLaunch('wise0855')}
+          >
+            🪐 Explore WISE 0855
+          </button>
+        </motion.div>
       </section>
 
-      {/* What the Platform Does Section */}
-      <section className="home-features">
-        <div className="section-head">
-          <span className="section-tag">CAPABILITIES & SCIENCE</span>
-          <h2>What Does the SPHEREx Sky Time Machine Do?</h2>
-          <p>
-            Bridging raw NASA/IPAC infrared survey archives with interactive citizen science and astronomical research.
-          </p>
-        </div>
+      {/* ═══════════════ STATS ═══════════════ */}
+      <motion.section
+        className="hp-stats"
+        variants={stagger}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-80px' }}
+      >
+        {STATS.map(s => (
+          <motion.div key={s.label} className="hp-stat" variants={fadeItem}>
+            <div className="hp-stat-num">{s.num}</div>
+            <div className="hp-stat-label">{s.label}</div>
+            <div className="hp-stat-sub">{s.sub}</div>
+          </motion.div>
+        ))}
+      </motion.section>
 
-        <div className="feature-grid">
-          <div className="feature-card">
-            <div className="feature-icon">🎞️</div>
-            <h3>Multi-Epoch Flip-Book & Difference Engine</h3>
-            <p>
-              Compare consecutive 6-month sky passes with rapid frame switching, adjustable playback speed (0.5x–8x),
-              blink comparator (<code>B</code>), and difference imaging (<code>D</code>) to immediately isolate high-proper-motion candidates.
-            </p>
-          </div>
+      {/* ═══════════════ FEATURES ═══════════════ */}
+      <motion.section
+        className="hp-features"
+        variants={stagger}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-60px' }}
+      >
+        {FEATURES.map(f => (
+          <motion.div key={f.title} className="hp-feat" variants={fadeItem}
+            whileHover={{ y: -4, borderColor: 'rgba(47,107,255,0.6)' }}
+            transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+          >
+            <div className="hp-feat-icon">{f.icon}</div>
+            <div className="hp-feat-title">{f.title}</div>
+            <div className="hp-feat-desc">{f.desc}</div>
+          </motion.div>
+        ))}
+      </motion.section>
 
-          <div className="feature-card">
-            <div className="feature-icon">🔬</div>
-            <h3>102-Band Infrared Spectrophotometry</h3>
-            <p>
-              Click any point on the sky to extract calibrated 102-channel spectral energy distributions (SEDs),
-              complete with error bars, flagged artifact detection, and atmospheric molecular markers (H₂O, CH₄, CO₂, CO).
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">📈</div>
-            <h3>Multi-Epoch Light Curves</h3>
-            <p>
-              Examine flux variations over time across multiple sky passes to detect stellar variability,
-              occultations, young stellar dust clearing events, and transient infrared flares.
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">🌐</div>
-            <h3>Multi-Catalog Overlays & Live SIMBAD</h3>
-            <p>
-              Direct astrometric integration with <b>Gaia DR3</b> (with proper motion propagation) and <b>AllWISE</b> sources.
-              Integrated live SIMBAD query automatically identifies cataloged objects or flags uncataloged movers.
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">🎨</div>
-            <h3>Dynamic Colormaps & 3-Colour IR</h3>
-            <p>
-              Customizable false-color visualizations: Heat, Viridis, Inferno, Null Point Blue, and Blue-Red Difference,
-              plus an authentic <b>3-Colour Infrared Composite</b> (B: 0.75–1.6 µm, G: 1.6–3.8 µm, R: 3.8–5.0 µm).
-            </p>
-          </div>
-
-          <div className="feature-card">
-            <div className="feature-icon">🔍</div>
-            <h3>Live Field-of-View Cropping & Scale</h3>
-            <p>
-              Real-time interactive Field-of-View (FoV) slider dynamically cropping down to arcminute scales,
-              backed by an adaptive coordinate grid and calibrated on-sky scale bar.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Curated NASA Targets Showcase */}
-      <section className="home-targets-showcase">
-        <div className="section-head">
-          <span className="section-tag">CURATED NASA BENCHMARKS</span>
-          <h2>Explore Key Astronomical Targets</h2>
-          <p>
-            Hand-picked targets demonstrating SPHEREx capabilities for Planet X analogs, fastest proper motions, and extreme variables.
-          </p>
-        </div>
-
-        <div className="target-cards-grid">
-          {TARGETS.map((t) => (
-            <div key={t.slug} className="target-showcase-card">
-              <div className="target-card-top">
-                <span className="target-kind-tag">{t.tag}</span>
-                <span className="target-coords-text">{t.ra.toFixed(2)}°, {t.dec.toFixed(2)}°</span>
-              </div>
-              <h3>{t.label}</h3>
-              <p className="target-blurb-text">{t.blurb}</p>
-              {t.tip && (
-                <div className="target-tip-box">
-                  💡 <b>Observer Tip:</b> {t.tip}
-                </div>
-              )}
-              <button
-                type="button"
-                className="target-explore-btn"
-                onClick={() => onSelectTarget ? onSelectTarget(t) : onLaunch(t.slug)}
-              >
-                Inspect in Time Machine →
-              </button>
-            </div>
+      {/* ═══════════════ TARGETS ═══════════════ */}
+      <motion.section
+        className="hp-targets"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-60px' }}
+      >
+        <div className="hp-section-label">CURATED TARGETS</div>
+        <div className="hp-target-scroll">
+          {[...TARGETS, MOCK_TARGET].map(t => (
+            <motion.button
+              key={t.slug}
+              type="button"
+              className="hp-target-pill"
+              onClick={() => onSelectTarget ? onSelectTarget(t) : onLaunch(t.slug)}
+              whileHover={{ scale: 1.05, backgroundColor: 'rgba(47,107,255,0.18)' }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 22 }}
+            >
+              <span className="hp-pill-tag">{t.tag}</span>
+              <span className="hp-pill-name">{t.label}</span>
+              <span className="hp-pill-arrow">→</span>
+            </motion.button>
           ))}
-
-          {/* Synthetic Offline Smoke Test Card */}
-          <div className="target-showcase-card mock-card">
-            <div className="target-card-top">
-              <span className="target-kind-tag mock">Developer Test</span>
-              <span className="target-coords-text">Offline Scaffolding</span>
-            </div>
-            <h3>Synthetic Test Field</h3>
-            <p className="target-blurb-text">{MOCK_TARGET.blurb}</p>
-            <div className="target-tip-box">
-              ⚙️ <b>Development Scaffolding:</b> {MOCK_TARGET.tip}
-            </div>
-            <button
-              type="button"
-              className="target-explore-btn"
-              onClick={() => onSelectTarget ? onSelectTarget(MOCK_TARGET) : onLaunch('mock')}
-            >
-              Run Synthetic Smoke Test →
-            </button>
-          </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Challenge & Mission Background Section */}
-      <section className="home-mission-section">
-        <div className="mission-content">
-          <span className="section-tag">THE CHALLENGE</span>
-          <h2>Planet X and SPHEREx: Solving the Challenge</h2>
-          <p>
-            NASA’s SPHEREx mission maps the entire celestial sphere every six months in 102 near-infrared bands.
-            The sheer volume of spectroscopic and temporal data presents a challenge: how can researchers and citizen scientists
-            reliably distinguish genuine moving solar system objects (like the hypothesized Planet X / Planet Nine)
-            and variable stars from detector artifacts, dichroic boundaries, and cosmic ray transients?
-          </p>
-          <p>
-            <strong>Team Null Point</strong> created the <strong>SPHEREx Sky Time Machine</strong> to provide an intuitive,
-            scientifically rigorous environment: combining pixel-level difference imaging, dynamic colormaps, 102-band spectrophotometry,
-            and automated Gaia/WISE/SIMBAD cross-matching to empower astronomers and the public alike.
-          </p>
-          <div className="mission-actions">
-            <button
-              type="button"
-              className="cta-btn primary"
-              onClick={() => onLaunch()}
-            >
-              Launch Interactive Time Machine 🚀
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* ═══════════════ FOOTER CTA ═══════════════ */}
+      <motion.section
+        className="hp-footer-cta"
+        variants={fadeUp}
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: '-40px' }}
+      >
+        <p className="hp-footer-label">Ready to explore infrared space?</p>
+        <button
+          type="button"
+          className="hp-btn primary"
+          onClick={() => onLaunch()}
+        >
+          Launch Interactive Time Machine 🚀
+        </button>
+      </motion.section>
     </div>
   )
 }
