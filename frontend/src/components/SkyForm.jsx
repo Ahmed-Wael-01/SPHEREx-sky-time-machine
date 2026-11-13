@@ -55,15 +55,10 @@ export default function SkyForm({ query, fov, onFov, maxFov, onSubmit }) {
           />
         </label>
         <label className="fov">
-          Field of View (FoV) <b>{Number(fov).toFixed(2)}°</b> <small>({Math.round(fov * 60)}′)</small>
-          <input
-            type="range"
-            min="0.03"
-            max="1.0"
-            step="0.01"
-            value={fov}
-            onChange={(e) => onFov ? onFov(Number(e.target.value)) : null}
-          />
+          Field of View (FoV) <b>{fov.toFixed(2)}°</b>{' '}
+          <small>({Math.round(fov * 60)}′{maxFov && fov >= maxFov - 0.001 ? ', whole photo' : ''})</small>
+          <input type="range" min="0.03" max={maxFov ? maxFov.toFixed(3) : 1} step="0.001"
+            value={maxFov ? Math.min(fov, maxFov) : fov} onChange={(e) => onFov(Number(e.target.value))} />
         </label>
         <button type="submit" className="go">
           Inspect Sky
@@ -71,12 +66,6 @@ export default function SkyForm({ query, fov, onFov, maxFov, onSubmit }) {
       </form>
       {err && <p className="form-err">{err}</p>}
 
-      {maxFov && fov > maxFov + 0.005 && (
-        <p className="form-note">
-          This target was processed at {maxFov.toFixed(2)}°, so that is the widest view right now. Wider fields need a
-          new run: <code>fetch_cutouts.py --size {fov.toFixed(2)}</code>.
-        </p>
-      )}
 
       {/* Story Mode Target Showcase Pills */}
       <div className="targets-section">
@@ -96,15 +85,6 @@ export default function SkyForm({ query, fov, onFov, maxFov, onSubmit }) {
               {t.tag && <span className="pill-tag">{t.tag}</span>}
             </button>
           ))}
-          <button
-            type="button"
-            className={`target-pill mock ${query.target === 'mock' ? 'on' : ''}`}
-            onClick={() => pick(MOCK_TARGET)}
-            title="Smoke test pipeline offline with synthetic data"
-          >
-            <span className="pill-title">Synthetic Test</span>
-            <span className="pill-tag">Offline</span>
-          </button>
         </div>
       </div>
 
