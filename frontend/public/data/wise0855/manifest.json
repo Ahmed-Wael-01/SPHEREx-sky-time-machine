@@ -14,8 +14,8 @@
  "pixels": 119,
  "pixel_scale_arcsec": 6.15,
  "orientation": "north up, east left",
- "n_exposures": 40,
- "n_epochs": 2,
+ "n_exposures": 258,
+ "n_epochs": 4,
  "detectors": [
   1,
   2,
@@ -26,31 +26,31 @@
  ],
  "detector_wavelength_um": {
   "0": [
-   0.861,
+   0.744,
    5.003
   ],
   "1": [
-   0.861,
-   1.065
+   0.744,
+   1.115
   ],
   "2": [
-   1.28,
-   1.628
+   1.101,
+   1.63
   ],
   "3": [
-   2.208,
+   1.631,
    2.413
   ],
   "4": [
-   2.854,
-   3.638
+   2.427,
+   3.831
   ],
   "5": [
-   4.039,
-   4.406
+   3.822,
+   4.408
   ],
   "6": [
-   4.86,
+   4.418,
    5.003
   ]
  },
@@ -74,7 +74,7 @@
   "CROSSTALK"
  ],
  "source": "prebaked",
- "generated": "2026-11-13T07:08:53Z",
+ "generated": "2026-11-13T12:16:24Z",
  "visits": [
   {
    "date": "2025-05-06",
@@ -87,23 +87,23 @@
    ],
    "image_url": "/data/wise0855/2025-05-06_all.png",
    "diff_url": "/data/wise0855/2025-05-06_all_diff.png",
-   "diff_sigma_mjysr": 0.011743921786546707,
+   "diff_sigma_mjysr": 0.011486641131341457,
    "n_exposures": 30,
    "flags": {
-    "TRANSIENT": 2219,
-    "OVERFLOW": 124,
+    "TRANSIENT": 4743,
+    "OVERFLOW": 284,
     "NONLINEAR": 0,
-    "PERSIST": 275,
+    "PERSIST": 616,
     "HOT": 0,
-    "COLD": 226,
+    "COLD": 494,
     "MISSING_DATA": 0,
-    "OUTLIER": 6056,
-    "NONFUNC": 1559,
+    "OUTLIER": 11964,
+    "NONFUNC": 3352,
     "STREAK": 0,
     "GHOST": 0,
-    "SNOWBALL": 0,
-    "CROSSTALK": 88,
-    "BLOOM": 55
+    "SNOWBALL": 18,
+    "CROSSTALK": 266,
+    "BLOOM": 84
    },
    "predicted": {
     "ra": 133.761362,
@@ -113,39 +113,111 @@
    }
   },
   {
-   "date": "2025-10-31",
-   "mjd": 60979.72566,
+   "date": "2025-11-07",
+   "mjd": 60986.78728,
    "epoch": 1,
    "detector": 0,
    "wavelength_um": [
-    0.861,
-    3.18
+    0.749,
+    4.982
    ],
-   "image_url": "/data/wise0855/2025-10-31_all.png",
-   "diff_url": "/data/wise0855/2025-10-31_all_diff.png",
-   "diff_sigma_mjysr": 0.011743921786546707,
-   "n_exposures": 10,
+   "image_url": "/data/wise0855/2025-11-07_all.png",
+   "diff_url": "/data/wise0855/2025-11-07_all_diff.png",
+   "diff_sigma_mjysr": 0.0036954348906874657,
+   "n_exposures": 110,
    "flags": {
-    "TRANSIENT": 746,
-    "OVERFLOW": 53,
+    "TRANSIENT": 16121,
+    "OVERFLOW": 1128,
     "NONLINEAR": 0,
-    "PERSIST": 124,
-    "HOT": 0,
-    "COLD": 65,
+    "PERSIST": 13975,
+    "HOT": 1,
+    "COLD": 1493,
     "MISSING_DATA": 0,
-    "OUTLIER": 2130,
-    "NONFUNC": 504,
-    "STREAK": 0,
+    "OUTLIER": 46061,
+    "NONFUNC": 11207,
+    "STREAK": 1924,
     "GHOST": 0,
-    "SNOWBALL": 0,
-    "CROSSTALK": 162,
-    "BLOOM": 15
+    "SNOWBALL": 37,
+    "CROSSTALK": 1448,
+    "BLOOM": 334
    },
    "predicted": {
-    "ra": 133.760252,
-    "dec": -7.24228,
-    "fx": 0.4981,
-    "fy": 0.5002
+    "ra": 133.760208,
+    "dec": -7.242276,
+    "fx": 0.4984,
+    "fy": 0.5001
+   }
+  },
+  {
+   "date": "2025-12-12",
+   "mjd": 61021.82352,
+   "epoch": 2,
+   "detector": 0,
+   "wavelength_um": [
+    1.287,
+    4.736
+   ],
+   "image_url": "/data/wise0855/2025-12-12_all.png",
+   "diff_url": "/data/wise0855/2025-12-12_all_diff.png",
+   "diff_sigma_mjysr": 0.004624479450285435,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 2522,
+    "OVERFLOW": 163,
+    "NONLINEAR": 0,
+    "PERSIST": 4168,
+    "HOT": 0,
+    "COLD": 260,
+    "MISSING_DATA": 0,
+    "OUTLIER": 7452,
+    "NONFUNC": 1735,
+    "STREAK": 0,
+    "GHOST": 0,
+    "CROSSTALK": 0,
+    "BLOOM": 77,
+    "SNOWBALL": 0
+   },
+   "predicted": {
+    "ra": 133.75999,
+    "dec": -7.242258,
+    "fx": 0.4994,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-05-02",
+   "mjd": 61162.40228,
+   "epoch": 3,
+   "detector": 0,
+   "wavelength_um": [
+    0.744,
+    4.967
+   ],
+   "image_url": "/data/wise0855/2026-05-02_all.png",
+   "diff_url": "/data/wise0855/2026-05-02_all_diff.png",
+   "diff_sigma_mjysr": 0.005928012076765299,
+   "n_exposures": 100,
+   "flags": {
+    "TRANSIENT": 18982,
+    "OVERFLOW": 1071,
+    "NONLINEAR": 0,
+    "PERSIST": 2987,
+    "HOT": 1,
+    "COLD": 1551,
+    "MISSING_DATA": 0,
+    "OUTLIER": 44264,
+    "NONFUNC": 10732,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 326,
+    "CROSSTALK": 1262,
+    "BLOOM": 200
+   },
+   "predicted": {
+    "ra": 133.759114,
+    "dec": -7.242186,
+    "fx": 0.5037,
+    "fy": 0.4997
    }
   },
   {
@@ -159,23 +231,23 @@
    ],
    "image_url": "/data/wise0855/2025-05-06_d1.png",
    "diff_url": "/data/wise0855/2025-05-06_d1_diff.png",
-   "diff_sigma_mjysr": 0.08316973596811295,
+   "diff_sigma_mjysr": 0.09572408348321915,
    "n_exposures": 4,
    "flags": {
-    "TRANSIENT": 338,
-    "OVERFLOW": 3,
+    "TRANSIENT": 723,
+    "OVERFLOW": 19,
     "NONLINEAR": 0,
-    "PERSIST": 89,
+    "PERSIST": 124,
     "HOT": 0,
-    "COLD": 31,
+    "COLD": 72,
     "MISSING_DATA": 0,
-    "OUTLIER": 866,
-    "NONFUNC": 156,
+    "OUTLIER": 1673,
+    "NONFUNC": 382,
     "STREAK": 0,
     "GHOST": 0,
     "SNOWBALL": 0,
-    "CROSSTALK": 88,
-    "BLOOM": 15
+    "CROSSTALK": 266,
+    "BLOOM": 19
    },
    "predicted": {
     "ra": 133.761362,
@@ -186,38 +258,74 @@
   },
   {
    "date": "2025-10-31",
-   "mjd": 60979.72566,
+   "mjd": 60979.79237,
    "epoch": 1,
    "detector": 1,
    "wavelength_um": [
-    0.861,
-    0.946
+    0.749,
+    1.115
    ],
    "image_url": "/data/wise0855/2025-10-31_d1.png",
    "diff_url": "/data/wise0855/2025-10-31_d1_diff.png",
-   "diff_sigma_mjysr": 0.08316973596811295,
-   "n_exposures": 5,
+   "diff_sigma_mjysr": 0.01883978769183159,
+   "n_exposures": 18,
    "flags": {
-    "TRANSIENT": 394,
-    "OVERFLOW": 11,
+    "TRANSIENT": 2652,
+    "OVERFLOW": 107,
     "NONLINEAR": 0,
-    "PERSIST": 104,
+    "PERSIST": 1553,
     "HOT": 0,
-    "COLD": 29,
+    "COLD": 215,
     "MISSING_DATA": 0,
-    "OUTLIER": 1036,
-    "NONFUNC": 174,
+    "OUTLIER": 6954,
+    "NONFUNC": 1335,
     "STREAK": 0,
     "GHOST": 0,
     "SNOWBALL": 0,
-    "CROSSTALK": 162,
-    "BLOOM": 15
+    "CROSSTALK": 1448,
+    "BLOOM": 76
    },
    "predicted": {
-    "ra": 133.760252,
+    "ra": 133.760251,
     "dec": -7.24228,
     "fx": 0.4981,
     "fy": 0.5002
+   }
+  },
+  {
+   "date": "2026-05-03",
+   "mjd": 61163.28706,
+   "epoch": 3,
+   "detector": 1,
+   "wavelength_um": [
+    0.744,
+    1.091
+   ],
+   "image_url": "/data/wise0855/2026-05-03_d1.png",
+   "diff_url": "/data/wise0855/2026-05-03_d1_diff.png",
+   "diff_sigma_mjysr": 0.027917198836803436,
+   "n_exposures": 14,
+   "flags": {
+    "TRANSIENT": 2214,
+    "OVERFLOW": 76,
+    "NONLINEAR": 0,
+    "PERSIST": 629,
+    "HOT": 0,
+    "COLD": 209,
+    "MISSING_DATA": 0,
+    "OUTLIER": 5387,
+    "NONFUNC": 1047,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 0,
+    "CROSSTALK": 1262,
+    "BLOOM": 27
+   },
+   "predicted": {
+    "ra": 133.759109,
+    "dec": -7.242186,
+    "fx": 0.5037,
+    "fy": 0.4997
    }
   },
   {
@@ -230,23 +338,23 @@
     1.628
    ],
    "image_url": "/data/wise0855/2025-05-06_d2.png",
-   "diff_url": null,
-   "diff_sigma_mjysr": null,
+   "diff_url": "/data/wise0855/2025-05-06_d2_diff.png",
+   "diff_sigma_mjysr": 0.006209006067365408,
    "n_exposures": 8,
    "flags": {
-    "TRANSIENT": 404,
-    "OVERFLOW": 19,
+    "TRANSIENT": 801,
+    "OVERFLOW": 55,
     "NONLINEAR": 0,
-    "PERSIST": 139,
+    "PERSIST": 388,
     "HOT": 0,
-    "COLD": 28,
+    "COLD": 68,
     "MISSING_DATA": 0,
-    "OUTLIER": 1914,
-    "NONFUNC": 215,
+    "OUTLIER": 3713,
+    "NONFUNC": 473,
     "STREAK": 0,
     "GHOST": 0,
     "CROSSTALK": 0,
-    "BLOOM": 35,
+    "BLOOM": 55,
     "SNOWBALL": 0
    },
    "predicted": {
@@ -254,6 +362,114 @@
     "dec": -7.242371,
     "fx": 0.4927,
     "fy": 0.5006
+   }
+  },
+  {
+   "date": "2025-11-07",
+   "mjd": 60986.78728,
+   "epoch": 1,
+   "detector": 2,
+   "wavelength_um": [
+    1.101,
+    1.63
+   ],
+   "image_url": "/data/wise0855/2025-11-07_d2.png",
+   "diff_url": "/data/wise0855/2025-11-07_d2_diff.png",
+   "diff_sigma_mjysr": 0.00956807378679514,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 2235,
+    "OVERFLOW": 138,
+    "NONLINEAR": 0,
+    "PERSIST": 4850,
+    "HOT": 0,
+    "COLD": 149,
+    "MISSING_DATA": 0,
+    "OUTLIER": 8629,
+    "NONFUNC": 1140,
+    "STREAK": 913,
+    "GHOST": 0,
+    "SNOWBALL": 8,
+    "CROSSTALK": 0,
+    "BLOOM": 167
+   },
+   "predicted": {
+    "ra": 133.760208,
+    "dec": -7.242276,
+    "fx": 0.4984,
+    "fy": 0.5001
+   }
+  },
+  {
+   "date": "2025-12-12",
+   "mjd": 61021.85786,
+   "epoch": 2,
+   "detector": 2,
+   "wavelength_um": [
+    1.287,
+    1.447
+   ],
+   "image_url": "/data/wise0855/2025-12-12_d2.png",
+   "diff_url": "/data/wise0855/2025-12-12_d2_diff.png",
+   "diff_sigma_mjysr": 0.006674475502222776,
+   "n_exposures": 6,
+   "flags": {
+    "TRANSIENT": 710,
+    "OVERFLOW": 41,
+    "NONLINEAR": 0,
+    "PERSIST": 2255,
+    "HOT": 0,
+    "COLD": 46,
+    "MISSING_DATA": 0,
+    "OUTLIER": 2810,
+    "NONFUNC": 357,
+    "STREAK": 0,
+    "GHOST": 0,
+    "CROSSTALK": 0,
+    "BLOOM": 58,
+    "SNOWBALL": 0
+   },
+   "predicted": {
+    "ra": 133.759989,
+    "dec": -7.242258,
+    "fx": 0.4994,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-05-02",
+   "mjd": 61162.67515,
+   "epoch": 3,
+   "detector": 2,
+   "wavelength_um": [
+    1.111,
+    1.59
+   ],
+   "image_url": "/data/wise0855/2026-05-02_d2.png",
+   "diff_url": "/data/wise0855/2026-05-02_d2_diff.png",
+   "diff_sigma_mjysr": 0.0068250917829573154,
+   "n_exposures": 15,
+   "flags": {
+    "TRANSIENT": 2593,
+    "OVERFLOW": 113,
+    "NONLINEAR": 0,
+    "PERSIST": 819,
+    "HOT": 1,
+    "COLD": 127,
+    "MISSING_DATA": 0,
+    "OUTLIER": 6996,
+    "NONFUNC": 817,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 0,
+    "CROSSTALK": 0,
+    "BLOOM": 105
+   },
+   "predicted": {
+    "ra": 133.759112,
+    "dec": -7.242186,
+    "fx": 0.5037,
+    "fy": 0.4997
    }
   },
   {
@@ -266,30 +482,138 @@
     2.413
    ],
    "image_url": "/data/wise0855/2025-05-05_d3.png",
-   "diff_url": null,
-   "diff_sigma_mjysr": null,
+   "diff_url": "/data/wise0855/2025-05-05_d3_diff.png",
+   "diff_sigma_mjysr": 0.008067849092185497,
    "n_exposures": 3,
    "flags": {
-    "TRANSIENT": 238,
-    "OVERFLOW": 5,
+    "TRANSIENT": 515,
+    "OVERFLOW": 12,
     "NONLINEAR": 0,
-    "PERSIST": 10,
+    "PERSIST": 16,
     "HOT": 0,
-    "COLD": 31,
+    "COLD": 57,
     "MISSING_DATA": 0,
-    "OUTLIER": 642,
-    "NONFUNC": 116,
+    "OUTLIER": 1295,
+    "NONFUNC": 218,
     "STREAK": 0,
     "GHOST": 0,
     "SNOWBALL": 0,
     "CROSSTALK": 0,
-    "BLOOM": 5
+    "BLOOM": 10
    },
    "predicted": {
     "ra": 133.761367,
     "dec": -7.242372,
     "fx": 0.4927,
     "fy": 0.5006
+   }
+  },
+  {
+   "date": "2025-11-12",
+   "mjd": 60991.7418,
+   "epoch": 1,
+   "detector": 3,
+   "wavelength_um": [
+    1.631,
+    2.385
+   ],
+   "image_url": "/data/wise0855/2025-11-12_d3.png",
+   "diff_url": "/data/wise0855/2025-11-12_d3_diff.png",
+   "diff_sigma_mjysr": 0.004127897787839174,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 2597,
+    "OVERFLOW": 131,
+    "NONLINEAR": 0,
+    "PERSIST": 4206,
+    "HOT": 0,
+    "COLD": 221,
+    "MISSING_DATA": 0,
+    "OUTLIER": 9672,
+    "NONFUNC": 1620,
+    "STREAK": 20,
+    "GHOST": 0,
+    "SNOWBALL": 0,
+    "CROSSTALK": 0,
+    "BLOOM": 83
+   },
+   "predicted": {
+    "ra": 133.760177,
+    "dec": -7.242274,
+    "fx": 0.4985,
+    "fy": 0.5001
+   }
+  },
+  {
+   "date": "2025-12-12",
+   "mjd": 61021.35142,
+   "epoch": 2,
+   "detector": 3,
+   "wavelength_um": [
+    1.899,
+    2.034
+   ],
+   "image_url": "/data/wise0855/2025-12-12_d3.png",
+   "diff_url": "/data/wise0855/2025-12-12_d3_diff.png",
+   "diff_sigma_mjysr": 0.007120179943740368,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 436,
+    "OVERFLOW": 26,
+    "NONLINEAR": 0,
+    "PERSIST": 625,
+    "HOT": 0,
+    "COLD": 46,
+    "MISSING_DATA": 0,
+    "OUTLIER": 1699,
+    "NONFUNC": 374,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 0,
+    "CROSSTALK": 0,
+    "BLOOM": 19
+   },
+   "predicted": {
+    "ra": 133.759993,
+    "dec": -7.242259,
+    "fx": 0.4994,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-04-26",
+   "mjd": 61156.08551,
+   "epoch": 3,
+   "detector": 3,
+   "wavelength_um": [
+    1.639,
+    2.363
+   ],
+   "image_url": "/data/wise0855/2026-04-26_d3.png",
+   "diff_url": "/data/wise0855/2026-04-26_d3_diff.png",
+   "diff_sigma_mjysr": 0.00397995812818408,
+   "n_exposures": 21,
+   "flags": {
+    "TRANSIENT": 3452,
+    "OVERFLOW": 137,
+    "NONLINEAR": 0,
+    "PERSIST": 882,
+    "HOT": 0,
+    "COLD": 279,
+    "MISSING_DATA": 0,
+    "OUTLIER": 11782,
+    "NONFUNC": 1754,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 11,
+    "CROSSTALK": 0,
+    "BLOOM": 63
+   },
+   "predicted": {
+    "ra": 133.759153,
+    "dec": -7.24219,
+    "fx": 0.5035,
+    "fy": 0.4997
    }
   },
   {
@@ -303,18 +627,18 @@
    ],
    "image_url": "/data/wise0855/2025-05-06_d4.png",
    "diff_url": "/data/wise0855/2025-05-06_d4_diff.png",
-   "diff_sigma_mjysr": 0.006875589024275541,
+   "diff_sigma_mjysr": 0.005378827918320894,
    "n_exposures": 4,
    "flags": {
-    "TRANSIENT": 332,
-    "OVERFLOW": 40,
+    "TRANSIENT": 716,
+    "OVERFLOW": 79,
     "NONLINEAR": 0,
-    "PERSIST": 27,
+    "PERSIST": 49,
     "HOT": 0,
-    "COLD": 30,
+    "COLD": 67,
     "MISSING_DATA": 0,
-    "OUTLIER": 857,
-    "NONFUNC": 397,
+    "OUTLIER": 1715,
+    "NONFUNC": 850,
     "STREAK": 0,
     "GHOST": 0,
     "SNOWBALL": 0,
@@ -330,38 +654,74 @@
   },
   {
    "date": "2025-10-31",
-   "mjd": 60979.72566,
+   "mjd": 60979.79237,
    "epoch": 1,
    "detector": 4,
    "wavelength_um": [
-    2.854,
-    3.18
+    2.439,
+    3.831
    ],
    "image_url": "/data/wise0855/2025-10-31_d4.png",
    "diff_url": "/data/wise0855/2025-10-31_d4_diff.png",
-   "diff_sigma_mjysr": 0.006875589024275541,
-   "n_exposures": 5,
+   "diff_sigma_mjysr": 0.0034499417524784803,
+   "n_exposures": 18,
    "flags": {
-    "TRANSIENT": 352,
-    "OVERFLOW": 42,
+    "TRANSIENT": 2530,
+    "OVERFLOW": 295,
     "NONLINEAR": 0,
-    "PERSIST": 20,
-    "HOT": 0,
-    "COLD": 36,
+    "PERSIST": 503,
+    "HOT": 1,
+    "COLD": 250,
     "MISSING_DATA": 0,
-    "OUTLIER": 1094,
-    "NONFUNC": 330,
+    "OUTLIER": 7170,
+    "NONFUNC": 2280,
     "STREAK": 0,
     "GHOST": 0,
     "SNOWBALL": 0,
     "CROSSTALK": 0,
-    "BLOOM": 0
+    "BLOOM": 8
    },
    "predicted": {
-    "ra": 133.760252,
+    "ra": 133.760251,
     "dec": -7.24228,
     "fx": 0.4981,
     "fy": 0.5002
+   }
+  },
+  {
+   "date": "2026-05-03",
+   "mjd": 61163.28706,
+   "epoch": 3,
+   "detector": 4,
+   "wavelength_um": [
+    2.427,
+    3.735
+   ],
+   "image_url": "/data/wise0855/2026-05-03_d4.png",
+   "diff_url": "/data/wise0855/2026-05-03_d4_diff.png",
+   "diff_sigma_mjysr": 0.0036172124091535807,
+   "n_exposures": 14,
+   "flags": {
+    "TRANSIENT": 2119,
+    "OVERFLOW": 309,
+    "NONLINEAR": 0,
+    "PERSIST": 286,
+    "HOT": 0,
+    "COLD": 193,
+    "MISSING_DATA": 0,
+    "OUTLIER": 6323,
+    "NONFUNC": 2566,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 25,
+    "CROSSTALK": 0,
+    "BLOOM": 5
+   },
+   "predicted": {
+    "ra": 133.759109,
+    "dec": -7.242186,
+    "fx": 0.5037,
+    "fy": 0.4997
    }
   },
   {
@@ -374,19 +734,19 @@
     4.406
    ],
    "image_url": "/data/wise0855/2025-05-06_d5.png",
-   "diff_url": null,
-   "diff_sigma_mjysr": null,
+   "diff_url": "/data/wise0855/2025-05-06_d5_diff.png",
+   "diff_sigma_mjysr": 0.010142936371266842,
    "n_exposures": 8,
    "flags": {
-    "TRANSIENT": 649,
-    "OVERFLOW": 37,
+    "TRANSIENT": 1367,
+    "OVERFLOW": 80,
     "NONLINEAR": 0,
-    "PERSIST": 8,
+    "PERSIST": 35,
     "HOT": 0,
-    "COLD": 80,
+    "COLD": 172,
     "MISSING_DATA": 0,
-    "OUTLIER": 1264,
-    "NONFUNC": 467,
+    "OUTLIER": 2540,
+    "NONFUNC": 992,
     "STREAK": 0,
     "GHOST": 0,
     "SNOWBALL": 0,
@@ -401,6 +761,114 @@
    }
   },
   {
+   "date": "2025-11-07",
+   "mjd": 60986.78728,
+   "epoch": 1,
+   "detector": 5,
+   "wavelength_um": [
+    3.822,
+    4.408
+   ],
+   "image_url": "/data/wise0855/2025-11-07_d5.png",
+   "diff_url": "/data/wise0855/2025-11-07_d5_diff.png",
+   "diff_sigma_mjysr": 0.007525342516601086,
+   "n_exposures": 19,
+   "flags": {
+    "TRANSIENT": 2983,
+    "OVERFLOW": 186,
+    "NONLINEAR": 0,
+    "PERSIST": 1429,
+    "HOT": 0,
+    "COLD": 334,
+    "MISSING_DATA": 0,
+    "OUTLIER": 6536,
+    "NONFUNC": 2412,
+    "STREAK": 991,
+    "GHOST": 0,
+    "SNOWBALL": 0,
+    "CROSSTALK": 0,
+    "BLOOM": 0
+   },
+   "predicted": {
+    "ra": 133.760208,
+    "dec": -7.242276,
+    "fx": 0.4984,
+    "fy": 0.5001
+   }
+  },
+  {
+   "date": "2025-12-12",
+   "mjd": 61021.85786,
+   "epoch": 2,
+   "detector": 5,
+   "wavelength_um": [
+    4.047,
+    4.225
+   ],
+   "image_url": "/data/wise0855/2025-12-12_d5.png",
+   "diff_url": "/data/wise0855/2025-12-12_d5_diff.png",
+   "diff_sigma_mjysr": 0.00998584646731615,
+   "n_exposures": 6,
+   "flags": {
+    "TRANSIENT": 955,
+    "OVERFLOW": 47,
+    "NONLINEAR": 0,
+    "PERSIST": 1207,
+    "HOT": 0,
+    "COLD": 110,
+    "MISSING_DATA": 0,
+    "OUTLIER": 1799,
+    "NONFUNC": 547,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 0,
+    "CROSSTALK": 0,
+    "BLOOM": 0
+   },
+   "predicted": {
+    "ra": 133.759989,
+    "dec": -7.242258,
+    "fx": 0.4994,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-05-02",
+   "mjd": 61162.67515,
+   "epoch": 3,
+   "detector": 5,
+   "wavelength_um": [
+    3.835,
+    4.369
+   ],
+   "image_url": "/data/wise0855/2026-05-02_d5.png",
+   "diff_url": "/data/wise0855/2026-05-02_d5_diff.png",
+   "diff_sigma_mjysr": 0.00766852917149663,
+   "n_exposures": 15,
+   "flags": {
+    "TRANSIENT": 4319,
+    "OVERFLOW": 174,
+    "NONLINEAR": 0,
+    "PERSIST": 146,
+    "HOT": 0,
+    "COLD": 289,
+    "MISSING_DATA": 0,
+    "OUTLIER": 5399,
+    "NONFUNC": 1864,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 202,
+    "CROSSTALK": 0,
+    "BLOOM": 0
+   },
+   "predicted": {
+    "ra": 133.759112,
+    "dec": -7.242186,
+    "fx": 0.5037,
+    "fy": 0.4997
+   }
+  },
+  {
    "date": "2025-05-05",
    "mjd": 60800.70152,
    "epoch": 0,
@@ -410,22 +878,22 @@
     5.003
    ],
    "image_url": "/data/wise0855/2025-05-05_d6.png",
-   "diff_url": null,
-   "diff_sigma_mjysr": null,
+   "diff_url": "/data/wise0855/2025-05-05_d6_diff.png",
+   "diff_sigma_mjysr": 0.02941293641924858,
    "n_exposures": 3,
    "flags": {
-    "TRANSIENT": 258,
-    "OVERFLOW": 20,
+    "TRANSIENT": 621,
+    "OVERFLOW": 39,
     "NONLINEAR": 0,
-    "PERSIST": 2,
+    "PERSIST": 4,
     "HOT": 0,
-    "COLD": 26,
+    "COLD": 58,
     "MISSING_DATA": 0,
-    "OUTLIER": 513,
-    "NONFUNC": 208,
+    "OUTLIER": 1028,
+    "NONFUNC": 437,
     "STREAK": 0,
     "GHOST": 0,
-    "SNOWBALL": 0,
+    "SNOWBALL": 18,
     "CROSSTALK": 0,
     "BLOOM": 0
    },
@@ -435,69 +903,177 @@
     "fx": 0.4927,
     "fy": 0.5006
    }
+  },
+  {
+   "date": "2025-11-12",
+   "mjd": 60991.7418,
+   "epoch": 1,
+   "detector": 6,
+   "wavelength_um": [
+    4.418,
+    4.982
+   ],
+   "image_url": "/data/wise0855/2025-11-12_d6.png",
+   "diff_url": "/data/wise0855/2025-11-12_d6_diff.png",
+   "diff_sigma_mjysr": 0.012673853896558285,
+   "n_exposures": 18,
+   "flags": {
+    "TRANSIENT": 3124,
+    "OVERFLOW": 271,
+    "NONLINEAR": 0,
+    "PERSIST": 1434,
+    "HOT": 0,
+    "COLD": 324,
+    "MISSING_DATA": 0,
+    "OUTLIER": 7100,
+    "NONFUNC": 2420,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 29,
+    "CROSSTALK": 0,
+    "BLOOM": 0
+   },
+   "predicted": {
+    "ra": 133.760177,
+    "dec": -7.242274,
+    "fx": 0.4985,
+    "fy": 0.5001
+   }
+  },
+  {
+   "date": "2025-12-12",
+   "mjd": 61021.35142,
+   "epoch": 2,
+   "detector": 6,
+   "wavelength_um": [
+    4.634,
+    4.736
+   ],
+   "image_url": "/data/wise0855/2025-12-12_d6.png",
+   "diff_url": "/data/wise0855/2025-12-12_d6_diff.png",
+   "diff_sigma_mjysr": 0.02135011926293373,
+   "n_exposures": 3,
+   "flags": {
+    "TRANSIENT": 421,
+    "OVERFLOW": 49,
+    "NONLINEAR": 0,
+    "PERSIST": 81,
+    "HOT": 0,
+    "COLD": 58,
+    "MISSING_DATA": 0,
+    "OUTLIER": 1144,
+    "NONFUNC": 457,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 0,
+    "CROSSTALK": 0,
+    "BLOOM": 0
+   },
+   "predicted": {
+    "ra": 133.759993,
+    "dec": -7.242259,
+    "fx": 0.4994,
+    "fy": 0.5
+   }
+  },
+  {
+   "date": "2026-04-26",
+   "mjd": 61156.08551,
+   "epoch": 3,
+   "detector": 6,
+   "wavelength_um": [
+    4.424,
+    4.967
+   ],
+   "image_url": "/data/wise0855/2026-04-26_d6.png",
+   "diff_url": "/data/wise0855/2026-04-26_d6_diff.png",
+   "diff_sigma_mjysr": 0.01224238146096468,
+   "n_exposures": 21,
+   "flags": {
+    "TRANSIENT": 4285,
+    "OVERFLOW": 262,
+    "NONLINEAR": 0,
+    "PERSIST": 225,
+    "HOT": 0,
+    "COLD": 454,
+    "MISSING_DATA": 0,
+    "OUTLIER": 8377,
+    "NONFUNC": 2684,
+    "STREAK": 0,
+    "GHOST": 0,
+    "SNOWBALL": 88,
+    "CROSSTALK": 0,
+    "BLOOM": 0
+   },
+   "predicted": {
+    "ra": 133.759153,
+    "dec": -7.24219,
+    "fx": 0.5035,
+    "fy": 0.4997
+   }
   }
  ],
  "deep": [
   {
    "detector": 0,
    "image_url": "/data/wise0855/deep_all.png",
-   "n_exposures": 40,
+   "n_exposures": 258,
    "wavelength_um": [
-    0.861,
+    0.744,
     5.003
    ]
   },
   {
    "detector": 1,
    "image_url": "/data/wise0855/deep_d1.png",
-   "n_exposures": 9,
+   "n_exposures": 36,
    "wavelength_um": [
-    0.861,
-    1.065
+    0.744,
+    1.115
    ]
   },
   {
    "detector": 2,
    "image_url": "/data/wise0855/deep_d2.png",
-   "n_exposures": 8,
+   "n_exposures": 48,
    "wavelength_um": [
-    1.28,
-    1.628
+    1.101,
+    1.63
    ]
   },
   {
    "detector": 3,
    "image_url": "/data/wise0855/deep_d3.png",
-   "n_exposures": 3,
+   "n_exposures": 45,
    "wavelength_um": [
-    2.208,
+    1.631,
     2.413
    ]
   },
   {
    "detector": 4,
    "image_url": "/data/wise0855/deep_d4.png",
-   "n_exposures": 9,
+   "n_exposures": 36,
    "wavelength_um": [
-    2.854,
-    3.638
+    2.427,
+    3.831
    ]
   },
   {
    "detector": 5,
    "image_url": "/data/wise0855/deep_d5.png",
-   "n_exposures": 8,
+   "n_exposures": 48,
    "wavelength_um": [
-    4.039,
-    4.406
+    3.822,
+    4.408
    ]
   },
   {
    "detector": 6,
    "image_url": "/data/wise0855/deep_d6.png",
-   "n_exposures": 3,
+   "n_exposures": 45,
    "wavelength_um": [
-    4.86,
+    4.418,
     5.003
    ]
   }
