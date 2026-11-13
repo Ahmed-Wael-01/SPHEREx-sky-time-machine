@@ -1,6 +1,6 @@
 // URL State Routing for SPHEREx Sky Time Machine
 // Home page: /
-// Sky Time Machine page: /skytimemachine/target=<slug> (or /skytimemachine?target=<slug>)
+// Sky Time Machine viewer page: /viewer/target=<slug> (or /viewer?target=<slug>)
 import { parseRA, parseDec } from './coords.js'
 
 export function readUrl() {
@@ -8,21 +8,21 @@ export function readUrl() {
   const p = new URLSearchParams(window.location.search)
   const num = (k) => (p.has(k) && p.get(k) !== '' ? Number(p.get(k)) : undefined)
 
-  // 1. Extract target from path: /skytimemachine/target=wise0855 or /skytimemachine/wise0855
+  // 1. Extract target from path: /viewer/target=wise0855 or /viewer/wise0855 (also supports legacy /skytimemachine)
   let pathTarget
-  const pathMatch = pathname.match(/^\/skytimemachine(?:\/target=|\/)([^/?#]+)/i)
+  const pathMatch = pathname.match(/^\/(?:viewer|skytimemachine)(?:\/target=|\/)([^/?#]+)/i)
   if (pathMatch) {
     pathTarget = decodeURIComponent(pathMatch[1])
   }
 
   const target = pathTarget || p.get('target') || undefined
-  const isSkyTimeMachinePath = pathname.startsWith('/skytimemachine')
+  const isViewerPath = pathname.startsWith('/viewer') || pathname.startsWith('/skytimemachine')
 
   // Determine view:
-  // If on /skytimemachine* or explicitly ?view=app: view is 'app'.
+  // If on /viewer* or explicitly ?view=app: view is 'app'.
   // Otherwise if path is '/' (root), view is strictly 'home' (clean landing page).
   let view = 'home'
-  if (isSkyTimeMachinePath || p.get('view') === 'app') {
+  if (isViewerPath || p.get('view') === 'app') {
     view = 'app'
   } else if (pathname === '' || pathname === '/') {
     view = 'home'
@@ -53,10 +53,10 @@ export function writeUrl(state) {
     return
   }
 
-  // When on Sky Time Machine, write /skytimemachine/target=<slug>
-  let basePath = '/skytimemachine'
+  // When on Sky Time Machine, write /viewer/target=<slug>
+  let basePath = '/viewer'
   if (state.target) {
-    basePath = `/skytimemachine/target=${encodeURIComponent(state.target)}`
+    basePath = `/viewer/target=${encodeURIComponent(state.target)}`
   }
 
   const p = new URLSearchParams()
