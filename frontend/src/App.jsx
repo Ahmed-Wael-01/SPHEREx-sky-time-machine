@@ -6,6 +6,7 @@ import SpectrumPlot from './components/SpectrumPlot.jsx'
 import { getFrames, getSpectrum, NotFound } from './lib/api.js'
 import { readUrl, writeUrl } from './lib/urlState.js'
 import { TARGETS, MOCK_TARGET, DEFAULT_TARGET } from './lib/targets.js'
+import { detectorChoices, framesFor, deepFor, wavelengthFor, LONG } from './lib/frames.js'
 
 // Nominal SPHEREx band edges (um); real ranges come from the manifest when WCS-WAVE was readable.
 const NOMINAL_WL = { 1: [0.75, 1.11], 2: [1.11, 1.64], 3: [1.64, 2.42], 4: [2.42, 3.82], 5: [3.82, 4.42], 6: [4.42, 5.0] }
@@ -27,7 +28,9 @@ export default function App() {
   const [manifest, setManifest] = useState(null)
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [det, setDet] = useState(url.det ?? 0)
+  // each target can suggest the view where it shows best (WISE 0855: 4-5 um)
+  const defaultDet = (slug) => [...TARGETS, MOCK_TARGET].find((t) => t.slug === slug)?.det ?? 0
+  const [det, setDet] = useState(url.det ?? defaultDet(initialQuery().target))
   const [mode, setMode] = useState(url.mode ?? 'frames') // frames | diff | deep
   const [idx, setIdx] = useState(url.t ?? 0)
   const [spectrum, setSpectrum] = useState(null)
@@ -54,7 +57,7 @@ export default function App() {
           .then((r) => (r.ok && (r.headers.get('content-type') || '').includes('json') ? r.json() : null))
           .then((c) => !cancelled && setCatalogs(c))
           .catch(() => {})
-        const dets = [0, ...(m.detectors || [])]
+        const dets = detectorChoices(m)
         setDet((d) => (dets.includes(d) ? d : 0))
       })
       .catch((e) => {
@@ -69,10 +72,10 @@ export default function App() {
   }, [query])
 
   const frames = useMemo(
-    () => (manifest?.visits || []).filter((v) => v.detector === det).sort((a, b) => a.mjd - b.mjd),
+    () => framesFor(manifest, det),
     [manifest, det],
   )
-  const deep = useMemo(() => (manifest?.deep || []).find((d) => d.detector === det), [manifest, det])
+  const deep = useMemo(() => deepFor(manifest, det), [manifest, det])
 
   useEffect(() => {
     if (idx >= frames.length && frames.length) setIdx(0)
@@ -82,7 +85,7 @@ export default function App() {
     writeUrl({
       ...(query.target ? { target: query.target } : { ra: +query.ra.toFixed(5), dec: +query.dec.toFixed(5) }),
       fov: +fov.toFixed(3),
-      det: det || undefined,
+      det: det === defaultDet(query.target) ? undefined : det,
       mode: mode !== 'frames' ? mode : undefined,
       t: idx || undefined,
       embed: url.embed ? 1 : undefined,
@@ -101,7 +104,7 @@ export default function App() {
   const bakedSpan = manifest ? (manifest.pixels * manifest.pixel_scale_arcsec) / 3600 : null
   const viewFov = bakedSpan ? Math.min(fov, bakedSpan) : fov
 
-  const wl = (d) => manifest?.detector_wavelength_um?.[d] || (d ? NOMINAL_WL[d] : [0.75, 5.0])
+  const wl = (d) => wavelengthFor(manifest, d, NOMINAL_WL)
 
   return (
     <div className={`app ${url.embed ? 'embed' : ''}`}>
@@ -121,7 +124,7 @@ export default function App() {
 
       {!url.embed && (
         <SkyForm query={query} fov={fov} onFov={setFov} maxFov={bakedSpan}
-          onSubmit={(q) => { setIdx(0); setQuery(q); setFov(q.fov) }} />
+          onSubmit={(q) => { setIdx(0); setQuery(q); setFov(q.fov); if (q.target) setDet(defaultDet(q.target)) }} />
       )}
 
       <main className="stage">
@@ -129,10 +132,10 @@ export default function App() {
           {manifest?.target === 'mock' && <div className="banner">Synthetic test data, not real SPHEREx images</div>}
           <div className="toolbar">
             <div className="seg" role="group" aria-label="Detector">
-              {[0, ...(manifest?.detectors || [1, 2, 3, 4, 5, 6])].map((d) => (
-                <button key={d} className={d === det ? 'on' : ''} onClick={() => setDet(d)}
-                  title={`${wl(d)[0]}–${wl(d)[1]} µm`}>
-                  {d === 0 ? 'All' : `D${d}`}
+              {detectorChoices(manifest).map((d) => (
+                <button key={d} className={`${d === det ? 'on' : ''} ${d === LONG ? 'long' : ''}`} onClick={() => setDet(d)}
+                  title={d === LONG ? 'Detectors 5 + 6 together: where cold brown dwarfs glow' : `${wl(d)[0]}–${wl(d)[1]} µm`}>
+                  {d === 0 ? 'All' : d === LONG ? '4–5 µm' : `D${d}`}
                   <small>{wl(d)[0].toFixed(2)}–{wl(d)[1].toFixed(2)} µm</small>
                 </button>
               ))}
