@@ -365,6 +365,21 @@ def stretch_limits(ref):
     return lo, hi
 
 
+def saturated_cores(nan, t, bright=0.6):
+    """Holes (connected blank pixels) whose 2-pixel rim is mostly bright (stretched value > `bright`)."""
+    from scipy import ndimage
+    out = np.zeros_like(nan)
+    lab, n = ndimage.label(nan)
+    for k in range(1, n + 1):
+        blob = lab == k
+        if blob.sum() > 400:  # a big blank area is an edge of the field, not a star
+            continue
+        rim = ndimage.binary_dilation(blob, iterations=2) & ~nan
+        if rim.any() and np.median(t[rim]) > bright:
+            out |= blob
+    return out
+
+
 def to_png(a, path, lo, hi, mode="asinh"):
     from PIL import Image
     a = np.array(a, dtype=np.float64)
@@ -376,6 +391,13 @@ def to_png(a, path, lo, hi, mode="asinh"):
         k = 10.0
         t = np.arcsinh(k * t) / np.arcsinh(k)
     t[nan] = 0.0
+    if mode != "diff":
+        # A blank hole whose edge is bright is the core of a star too bright to measure (the camera
+        # overloaded; NASA's file has no valid value there). Show it white, like any overexposed photo,
+        # instead of as missing data. True gaps (dark or no surroundings) stay transparent.
+        sat = saturated_cores(nan, t)
+        t[sat] = 1.0
+        nan = nan & ~sat
     g = (t * 255).round().astype(np.uint8)
     alpha = np.where(nan, 0, 255).astype(np.uint8)  # transparent = no data (so it can't read as "fainter")
     # flip vertically: FITS row 0 is the bottom (south), PNG row 0 is the top -> north up, east left
