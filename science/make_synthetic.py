@@ -107,7 +107,13 @@ def main():
                              "bandpass": f"SPHEREx-D{det}", "file": fn})
     (OUT / "index.json").write_text(json.dumps({"ra": RA0, "dec": DEC0, "size": 0.2,
                                                 "synthetic": True, "rows": rows}, indent=1))
-    print(f"wrote {len(rows)} synthetic cutouts to {OUT}")
+    web = REPO / "frontend" / "public" / "data" / "mock"
+    web.mkdir(parents=True, exist_ok=True)
+    (web / "catalogs.json").write_text(json.dumps({
+        "gaia": {"epoch": 2026.0, "source": "synthetic (not real)", "cols": ["ra", "dec", "pmra", "pmdec", "g"],
+                 "rows": [[round(r, 6), round(d, 6), 0.0, 0.0, round(18 - 2.5 * math.log10(f), 2)] for r, d, f in STARS]},
+    }, separators=(",", ":")))
+    print(f"wrote {len(rows)} synthetic cutouts to {OUT} and a synthetic catalogue for the mock target")
 
 
 if __name__ == "__main__":
