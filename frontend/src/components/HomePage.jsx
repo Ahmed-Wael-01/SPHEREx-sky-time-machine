@@ -77,7 +77,7 @@ const STATS = [
   { num: '102',    label: 'Spectral Bands',       sub: '0.75 – 5.0 µm continuous IR' },
   { num: '6',      label: 'LVF Detectors',        sub: 'Linear Variable Filter mosaic' },
   { num: '4+',     label: 'Survey Passes',        sub: 'Multi-epoch temporal baseline' },
-  { num: '0.2"',   label: 'Astrometric Precision', sub: 'Calibrated vs Gaia DR3 & WISE' },
+  { num: '0.2"',   label: 'Alignment vs Gaia',     sub: 'Scatter vs Gaia DR3 (median 0.03")' },
 ]
 
 /* ── Features ── */
@@ -90,17 +90,17 @@ const FEATURES = [
   {
     icon: '🔬',
     title: '102-Band Spectrophotometry',
-    desc: 'Click any sky position to extract calibrated 0.75–5.0 µm SEDs with error bars and atmospheric markers (H₂O, CH₄, CO₂, CO).',
+    desc: 'Click a target to see its 0.75–5.0 µm spectrum: one point per SPHEREx photo, with error bars and molecular markers (H₂O, CH₄, CO₂, CO).',
   },
   {
     icon: '🌐',
     title: 'Gaia DR3 & AllWISE Overlays',
-    desc: 'Real-time astrometric cross-matching with proper motion propagated to each observation date, auto-flagging uncatalogued movers.',
+    desc: 'Gaia stars moved to each photo\'s date and AllWISE sources drawn on top, so anything without a catalogue match stands out to the eye.',
   },
   {
     icon: '📈',
     title: 'Multi-Epoch Light Curves',
-    desc: 'Examine temporal infrared flux variations across sky visits to detect stellar variability, dust clearing events, and flares.',
+    desc: 'Brightness on each sky pass at matched colours, with an honest verdict: steady, or changing beyond the measurement uncertainty.',
   },
   {
     icon: '🎨',
@@ -236,7 +236,7 @@ export default function HomePage({ onLaunch, onSelectTarget }) {
         <div className="hp-section-header">
           <div className="hp-section-label">CURATED BENCHMARK TARGETS</div>
           <p className="hp-section-desc">
-            Explore the 5 official NASA targets: Planet X analog WISE 0855, rapid proper-motion movers, and extreme variable stars.
+            Explore the 5 test targets suggested by the challenge: the Planet X analog WISE 0855, two fast-moving neighbours, and two variable stars.
           </p>
         </div>
         <div className="hp-target-scroll">

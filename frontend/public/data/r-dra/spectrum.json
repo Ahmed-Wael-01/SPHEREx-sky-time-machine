@@ -9,10 +9,11 @@
  "light_curve_band": "1.6-2.4 um, glow around the overloaded core (7-10 px from the centre)",
  "variability": {
   "varies": true,
-  "chi2_per_dof": 17.42,
-  "max_over_min": 4.08,
+  "chi2_per_dof": 4.62,
+  "max_over_min": 1.59,
   "systematic_floor": 0.05,
-  "text": "changes between passes are larger than the uncertainty (brightest/faintest = 4.1x)"
+  "passes_counted": 3,
+  "text": "changes between passes are larger than the uncertainty (brightest/faintest = 1.6x); 2 passes with fewer than 3 photos not counted"
  },
  "positions": [
   [

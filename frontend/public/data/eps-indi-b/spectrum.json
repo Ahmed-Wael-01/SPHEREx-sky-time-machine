@@ -12,6 +12,7 @@
   "chi2_per_dof": 0.07,
   "max_over_min": 1.02,
   "systematic_floor": 0.03,
+  "passes_counted": 4,
   "text": "no change beyond the uncertainty (steady within about 3%)"
  },
  "positions": [

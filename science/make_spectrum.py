@@ -205,24 +205,40 @@ def wings(img, var, x, y, to_mjy):
             "method": f"glow {first}", "glow_rings": rings, "x": round(x, 2), "y": round(y, 2)}
 
 
-def judge(lc, floor):
-    """Is the change between passes bigger than the uncertainty? chi-squared against a constant."""
-    if len(lc) < 2:
-        return None
-    f = np.array([q["flux_mjy"] for q in lc])
-    e = np.array([max(q["err_mjy"], 1e-9) for q in lc])
+MIN_PHOTOS_PER_PASS = 3
+
+
+def judge(lc, floor, points=None):
+    """Is the change between passes bigger than the uncertainty? chi-squared against a constant, using only
+    passes measured on at least MIN_PHOTOS_PER_PASS photos. A star overloaded in most photos and measured
+    with plain circles (not the glow ring) gets 'inconclusive'."""
+    if points:
+        n_sat = sum(p.get("saturated") for p in points)
+        glow = any(q.get("band", "").find("glow") >= 0 for q in lc)
+        if not glow and n_sat > len(points) / 2:
+            return {"varies": None, "chi2_per_dof": None, "max_over_min": None, "systematic_floor": floor,
+                    "text": f"inconclusive: the star overloads the camera in {n_sat} of {len(points)} photos, "
+                            "so the few usable ones cannot show a reliable change"}
+    use = [q for q in lc if q.get("n", MIN_PHOTOS_PER_PASS) >= MIN_PHOTOS_PER_PASS]
+    if len(use) < 2:
+        return {"varies": None, "chi2_per_dof": None, "max_over_min": None, "systematic_floor": floor,
+                "text": f"not enough photos per pass for a verdict (need {MIN_PHOTOS_PER_PASS} or more on 2 passes)"}
+    f = np.array([q["flux_mjy"] for q in use])
+    e = np.array([max(q["err_mjy"], 1e-9) for q in use])
     w = 1 / e ** 2
     mean = float((w * f).sum() / w.sum())
-    chi2 = float((((f - mean) / e) ** 2).sum()) / (len(lc) - 1)
+    chi2 = float((((f - mean) / e) ** 2).sum()) / (len(use) - 1)
     ratio = float(f.max() / f.min()) if f.min() > 0 else None
     varies = chi2 > 4
-    text = (f"changes between passes are larger than the uncertainty (brightest/faintest = {ratio:.1f}x)"
+    left = len(lc) - len(use)
+    note = f"; {left} pass{'es' if left > 1 else ''} with fewer than {MIN_PHOTOS_PER_PASS} photos not counted" if left else ""
+    text = (f"changes between passes are larger than the uncertainty (brightest/faintest = {ratio:.1f}x){note}"
             if varies and ratio else
-            "changes between passes are larger than the uncertainty" if varies else
+            f"changes between passes are larger than the uncertainty{note}" if varies else
             "no change beyond the uncertainty (steady within about "
-            f"{100 * float(np.median(e / np.abs(f))):.0f}%)")
+            f"{100 * float(np.median(e / np.abs(f))):.0f}%){note}")
     return {"varies": varies, "chi2_per_dof": round(chi2, 2), "max_over_min": None if ratio is None else round(ratio, 2),
-            "systematic_floor": floor, "text": text}
+            "systematic_floor": floor, "passes_counted": len(use), "text": text}
 
 
 def shape_times_level(sel, lo, hi, band, nbins=6, iters=15):
@@ -384,7 +400,7 @@ def run(slug, mask_names):
                  0.05 if use_glow else 0.03)
         for q in light_curve:
             q["err_mjy"] = round(math.sqrt(q["err_mjy"] ** 2 + (floor * q["flux_mjy"]) ** 2), 4)
-        variability = judge(light_curve, floor)
+        variability = judge(light_curve, floor, points)
         print(f"   variability: {variability['text']}")
     # where the target is on each pass, so the website only shows this spectrum when you click near it
     positions = []
@@ -453,7 +469,18 @@ def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--target", action="append", help="target slug (repeatable)")
     p.add_argument("--all", action="store_true", help="every target with photos on this machine")
+    p.add_argument("--rejudge", action="store_true",
+                   help="only recompute the variability verdict of existing spectrum.json files (no photos needed)")
     a = p.parse_args()
+    if a.rejudge:
+        for f in sorted(WEB_DATA.glob("*/spectrum.json")):
+            d = json.loads(f.read_text())
+            if d.get("light_curve"):
+                floor = (d.get("variability") or {}).get("systematic_floor", 0.05)
+                d["variability"] = judge(d["light_curve"], floor, d.get("points"))
+                f.write_text(json.dumps(d, indent=1))
+                print(f"{f.parent.name}: {d['variability']['text']}")
+        return
     slugs = a.target or []
     if a.all:
         slugs = [d.name for d in sorted(WEB_DATA.iterdir()) if (d / "exposures.json").exists() and d.name != "mock"]

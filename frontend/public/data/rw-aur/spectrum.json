@@ -8,11 +8,11 @@
  "note": "323 measurements, one per SPHEREx photo; 305 flagged (302 overloaded: the star is too bright for the camera there); 116 measure only the glow around an overloaded core (shows changes, not total brightness); error bars widened x29.0 to match the real scatter.",
  "light_curve_band": "0.75-1.1 um",
  "variability": {
-  "varies": true,
-  "chi2_per_dof": 33.72,
-  "max_over_min": 2.04,
+  "varies": null,
+  "chi2_per_dof": null,
+  "max_over_min": null,
   "systematic_floor": 0.03,
-  "text": "changes between passes are larger than the uncertainty (brightest/faintest = 2.0x)"
+  "text": "inconclusive: the star overloads the camera in 302 of 323 photos, so the few usable ones cannot show a reliable change"
  },
  "positions": [
   [

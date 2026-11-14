@@ -34,7 +34,7 @@ export const TARGETS = [
     dec: -56.7828,
     fov: 0.5,
     blurb: 'A pair of cold brown dwarfs orbiting a star (Eps Ind Ba/Bb), moving at ~4.7 arcsec/yr.',
-    tip: 'Observe proper motion separation close to Epsilon Indi A in long-wavelength IR channels.',
+    tip: 'Opens in the 4–5 µm view. Press First ↔ last or switch on Mover finder: the dot moves east and south between 2025 and 2026.',
   },
   {
     slug: 'rw-aur',
@@ -44,8 +44,8 @@ export const TARGETS = [
     ra: 76.956,
     dec: 30.401,
     fov: 0.5,
-    blurb: 'Young variable star with circumstellar dust obscuration causing dramatic multi-magnitude infrared dimming events.',
-    tip: 'Switch to Difference Mode to reveal strong residual flux variations and inspect the multi-epoch Light Curve.',
+    blurb: 'Young variable star whose surrounding dust causes dramatic multi-magnitude dimming events in visible light.',
+    tip: 'So bright it overloads the camera in most photos, so SPHEREx can only set a measurement limit here: see the light-curve verdict.',
   },
   {
     slug: 'r-dra',
@@ -56,7 +56,7 @@ export const TARGETS = [
     dec: 66.755,
     fov: 0.5,
     blurb: 'Pulsating asymptotic giant branch Mira variable star with vast cyclical brightness oscillations over months.',
-    tip: 'Compare Sum Mode with individual visits to inspect the huge infrared amplitude swing.',
+    tip: 'Click the star and open Details → Light curve: its glow changes by about 1.6× between well-measured passes. Press First ↔ last to see it.',
   },
 ]
 
