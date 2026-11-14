@@ -1231,39 +1231,40 @@ input[type='range'] {
   z-index: 2;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
-  margin-top: 3.5rem;
-  max-width: 880px;
+  gap: 0.8rem;
+  margin-top: 2.8rem;
+  max-width: 960px;
   width: 100%;
 }
 
 .hp-feat {
   background: rgba(13,14,18,0.85);
   border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 1.6rem 1.4rem;
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.45rem;
   cursor: default;
   transition: border-color 0.2s;
 }
 
 .hp-feat-icon {
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   line-height: 1;
 }
 
 .hp-feat-title {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 700;
   color: var(--white);
+  line-height: 1.25;
 }
 
 .hp-feat-desc {
-  font-size: 0.8rem;
+  font-size: 0.74rem;
   color: var(--muted);
-  line-height: 1.55;
+  line-height: 1.45;
 }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -1403,8 +1404,8 @@ input[type='range'] {
   .hp-stat:nth-child(odd) { border-right: 1px solid rgba(255,255,255,0.06); }
   .hp-stat:nth-last-child(-n+2) { border-bottom: none; }
 
-  /* Features: 1 col */
-  .hp-features { grid-template-columns: 1fr; gap: 0.75rem; }
+  /* Features: 2 cols on tablet */
+  .hp-features { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
 }
 
 /* ── Mobile (≤600px) ── */
