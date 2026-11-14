@@ -944,6 +944,7 @@ input[type='range'] {
 .ov-label { fill: rgba(230, 230, 230, 0.85); font-size: 22px; font-family: 'Space Grotesk', sans-serif; paint-order: stroke; stroke: rgba(0,0,0,0.7); stroke-width: 3px; }
 .ov-gaia { fill: none; stroke: #22d3ee; stroke-width: 1.2; opacity: 0.9; }
 .ov-wise { fill: none; stroke: #ff7a1a; stroke-width: 1.2; opacity: 0.9; }
+.ov-det path { fill: none; stroke: #ff3d71; stroke-width: 2; vector-effect: non-scaling-stroke; }
 .ov-path polyline { fill: none; stroke: #ffd23f; stroke-width: 1.5; }
 .ov-path circle { fill: #ffd23f; }
 .ov-target { fill: none; stroke: var(--blue); stroke-width: 2.5; }

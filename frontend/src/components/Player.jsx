@@ -15,6 +15,7 @@ const OVERLAYS = [
   ['grid', 'RA/Dec grid', '#9a9a9a'],
   ['gaia', 'Gaia DR3', '#22d3ee'],
   ['allwise', 'AllWISE', '#ff7a1a'],
+  ['detections', 'Mover finder', '#ff3d71'],
   ['scale', 'Scale bar', '#f5f5f5'],
 ]
 
@@ -92,6 +93,7 @@ export default function Player({
     grid: false,
     gaia: false,
     allwise: false,
+    detections: false,
     scale: true,
   })
   const [hover, setHover] = useState(null)
@@ -389,14 +391,19 @@ export default function Player({
         <div className="chips" role="group" aria-label="Overlays">
           {OVERLAYS.map(([k, label, color]) => {
             const missing =
-              (k === 'gaia' && !catalogs?.gaia) || (k === 'allwise' && !catalogs?.allwise)
+              (k === 'gaia' && !catalogs?.gaia) || (k === 'allwise' && !catalogs?.allwise) ||
+              (k === 'detections' && !catalogs?.detections)
             return (
               <button
                 key={k}
                 className={`chip ${show[k] && !missing ? 'on' : ''}`}
                 disabled={missing}
                 title={
-                  missing ? 'No catalogue for this target yet (run science/fetch_catalogs.py)' : ''
+                  k === 'detections'
+                    ? missing
+                      ? 'No mover-finder results for this target yet'
+                      : 'What the automatic mover finder found in the 4-5 µm difference images on this date'
+                    : missing ? 'No catalogue for this target yet (run science/fetch_catalogs.py)' : ''
                 }
                 onClick={() => setShow((s) => ({ ...s, [k]: !s[k] }))}
               >

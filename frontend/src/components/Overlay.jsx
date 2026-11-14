@@ -36,6 +36,16 @@ export default function Overlay({ manifest, wcs, show, frame, pathFrames, catalo
     return catalogs.allwise.rows.map(([ra, dec, w1, w2]) => ({ ...wcs.toFrac(ra, dec), w2 })).filter(inside)
   }, [show.allwise, catalogs, wcs])
 
+  // mover-finder hits on this pass (all passes on the deep stack); one marker per detector
+  const dets = useMemo(() => {
+    const d = catalogs?.detections
+    if (!show.detections || !d) return []
+    return d.candidates
+      .filter((c) => frame == null || c.epoch === frame.epoch)
+      .map((c) => ({ ...c, ...wcs.toFrac(c.ra, c.dec) }))
+      .filter(inside)
+  }, [show.detections, catalogs, wcs, frame])
+
   const pred = frame?.predicted
   const path = show.path ? pathFrames.filter((f) => f.predicted).map((f) => f.predicted) : []
   const pxFrac = 1 / manifest.pixels
@@ -75,6 +85,16 @@ export default function Overlay({ manifest, wcs, show, frame, pathFrames, catalo
           {path.map((p, i) => <circle key={i} cx={p.fx * V} cy={p.fy * V} r={3 * k} />)}
         </g>
       )}
+
+      {dets.map((c, i) => {
+        const r = pxFrac * V * 3.4
+        return (
+          <g key={`d${i}`} className="ov-det">
+            <path d={`M${c.fx * V} ${c.fy * V - r} L${c.fx * V + r} ${c.fy * V} L${c.fx * V} ${c.fy * V + r} L${c.fx * V - r} ${c.fy * V} Z`} />
+            <title>{`Mover finder: ${c.known_match || 'unmatched candidate'} on ${c.date} (detector ${c.detector}), ${c.offset_px ?? '?'} px from the predicted position`}</title>
+          </g>
+        )
+      })}
 
       {show.target && pred && (
         <circle cx={pred.fx * V} cy={pred.fy * V} r={pxFrac * V * 2.2} className="ov-target">
