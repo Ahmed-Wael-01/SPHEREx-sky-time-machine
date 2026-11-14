@@ -24,3 +24,5 @@ science/output/
 # Logs
 *.log
 Claude outputs/
+# Fatma's external light curves: the repo-root data/ folder only (NOT frontend/public/data)
+/data/
