@@ -6,6 +6,30 @@ Type a sky position (or pick a test target) and watch NASA SPHEREx infrared imag
 
 We do not claim to find Planet X. It's the motivation: the tool gives anyone the means to look.
 
+**Live site:** https://ahmed-wael-01.github.io/SPHEREx-sky-time-machine/ (no login; five targets: WISE 0855, Barnard's Star, Epsilon Indi B, RW Aurigae, R Draconis)
+
+## Results (real SPHEREx data, November 2026)
+
+Every number below comes from real SPHEREx photos (IRSA, releases QR3 + DR1), checked against public catalogues. None comes from synthetic data. "Prototype" means a small sample: quote it with that word.
+
+| What we checked | Result | How it was measured |
+|---|---|---|
+| Our aligned pictures vs the Gaia star catalogue | median offset **0.03″**, scatter **0.17″** (pixels are 6.15″) | Gaia DR3 stars moved to each photo's date, compared with measured positions |
+| Target list vs Gaia | Barnard's Star: our predicted position is **0.006″** from Gaia DR3; Epsilon Indi B: **0.7″** from the Gaia source (G = 18.0) | catalogue position + proper motion propagated to Gaia's epoch (Anton) |
+| WISE 0855, the coldest known brown dwarf | visible only at **4–5 µm** (about 10–18σ in the stacks), nothing below ~3.5 µm; moves west along its predicted path | stacks per detector; spectrum below |
+| WISE 0855 spectrum vs WISE catalogue | **0.47 mJy** at 4.4–5.0 µm vs **0.43 mJy** from WISE W2 | 256 photos, one colour each; the Gaia star 8″ away fitted together with it (`make_spectrum.py`) |
+| WISE 0855 brightness over time | **steady** within about 13% (3 passes) | light curve at matched colours, with a 10% allowance for the neighbour fit |
+| Mover finder on known movers | **14 of 14** appearances recovered (Barnard's Star 6/6, Epsilon Indi B 8/8), all within **1.2 px** (0.6–7.3″) of the prediction | 4–5 µm difference images, 5σ, 2 px match radius (Remon) |
+| Mover finder, blind | **not ready**: 130–210 unvetted spots per difference image, mostly leftovers of stars that each pass sees in a slightly different colour | same run; next step: keep only spots moving steadily over ≥ 3 passes |
+| R Draconis (Mira-type variable) | glow 7–10 px from the overloaded core changes about **4×** (1.6–2.4 µm, May 2025 → Jun 2026); 2 of 5 passes rest on ≤ 2 photos | `make_spectrum.py` glow photometry, same ring on every photo |
+| RW Aurigae | Sep 2025 → Feb/Mar 2026: **no significant change** (+5.2%, threshold 13%); the other two pairs **inconclusive**: RW Aur is at SPHEREx's overload limit | same colour on both dates, calibrated by steady Gaia stars (Fatma) |
+| Variable-star flagger (prototype) | **3 of 8** known variables caught, **3 false alarms** in 20 steady stars | held-out Gaia-labelled stars in the RW Aur field (Fatma) |
+| Reading only the pixels we need (NASA's Amazon S3 copy) | pixels **identical** to IRSA cutouts in 5 of 5 photos; star-shape table identical a year apart; speed about the same as cutouts at our 0.5° view | `science/test_partial_read.py` |
+
+What these numbers do **not** show: no new movers or variables were found or claimed. The tool recovers known objects; finding new ones needs the blind-search clean-up above and the any-position mode below.
+
+**Next steps:** a "search any position" button (the pipeline already takes any RA/Dec, in minutes per position; a live version needs a server next to NASA's cloud copy), wider fields from the same copy, the blind mover search, and comparison of RW Aur with outside monitoring once it covers our dates.
+
 ## Repo layout
 
 ```
@@ -30,8 +54,8 @@ python science/fetch_cutouts.py --all                                  # all fiv
 python science/fetch_cutouts.py --ra 133.795 --dec -7.245 --slug mypatch --size 0.5
 
 # 2. API
-cd backend && c           # http://localhost:5000/api/health
-python -m pytest -q                    # backend tests
+cd backend && python app.py           # http://localhost:5000/api/health
+python -m pytest -q                    # backend tests (from backend/)
 
 # 3. Frontend
 cd frontend && npm install && npm run dev   # http://localhost:5173
@@ -43,11 +67,13 @@ cd frontend && npm install && npm run dev   # http://localhost:5173
 
 Catalogues come from `python science/fetch_catalogs.py --target <slug>` (run automatically after each online bake; writes `catalogs.json` next to the manifest).
 
-Shareable views: `/?target=wise0855`, `/?ra=133.795&dec=-7.245&fov=0.2&det=6&mode=diff`, `/?ra=08h55m10.8s&dec=-07:14:42.5`. Add `&embed=1` for a bare player to embed elsewhere.
+**Spectrum and light curve:** click on a target to see its brightness at every colour (one point per photo), and open "Details" for the light curve with a verdict ("steady" or "changes beyond the uncertainty"). Made by `python science/make_spectrum.py --target <slug>` from the downloaded photos. **Mover finder** overlay: what the automatic finder detected on each date (`detections.json`).
+
+Shareable views: `/viewer/target=wise0855`, `/viewer?ra=133.795&dec=-7.245&fov=0.2&det=6&mode=diff`, `/viewer?ra=08h55m10.8s&dec=-07:14:42.5` (older `/?target=…` links still work). Add `&embed=1` for a bare player to embed elsewhere.
 
 ## Deploy
 
-**Website (GitHub Pages, free):** repo Settings → Pages → Source: **GitHub Actions**. Every push to `main` then builds and publishes `https://<user>.github.io/SPHEREx-sky-time-machine/` (`.github/workflows/pages.yml`). It is static only: frames, overlays and the close-up work from the files in `public/data`; the spectrum and SIMBAD panels need the API and say so when it is missing.
+**Website (GitHub Pages, free):** repo Settings → Pages → Source: **GitHub Actions**. Every push to `main` then builds and publishes `https://<user>.github.io/SPHEREx-sky-time-machine/` (`.github/workflows/pages.yml`). It is static only: frames, overlays, close-up, spectra and mover-finder results all work from the files in `public/data`; only the SIMBAD object lookup needs the API, and says so.
 
 **Website (Vercel, free, alternative):** vercel.com → Add New → Project → import this repo → Root Directory `frontend` (framework: Vite) → Deploy. It works on its own: with no API it reads the baked files in `public/data`.
 
@@ -59,12 +85,12 @@ Pictures vs. science data: in the website pictures, overloaded star cores are dr
 
 ## How the pipeline works (`science/fetch_cutouts.py`)
 
-1. **Position.** Resolve the name with SIMBAD, then apply proper motion to the cutout epoch (`--epoch`, default 2026.0).
+1. **Position.** Catalogue position and proper motion from `science/targets.json` (SIMBAD as a fallback for other names), moved to the cutout epoch (`--epoch`, default 2026.0).
 2. **Query.** IRSA TAP on `spherex.artifact JOIN spherex.plane`: every Spectral Image whose footprint contains the position, all detectors, all releases in the TAP tables (QR3 + DR1 as of Nov 2026; IRSA says they supersede QR2). Duplicates across releases are dropped.
 3. **Cutouts.** IRSA cutout service (`?center=ra,decd&size=deg`), cached in `science/cache/<slug>/`, parallel downloads with retries.
 4. **Clean.** `IMAGE − ZODI` (ZODI is not pre-subtracted). Bad pixels are masked **by flag name**, read from the `MSKNnnnn` cards in the FLAGS header. OVERFLOW, NONLINEAR and SOURCE are left unmasked on purpose: masking them would cut holes in bright stars (Barnard's Star). They're still counted in the flag summary.
 5. **Align.** `reproject` every cutout onto one north-up TAN grid at 6.15″/px centred on the target.
-6. **Stack.** Split exposures into survey passes by time gap, then do an inverse-variance mean per (pass, detector) and per pass over all six detectors.
+6. **Stack.** Split exposures into survey passes by a 60-day gap (passes longer than 90 days are cut into ~60-day pieces), then do an inverse-variance mean per (pass, detector) and per pass over all six detectors.
 7. **Difference.** Each pass minus the stack of all other passes, scaled ±5σ.
 8. **Write.** PNGs, `manifest.json`, `exposures.json` → `frontend/public/data/<slug>/`; float stacks → `science/output/<slug>/stacks.fits`.
 
@@ -90,6 +116,15 @@ The same asinh stretch is used for every pass of a detector, so brightness chang
 - SPHEREx data: NASA/IPAC Infrared Science Archive (IRSA). https://irsa.ipac.caltech.edu/Missions/spherex.html
 - IRSA SPHEREx tutorials (query and cutout recipe): https://caltech-ipac.github.io/irsa-tutorials/
 - SIMBAD (CDS Strasbourg) for name resolution and proper motions
+- Gaia DR3 (ESA) and AllWISE (NASA/IPAC) catalogues for overlays and checks; ASAS-SN Sky Patrol for the RW Aur outside light curve
 - Astropy, astroquery, reproject, photutils, NumPy, Flask, React, Vite
 
-**AI use disclosure:** Claude (Anthropic) helped with planning, the proposal text, the logo, the slides, and the initial code scaffold (pipeline, API and player). The team reviewed, tested and extended it.
+## AI use disclosure
+
+We used Claude (Anthropic), an AI assistant, throughout the project, and we want to be specific about where:
+
+- **Planning and writing:** project plan, task breakdown, proposal text, market research, slide text, and this README.
+- **Code written with Claude:** most of the data pipeline (`science/fetch_cutouts.py`, `fetch_catalogs.py`, `make_spectrum.py`, `fill_png_holes.py`, `test_partial_read.py`, `photometry_quickstart.py`), the Flask API, large parts of the React viewer (player, overlays, close-up, colour maps, spectrum and mover-finder display), and the GitHub Pages deployment.
+- **Reviews:** Claude reviewed teammates' branches before merging and found bugs (for example a `.gitignore` rule that would have hidden the website's data folder, and a light-curve method that created fake variability).
+
+What the team did: came up with the idea and approach (the five test targets were suggested by the challenge), designed the logo, downloaded and processed all the real SPHEREx data on our own machines, ran every measurement and checked the outputs, designed the home page and interface (Youssef), built the mover finder (Remon), the variable-star module (Fatma), the photometry checks (Alaa) and the Gaia validation (Anton), and decided what to claim. Every result in the table above was produced by running the code on real data and checked by a person.
