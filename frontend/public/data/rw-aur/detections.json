@@ -1,0 +1,38 @@
+{
+  "ra": 76.956,
+  "dec": 30.401,
+  "fov": 0.5,
+  "source": "prebaked",
+  "candidates": [],
+  "variability": [
+    {
+      "ra": 76.960726,
+      "dec": 30.317357,
+      "fx": 0.4918,
+      "fy": 0.6673,
+      "score": 1.0,
+      "known_match": "Gaia DR3 156335744423799680 (catalogued variable)",
+      "kind": "variable"
+    },
+    {
+      "ra": 77.12379,
+      "dec": 30.292173,
+      "fx": 0.2106,
+      "fy": 0.7177,
+      "score": 1.0,
+      "known_match": null,
+      "kind": "variable"
+    }
+  ],
+  "variability_summary": {
+    "method": "same-star, same-wavelength-bin, different-day relative scatter; threshold = 95th percentile of steady stars (tuning half)",
+    "threshold_rel_rms": 0.17424739518443716,
+    "heldout_variables": 8,
+    "heldout_variables_caught": 3,
+    "heldout_steady": 20,
+    "heldout_false_alarms": 3,
+    "recall": 0.375,
+    "false_alarm_rate": 0.15,
+    "note": "formal prototype numbers; Gaia VarFlag labels; small sample"
+  }
+}
