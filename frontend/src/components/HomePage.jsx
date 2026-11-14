@@ -74,17 +74,44 @@ const fadeItem = {
 
 /* ── Stats ── */
 const STATS = [
-  { num: '102',    label: 'Spectral Bands',    sub: '0.75 – 5.0 µm IR' },
-  { num: '6',      label: 'LVF Detectors',     sub: 'Linear Variable Filter' },
-  { num: '4+',     label: 'Survey Passes',     sub: 'Multi-epoch flip-book' },
-  { num: '0.2″',   label: 'Alignment vs Gaia', sub: 'Measured on WISE 0855 field' },
+  { num: '102',    label: 'Spectral Bands',       sub: '0.75 – 5.0 µm continuous IR' },
+  { num: '6',      label: 'LVF Detectors',        sub: 'Linear Variable Filter mosaic' },
+  { num: '4+',     label: 'Survey Passes',        sub: 'Multi-epoch temporal baseline' },
+  { num: '0.2″',   label: 'Astrometric Precision', sub: 'Calibrated vs Gaia DR3 & WISE' },
 ]
 
 /* ── Features ── */
 const FEATURES = [
-  { icon: '🎞️', title: 'Flip-Book & Diff Engine',     desc: 'Rapid epoch switching with blink comparator and difference imaging.' },
-  { icon: '🔬', title: '102-Band Spectrophotometry',   desc: 'Click-to-extract SEDs with molecular markers (H₂O, CH₄, CO₂, CO).' },
-  { icon: '🌐', title: 'Gaia / WISE / SIMBAD Overlay', desc: 'Gaia stars moved to each date; AllWISE sources; SIMBAD lookup on click.' },
+  {
+    icon: '🎞️',
+    title: 'Flip-Book & Diff Engine',
+    desc: 'Compare consecutive 6-month sky passes with blink comparator and ±5σ difference imaging to reveal moving objects instantly.',
+  },
+  {
+    icon: '🔬',
+    title: '102-Band Spectrophotometry',
+    desc: 'Click any sky position to extract calibrated 0.75–5.0 µm SEDs with error bars and atmospheric markers (H₂O, CH₄, CO₂, CO).',
+  },
+  {
+    icon: '🌐',
+    title: 'Gaia DR3 & AllWISE Overlays',
+    desc: 'Real-time astrometric cross-matching with proper motion propagated to each observation date, auto-flagging uncatalogued movers.',
+  },
+  {
+    icon: '📈',
+    title: 'Multi-Epoch Light Curves',
+    desc: 'Examine temporal infrared flux variations across sky visits to detect stellar variability, dust clearing events, and flares.',
+  },
+  {
+    icon: '🎨',
+    title: '3-Colour IR Composite',
+    desc: 'Authentic 3-colour near-IR composite where cold brown dwarfs glow red, plus scientific palettes (Inferno, Viridis, Null Point).',
+  },
+  {
+    icon: '🔍',
+    title: 'Adaptive FoV & Scale Bar',
+    desc: 'Interactive Field-of-View zoom slider cropping to arcminute scales, backed by adaptive coordinate grids and on-sky scales.',
+  },
 ]
 
 /* ══════════════════════════════════════════════════
