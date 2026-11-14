@@ -76,39 +76,39 @@ const fadeItem = {
 const STATS = [
   { num: '102',    label: 'Spectral Bands',       sub: '0.75 – 5.0 µm continuous IR' },
   { num: '6',      label: 'LVF Detectors',        sub: 'Linear Variable Filter mosaic' },
-  { num: '4+',     label: 'Survey Passes',        sub: 'Multi-epoch temporal baseline' },
+  { num: '3–9',    label: 'Sky Passes per Spot',  sub: 'So far (2025–2026); one new pass every 6 months' },
   { num: '0.2"',   label: 'Alignment vs Gaia',     sub: 'Scatter vs Gaia DR3 (median 0.03")' },
 ]
 
 /* ── Features ── */
 const FEATURES = [
   {
-    icon: '🎞️',
+    icon: (<svg aria-hidden="true" viewBox="0 0 28 28" width="28" height="28" fill="none"><rect x="3" y="7" width="15" height="15" rx="2" stroke="#4D84FF" strokeWidth="2"/><rect x="10" y="4" width="15" height="15" rx="2" stroke="#FF8A3D" strokeWidth="2"/></svg>),
     title: 'Flip-Book & Diff Engine',
     desc: 'Compare consecutive 6-month sky passes with blink comparator and ±5σ difference imaging to reveal moving objects instantly.',
   },
   {
-    icon: '🔬',
+    icon: (<svg aria-hidden="true" viewBox="0 0 28 28" width="28" height="28" fill="none"><path d="M3 22 L8 21 L12 21 L15 19 L18 12 L21 6 L25 9" stroke="#4D84FF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/><line x1="3" y1="25" x2="25" y2="25" stroke="#FF8A3D" strokeWidth="2"/></svg>),
     title: '102-Band Spectrophotometry',
     desc: 'Click a target to see its 0.75–5.0 µm spectrum: one point per SPHEREx photo, with error bars and molecular markers (H₂O, CH₄, CO₂, CO).',
   },
   {
-    icon: '🌐',
+    icon: (<svg aria-hidden="true" viewBox="0 0 28 28" width="28" height="28" fill="none"><circle cx="14" cy="14" r="9" stroke="#4D84FF" strokeWidth="2"/><circle cx="14" cy="14" r="3" fill="#FF8A3D"/></svg>),
     title: 'Gaia DR3 & AllWISE Overlays',
     desc: 'Gaia stars moved to each photo\'s date and AllWISE sources drawn on top, so anything without a catalogue match stands out to the eye.',
   },
   {
-    icon: '📈',
+    icon: (<svg aria-hidden="true" viewBox="0 0 28 28" width="28" height="28" fill="none"><polyline points="3,18 9,10 15,14 21,7 25,12" stroke="#4D84FF" strokeWidth="2" strokeLinejoin="round"/><circle cx="9" cy="10" r="2.2" fill="#FF8A3D"/><circle cx="21" cy="7" r="2.2" fill="#FF8A3D"/></svg>),
     title: 'Multi-Epoch Light Curves',
     desc: 'Brightness on each sky pass at matched colours, with an honest verdict: steady, or changing beyond the measurement uncertainty.',
   },
   {
-    icon: '🎨',
+    icon: (<svg aria-hidden="true" viewBox="0 0 28 28" width="28" height="28" fill="none"><circle cx="11" cy="11" r="6.5" stroke="#4D84FF" strokeWidth="2"/><circle cx="17" cy="11" r="6.5" stroke="#FF8A3D" strokeWidth="2"/><circle cx="14" cy="17" r="6.5" stroke="#B9C4DC" strokeWidth="2"/></svg>),
     title: '3-Colour IR Composite',
     desc: 'Authentic 3-colour near-IR composite where cold brown dwarfs glow red, plus scientific palettes (Inferno, Viridis, Null Point).',
   },
   {
-    icon: '🔍',
+    icon: (<svg aria-hidden="true" viewBox="0 0 28 28" width="28" height="28" fill="none"><path d="M4 10 V4 H10 M18 4 H24 V10 M24 18 V24 H18 M10 24 H4 V18" stroke="#4D84FF" strokeWidth="2"/><circle cx="14" cy="14" r="2.5" fill="#FF8A3D"/></svg>),
     title: 'Adaptive FoV & Scale Bar',
     desc: 'Interactive Field-of-View zoom slider cropping to arcminute scales, backed by adaptive coordinate grids and on-sky scales.',
   },
@@ -163,8 +163,8 @@ export default function HomePage({ onLaunch, onSelectTarget }) {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.7, delay: 0.45 }}
         >
-          Multi-epoch infrared explorer · 102-band spectrophotometry ·
-          spot what moves and what changes
+          Play NASA SPHEREx infrared photos of one spot like a video,
+          and see what moves or changes. By Team Null Point.
         </motion.p>
 
         <motion.div
@@ -272,7 +272,7 @@ export default function HomePage({ onLaunch, onSelectTarget }) {
           className="hp-btn primary"
           onClick={() => onLaunch()}
         >
-          Launch Interactive Time Machine 🚀
+          Launch the Time Machine →
         </button>
       </motion.section>
     </div>

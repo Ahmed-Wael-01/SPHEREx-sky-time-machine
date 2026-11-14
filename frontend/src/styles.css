@@ -1252,7 +1252,11 @@ input[type='range'] {
 .hp-feat-icon {
   font-size: 1.3rem;
   line-height: 1;
+  width: 28px;
+  height: 28px;
 }
+.hp-feat-icon svg { display: block; }
+.foot a { color: inherit; text-decoration: underline; }
 
 .hp-feat-title {
   font-size: 0.85rem;

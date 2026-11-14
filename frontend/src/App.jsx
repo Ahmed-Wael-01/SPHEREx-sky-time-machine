@@ -172,8 +172,8 @@ export default function App() {
               <span />
             </span>
             <div className="nav-brand-text">
-              <span className="nav-brand-title">SPHEREx</span>
-              <span className="nav-brand-sub">Sky Time Machine</span>
+              <span className="nav-brand-title">Null Point</span>
+              <span className="nav-brand-sub">Sky Time Machine · for NASA SPHEREx data</span>
             </div>
           </button>
 
@@ -214,7 +214,7 @@ export default function App() {
             className="nav-cta"
             onClick={() => view === 'home' ? setView('app') : setView('home')}
           >
-            {view === 'home' ? '🚀 Launch' : '← Back to Overview'}
+            {view === 'home' ? 'Launch →' : '← Back to Overview'}
           </button>
         </header>
       )}
@@ -327,7 +327,7 @@ export default function App() {
                       setShowModal(true)
                     }}
                   >
-                    🔬 Full 102-Band & Light Curve Analysis ↗
+                    Open full spectrum and light curve ↗
                   </button>
                 </div>
               )}
@@ -348,8 +348,11 @@ export default function App() {
 
       {!url.embed && (
         <footer className="foot">
-          Data source: NASA SPHEREx Infrared Science Archive (IRSA) · SIMBAD Astronomical Database.
-          Built for NASA Space Apps 2026, “Planet X and SPHEREx”.
+          Data: NASA SPHEREx and AllWISE via the NASA/IPAC Infrared Science Archive (IRSA) · ESA Gaia DR3 ·
+          SIMBAD and Aladin Lite (CDS). Built by Team Null Point for NASA Space Apps Cairo 2026, “Planet X and SPHEREx”.
+          Built with AI help (Claude, Anthropic): see the README.{' '}
+          <a href="https://github.com/Ahmed-Wael-01/SPHEREx-sky-time-machine" target="_blank" rel="noreferrer">Code on GitHub</a>.
+          Not an official NASA site.
         </footer>
       )}
     </div>
