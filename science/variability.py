@@ -16,6 +16,8 @@ from astropy.io import fits
 from astropy.wcs import WCS
 from astropy.coordinates import SkyCoord
 from astropy import units as u
+from astropy import log as _alog
+_alog.setLevel("WARNING")   # silence the harmless SIP INFO spam
 from astropy.wcs.utils import proj_plane_pixel_area
 from astropy.utils.data import conf
 from astroquery.ipac.irsa import Irsa
@@ -163,7 +165,7 @@ def main():
     # split 50/50 tune vs held-out, inside each class
     res_df["split"] = "tune"
     for lab in ["variable", "steady"]:
-        idx = res_df.index[res_df["label"] == lab].to_numpy().copy().copy()
+        idx = res_df.index[res_df["label"] == lab].to_numpy().copy()
         rng.shuffle(idx)
         res_df.loc[idx[len(idx) // 2:], "split"] = "heldout"
 

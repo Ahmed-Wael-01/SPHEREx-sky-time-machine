@@ -21,6 +21,8 @@ from astropy.io import fits
 from astropy.wcs import WCS
 from astropy.coordinates import SkyCoord
 from astropy import units as u
+from astropy import log as _alog
+_alog.setLevel("WARNING")   # silence the harmless SIP INFO spam
 
 SLUG = "rw-aur"
 TARGET_RA, TARGET_DEC = 76.956, 30.401
@@ -32,6 +34,7 @@ BAD_MASK = sum(1 << b for b in BAD_BITS)
 SAT_MASK = (1 << 1) | (1 << 19)
 EPOCH_PAIRS = [(0, 1), (1, 2), (0, 2)]
 MAG_STEADY = 0.10        # external change smaller than this (mag) counts as "no change"
+MAX_SAT_PIXELS = 5          # mean saturated pixels per aperture above this = unreliable
 MIN_REL_THRESHOLD = 0.05  # SPHEREx change must exceed 5% and 3x steady-star scatter
 
 
@@ -238,6 +241,21 @@ def analyse_pair(ma, mb, min_stars=5):
             "saturated_pixels": int(np.nansum([ma["sat"][0], mb["sat"][0]]))}
 
 
+def classify_pair(s):
+    """s = rows of pair results for one epoch pair. Returns dict with direction (or 'inconclusive')."""
+    ratios = s["ratio_corr"].to_numpy(dtype=float)
+    med = float(np.median(ratios))
+    change = med - 1
+    thr = max(MIN_REL_THRESHOLD, 3 * float(np.median(s["star_scatter_rel"])))
+    spread = float(1.4826 * np.median(np.abs(ratios - med)))        # pair-to-pair disagreement
+    sat_mean = float(s["saturated_pixels"].mean())
+    if spread > thr or sat_mean > MAX_SAT_PIXELS:
+        direction = "inconclusive"
+    else:
+        direction = "brighter" if change > thr else "fainter" if change < -thr else "no_change"
+    return {"change": change, "thr": thr, "spread": spread, "sat_mean": sat_mean, "direction": direction}
+
+
 # ============================================================ main
 def main():
     ap = argparse.ArgumentParser()
@@ -307,24 +325,40 @@ def main():
         if len(s) == 0:
             comp.append({"epoch_a": ea, "epoch_b": eb, "n_exposure_pairs": 0})
             continue
-        change = float(np.median(s["ratio_corr"]) - 1)
-        thr = max(MIN_REL_THRESHOLD, 3 * float(np.median(s["star_scatter_rel"])))
-        sph = "brighter" if change > thr else "fainter" if change < -thr else "no_change"
+        c = classify_pair(s)
+        sph = c["direction"]
         row = {"epoch_a": ea, "epoch_b": eb, "n_exposure_pairs": len(s),
-               "spherex_change_pct": round(100 * change, 2), "threshold_pct": round(100 * thr, 2),
-               "spherex_direction": sph, "saturated_pixels": int(s["saturated_pixels"].sum())}
+               "spherex_change_pct": round(100 * c["change"], 2), "threshold_pct": round(100 * c["thr"], 2),
+               "pair_to_pair_spread_pct": round(100 * c["spread"], 1),
+               "mean_saturated_pixels": round(c["sat_mean"], 1), "spherex_direction": sph}
         ma_, mb_ = ep.loc[ep.epoch == ea, "ext_mag_median"].iloc[0], ep.loc[ep.epoch == eb, "ext_mag_median"].iloc[0]
         if ma_ is not None and mb_ is not None and not pd.isna(ma_) and not pd.isna(mb_):
             d = float(mb_) - float(ma_)
             row.update({"external_dmag": round(d, 3), "external_direction": direction_from_dmag(d),
-                        "agrees": direction_from_dmag(d) == sph})
+                        "agrees": (direction_from_dmag(d) == sph) if sph != "inconclusive" else None})
         comp.append(row)
 
-    done = [c for c in comp if "agrees" in c]
-    k_ok = sum(c["agrees"] for c in done)
+    done = [c for c in comp if c.get("agrees") is not None]
+    k_ok = sum(bool(c["agrees"]) for c in done)
+    measured = [c for c in comp if "spherex_direction" in c]
+    n_incon = sum(c["spherex_direction"] == "inconclusive" for c in measured)
     if done:
         sentence = (f"Our RW Aur brightness changes agree with external monitoring in {k_ok} of "
-                    f"{len(done)} epoch pairs (wavelength-matched, calibrated on steady stars; small sample).")
+                    f"{len(done)} reliable epoch pairs ({n_incon} of {len(measured)} pairs inconclusive; "
+                    f"prototype, 3 epochs).")
+    elif measured and n_incon == len(measured):
+        sentence = ("RW Aur is too bright for reliable SPHEREx photometry at these epochs: repeated "
+                    "measurements at the same wavelength disagree more than steady stars do, so we report "
+                    "a measurement limit, not a brightness change.")
+    elif measured and n_incon > 0:
+        ok = [c for c in measured if c["spherex_direction"] != "inconclusive"]
+        det = "; ".join(f"epoch {c['epoch_a']}->{c['epoch_b']}: {c['spherex_direction'].replace('_', ' ')} "
+                        f"({c['spherex_change_pct']:+.1f}%, threshold {c['threshold_pct']:.0f}%)" for c in ok)
+        sentence = (f"RW Aur is near SPHEREx's saturation limit: {n_incon} of {len(measured)} epoch pairs gave "
+                    f"inconsistent repeated measurements, so we report a measurement limit, not a brightness "
+                    f"change. Reliable pair(s): {det} (prototype, 3 epochs, not yet compared with external data).")
+    elif measured:
+        sentence = None   # need the external CSV to compare
     else:
         sentence = None
     summary = {"epoch_pair_comparison": comp, "agree": k_ok, "total_compared": len(done),
