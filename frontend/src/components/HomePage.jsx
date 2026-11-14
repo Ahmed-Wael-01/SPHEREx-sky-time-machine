@@ -204,9 +204,14 @@ export default function HomePage({ onLaunch, onSelectTarget }) {
         whileInView="show"
         viewport={{ once: true, margin: '-60px' }}
       >
-        <div className="hp-section-label">CURATED TARGETS</div>
+        <div className="hp-section-header">
+          <div className="hp-section-label">CURATED BENCHMARK TARGETS</div>
+          <p className="hp-section-desc">
+            Explore the 5 official NASA targets: Planet X analog WISE 0855, rapid proper-motion movers, and extreme variable stars.
+          </p>
+        </div>
         <div className="hp-target-scroll">
-          {[...TARGETS, MOCK_TARGET].map(t => (
+          {TARGETS.map(t => (
             <motion.button
               key={t.slug}
               type="button"

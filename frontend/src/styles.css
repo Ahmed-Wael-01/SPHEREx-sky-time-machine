@@ -1281,12 +1281,25 @@ input[type='range'] {
   width: 100%;
 }
 
+.hp-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
 .hp-section-label {
   font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: var(--muted);
+}
+
+.hp-section-desc {
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.5;
 }
 
 .hp-target-scroll {
