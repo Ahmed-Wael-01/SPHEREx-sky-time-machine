@@ -123,6 +123,41 @@ def star_metric(g):
             "n_meas": len(g), "median_snr": float((g["flux_Jy"] / g["err_Jy"]).median())}
 
 
+def to_contract(res_df, summary, manifest, existing, ra0, dec0):
+    """detections.json in the docs/api.md shape. Keeps whatever else is already in the file
+    (e.g. 'candidates' written by the mover detector) and only replaces 'variability'."""
+    import math
+    d = dict(existing) if isinstance(existing, dict) else {}
+    if manifest:
+        ra0, dec0, fov = manifest["ra"], manifest["dec"], manifest["fov"]
+    else:
+        fov = d.get("fov", 0.5)
+    d.setdefault("ra", ra0)
+    d.setdefault("dec", dec0)
+    d.setdefault("fov", fov)
+    d.setdefault("source", "prebaked")
+    d.setdefault("candidates", [])
+    thr = summary.get("threshold_rel_rms")
+    items = []
+    for _, r in res_df[res_df["flagged"]].iterrows():
+        # north up, east left (same convention as predicted.fx/fy in the manifest)
+        fx = 0.5 - (r["ra"] - ra0) * math.cos(math.radians(dec0)) / fov
+        fy = 0.5 - (r["dec"] - dec0) / fov
+        if not (0 <= fx <= 1 and 0 <= fy <= 1):
+            continue
+        score = min(1.0, r["rms_rel"] / (2 * thr)) if thr and thr == thr else None
+        items.append({
+            "ra": round(float(r["ra"]), 6), "dec": round(float(r["dec"]), 6),
+            "fx": round(fx, 4), "fy": round(fy, 4),
+            "score": None if score is None else round(float(score), 3),
+            "known_match": f"Gaia DR3 {r['star_id']} (catalogued variable)" if r["label"] == "variable" else None,
+            "kind": "variable",
+        })
+    d["variability"] = items
+    d["variability_summary"] = summary     # extra key; numbers for the docs/slides
+    return d
+
+
 # ---------------------------------------------------------------- 4. main
 def main():
     ap = argparse.ArgumentParser()
@@ -192,17 +227,15 @@ def main():
     print(json.dumps(summary, indent=2))
     json.dump(summary, open(f"{outdir}/variability_summary.json", "w"), indent=2)
 
-    # merge into detections.json next to the manifest (if it exists)
+    # write the "variability" part of detections.json in the shape docs/api.md expects
     det = f"frontend/public/data/{a.slug}/detections.json"
-    d = json.load(open(det)) if os.path.exists(det) else {}
-    d["variability"] = {
-        "summary": summary,
-        "stars": res_df[["star_id", "ra", "dec", "Gmag", "label", "rms_rel", "flagged"]]
-                 .round(5).to_dict("records"),
-    }
+    man = f"frontend/public/data/{a.slug}/manifest.json"
+    manifest = json.load(open(man)) if os.path.exists(man) else None
+    existing = json.load(open(det)) if os.path.exists(det) else {}
+    d = to_contract(res_df, summary, manifest, existing, a.ra, a.dec)
     os.makedirs(os.path.dirname(det), exist_ok=True)
     json.dump(d, open(det, "w"), indent=2)
-    print("wrote", det)
+    print("wrote", det, "| flagged stars inside the field:", len(d["variability"]))
 
 
 if __name__ == "__main__":

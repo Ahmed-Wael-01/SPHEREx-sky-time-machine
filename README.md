@@ -6,6 +6,29 @@ Type a sky position (or pick a test target) and watch NASA SPHEREx infrared imag
 
 We do not claim to find Planet X. It's the motivation: the tool gives anyone the means to look.
 
+## Architecture
+
+Everything starts from the NASA/IPAC archive. One pipeline turns SPHEREx exposures into baked frames; the science modules read the same files and write their results next to the manifest; the website and the API only serve those files, so the demo works even when the archive or the API is down.
+
+```mermaid
+flowchart LR
+    IRSA["NASA/IPAC IRSA<br/>SPHEREx archive"] -->|"TAP query and cutouts"| FC["science/fetch_cutouts.py<br/>clean, align, stack, difference"]
+    FC -->|"PNG frames, manifest.json,<br/>exposures.json"| DATA[("frontend/public/data/slug")]
+
+    DATA --> PH["Photometry<br/>spectrum.json"]
+    DATA --> MV["Mover detection<br/>detections.json candidates"]
+    DATA --> VAR["Variable-star check<br/>detections.json variability"]
+    CAT["Gaia DR3, AllWISE,<br/>ASAS-SN, ZTF, AAVSO"] --> VAR
+    CAT --> PH
+    PH -->|"written next to the manifest"| DATA
+    MV --> DATA
+    VAR --> DATA
+
+    DATA -->|"static files"| FE["React + Vite frontend<br/>player, difference and sum modes,<br/>overlays, spectrum"]
+    DATA --> API["Flask API<br/>/api/frames /api/spectrum<br/>/api/detections"]
+    API -->|"optional: spectrum, SIMBAD,<br/>detections"| FE
+```
+
 ## Repo layout
 
 ```
@@ -13,7 +36,10 @@ backend/     Flask API (app.py), cache wrapper (Redis or in-memory), mock payloa
 frontend/    React + Vite app: player, coordinate input, FoV, difference/sum, URL state
   public/data/<target>/   baked PNG frames + manifest.json + exposures.json (served statically)
 science/     data pipeline: fetch_cutouts.py, targets.json, make_synthetic.py
-docs/        api.md (API contract)
+             variable-star check: variability.py, variability_to_detections.py, rwaur_answer_key.py,
+             fetch_asassn.py, fetch_ztf.py, gaia_utils.py
+             tests/check_rwaur_deliverables.py (checks the variable-star outputs)
+docs/        api.md (API contract), variable_star_detector.md (variable-star check: idea, diagrams, challenges, results, how to run)
 ```
 
 ## Quick start
@@ -30,11 +56,16 @@ python science/fetch_cutouts.py --all                                  # all fiv
 python science/fetch_cutouts.py --ra 133.795 --dec -7.245 --slug mypatch --size 0.5
 
 # 2. API
-cd backend && c           # http://localhost:5000/api/health
+cd backend && python app.py            # http://localhost:5000/api/health
 python -m pytest -q                    # backend tests
 
 # 3. Frontend
 cd frontend && npm install && npm run dev   # http://localhost:5173
+
+# 4. Variable-star check (optional; needs the baked frames and internet; run from the repo root)
+python science/variability.py --ra 76.956 --dec 30.401 --slug rw-aur
+python science/rwaur_answer_key.py
+python science/tests/check_rwaur_deliverables.py
 ```
 
 **Everything the public sees is real SPHEREx data.** For developers only, `python science/make_synthetic.py` writes fake SPHEREx-shaped cutouts so code can be smoke-tested offline; they play at `/?target=mock` (not linked anywhere in the app, labelled as synthetic). They are never used for accuracy numbers: detection and variability are trained and tested on real stars and real asteroids with catalogue labels.
@@ -70,6 +101,32 @@ Pictures vs. science data: in the website pictures, overloaded star cores are dr
 
 The same asinh stretch is used for every pass of a detector, so brightness changes between frames are real.
 
+## How the variable-star check works (`science/variability.py`, `science/rwaur_answer_key.py`)
+
+Status: **prototype** (3 epochs of RW Aur, small samples). Full notes, diagrams, challenges and results: `docs/variable_star_detector.md`.
+
+```mermaid
+flowchart LR
+    E["exposures.json<br/>cutouts of 3 epochs"] --> M["Measure target and Gaia stars<br/>wavelength from the spectral WCS"]
+    M --> MA["Match epochs<br/>same wavelength bin"]
+    MA --> CA["Calibrate on steady stars<br/>threshold from a tuning half"]
+    CA --> CL{"Consistent and<br/>not saturated?"}
+    CL -->|"yes"| R1["brighter, fainter<br/>or no change"]
+    CL -->|"no"| R2["inconclusive<br/>measurement limit"]
+    R1 --> D["detections.json<br/>variability list"]
+    R2 --> D
+```
+
+1. **Stars.** Gaia DR3 cone search around the target (`gaia_utils.py` tries VizieR, the ESA Gaia archive and IRSA in turn). Known variables come from `phot_variable_flag`; steady stars are the rest.
+2. **Measure.** Aperture photometry with a local sky annulus on every star in each SPHEREx cutout. Each star's wavelength comes from the spectral WCS, because SPHEREx uses a linear variable filter.
+3. **Match.** A star is only compared with itself, in the same wavelength bin (passbands overlap by 50% or more), on different days. Time is the exposure MJD, not the header `DATE`.
+4. **Calibrate.** The detection threshold is the 95th percentile of steady-star scatter on a tuning half; accuracy is reported on stars held back. Formal errors alone are never used (they gave chi-square 4794 in our first notebook).
+5. **Be honest.** Epoch pairs whose repeated measurements disagree, or whose aperture is saturated, are reported as *inconclusive* (a measurement limit), not as a brightness change. RW Aur is near the saturation limit.
+6. **Compare (optional).** `rwaur_answer_key.py --external <csv>` compares epoch-to-epoch direction with external monitoring. `fetch_asassn.py` and `fetch_ztf.py` write such a CSV to `data/` (git-ignored); use `--band g`, `--band r` or `--band V` to match the CSV.
+7. **Write.** `science/output/<slug>/` (git-ignored) gets `variability_summary.json`, `variability_results.csv`, `rwaur_summary.json` and friends. `variability.py` (or, without downloads, `variability_to_detections.py --slug <slug>`) writes the `variability` list of `frontend/public/data/<slug>/detections.json` in the shape of `docs/api.md` and keeps any `candidates` already in the file.
+
+Use the data folder name as the slug (`rw-aur`, not `rwaur`).
+
 ## Team workflow
 
 - One branch per feature (`feat/player-controls`, `feat/photometry` …); someone else looks before merging to `main`.
@@ -90,6 +147,7 @@ The same asinh stretch is used for every pass of a detector, so brightness chang
 - SPHEREx data: NASA/IPAC Infrared Science Archive (IRSA). https://irsa.ipac.caltech.edu/Missions/spherex.html
 - IRSA SPHEREx tutorials (query and cutout recipe): https://caltech-ipac.github.io/irsa-tutorials/
 - SIMBAD (CDS Strasbourg) for name resolution and proper motions
-- Astropy, astroquery, reproject, photutils, NumPy, Flask, React, Vite
+- Gaia DR3 (ESA) for star lists and variability flags; external RW Aur monitoring from ASAS-SN Sky Patrol, ZTF (via IRSA) and AAVSO; literature context: AAVSO Observing Campaign #884 and Lisse et al. 2025 (RNAAS)
+- Astropy, astroquery, reproject, photutils, NumPy, pandas, Matplotlib, Flask, React, Vite
 
-**AI use disclosure:** Claude (Anthropic) helped with planning, the proposal text, the logo, the slides, and the initial code scaffold (pipeline, API and player). The team reviewed, tested and extended it.
+**AI use disclosure:** Claude (Anthropic) helped with planning, the proposal text, the logo, the slides, the initial code scaffold (pipeline, API and player), and the variable-star check scripts. The team reviewed, tested and extended it.
