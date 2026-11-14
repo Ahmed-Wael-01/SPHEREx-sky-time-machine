@@ -203,9 +203,8 @@ def measure_exposure(path, coords):
 
 
 def gaia_steady_stars(target, radius_deg=0.3, gmax=13.5, n=80):
-    from astroquery.vizier import Vizier
-    v = Vizier(columns=["Source", "RA_ICRS", "DE_ICRS", "Gmag", "VarFlag", "pmRA", "pmDE"], row_limit=-1)
-    df = v.query_region(target, radius=radius_deg * u.deg, catalog="I/355/gaiadr3")[0].to_pandas()
+    from gaia_utils import gaia_cone
+    df = gaia_cone(target, radius_deg)
     df["VarFlag"] = df["VarFlag"].astype(str).str.strip()
     pm = np.hypot(df["pmRA"].fillna(0), df["pmDE"].fillna(0))
     df = df[(df["Gmag"] > 8) & (df["Gmag"] < gmax) & (df["VarFlag"] != "VARIABLE") & (pm < 100)]

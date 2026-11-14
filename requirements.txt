@@ -18,3 +18,5 @@ scikit-learn>=1.4
 
 # Dev
 pytest>=8
+pandas>=2.0
+matplotlib>=3.8

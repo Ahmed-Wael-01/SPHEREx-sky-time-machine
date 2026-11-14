@@ -32,9 +32,8 @@ MIN_SNR = 20            # only stars bright enough to measure well
 
 # ---------------------------------------------------------------- 1. star list
 def build_stars(target, radius_deg, gmax, n_steady, rng):
-    v = Vizier(columns=["Source", "RA_ICRS", "DE_ICRS", "Gmag", "VarFlag"], row_limit=-1)
-    tab = v.query_region(target, radius=radius_deg * u.deg, catalog="I/355/gaiadr3")[0]
-    df = tab.to_pandas()
+    from gaia_utils import gaia_cone
+    df = gaia_cone(target, radius_deg)
     df = df[(df["Gmag"] > 7) & (df["Gmag"] < gmax)].copy()
     df["VarFlag"] = df["VarFlag"].astype(str).str.strip()
     var = df[df["VarFlag"] == "VARIABLE"]
@@ -164,7 +163,7 @@ def main():
     # split 50/50 tune vs held-out, inside each class
     res_df["split"] = "tune"
     for lab in ["variable", "steady"]:
-        idx = res_df.index[res_df["label"] == lab].to_numpy()
+        idx = res_df.index[res_df["label"] == lab].to_numpy().copy().copy()
         rng.shuffle(idx)
         res_df.loc[idx[len(idx) // 2:], "split"] = "heldout"
 
