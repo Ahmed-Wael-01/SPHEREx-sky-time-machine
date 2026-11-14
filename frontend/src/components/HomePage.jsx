@@ -77,7 +77,7 @@ const STATS = [
   { num: '102',    label: 'Spectral Bands',       sub: '0.75 – 5.0 µm continuous IR' },
   { num: '6',      label: 'LVF Detectors',        sub: 'Linear Variable Filter mosaic' },
   { num: '4+',     label: 'Survey Passes',        sub: 'Multi-epoch temporal baseline' },
-  { num: '0.2″',   label: 'Astrometric Precision', sub: 'Calibrated vs Gaia DR3 & WISE' },
+  { num: '0.2"',   label: 'Astrometric Precision', sub: 'Calibrated vs Gaia DR3 & WISE' },
 ]
 
 /* ── Features ── */
@@ -189,30 +189,32 @@ export default function HomePage({ onLaunch, onSelectTarget }) {
       {/* ═══════════════ STATS ═══════════════ */}
       <motion.section
         className="hp-stats"
-        variants={stagger}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-80px' }}
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
       >
         {STATS.map(s => (
-          <motion.div key={s.label} className="hp-stat" variants={fadeItem}>
+          <div key={s.label} className="hp-stat">
             <div className="hp-stat-num">{s.num}</div>
             <div className="hp-stat-label">{s.label}</div>
             <div className="hp-stat-sub">{s.sub}</div>
-          </motion.div>
+          </div>
         ))}
       </motion.section>
 
       {/* ═══════════════ FEATURES ═══════════════ */}
       <motion.section
         className="hp-features"
-        variants={stagger}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-60px' }}
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.1 }}
       >
         {FEATURES.map(f => (
-          <motion.div key={f.title} className="hp-feat" variants={fadeItem}
+          <motion.div
+            key={f.title}
+            className="hp-feat"
             whileHover={{ y: -4, borderColor: 'rgba(47,107,255,0.6)' }}
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
           >
@@ -226,10 +228,10 @@ export default function HomePage({ onLaunch, onSelectTarget }) {
       {/* ═══════════════ TARGETS ═══════════════ */}
       <motion.section
         className="hp-targets"
-        variants={fadeUp}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: '-60px' }}
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.15 }}
       >
         <div className="hp-section-header">
           <div className="hp-section-label">CURATED BENCHMARK TARGETS</div>
