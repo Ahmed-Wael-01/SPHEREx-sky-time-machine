@@ -1,0 +1,126 @@
+{
+  "target": "wise0855",
+  "ra": 133.75987,
+  "dec": -7.242248,
+  "fov": 0.5,
+  "source": "prebaked",
+  "threshold_sigma": 5.0,
+  "frames_scanned": 18,
+  "note": "Recovers known movers in D5/D6 difference frames: candidates are peaks within 2 px of the predicted position. Unmatched peaks are unvetted and can include other real sources or leftovers of stars.",
+  "candidates": [
+    {
+      "ra": 133.76159225542918,
+      "dec": -7.242248496763581,
+      "fx": 0.49658703071672355,
+      "fy": 0.5,
+      "x": 145,
+      "y": 146,
+      "epoch": 0,
+      "date": "2025-05-06",
+      "detector": 5,
+      "snr": 8.43614673614502,
+      "score": 0.4073123481153673,
+      "kind": "mover",
+      "known_match": "WISE 0855",
+      "pm_mas_yr": [
+        -8123.7,
+        673.2
+      ],
+      "offset_px": 0.134
+    },
+    {
+      "ra": 133.7581481114308,
+      "dec": -7.242248496763581,
+      "fx": 0.5034129692832765,
+      "fy": 0.5,
+      "x": 147,
+      "y": 146,
+      "epoch": 2,
+      "date": "2026-05-02",
+      "detector": 5,
+      "snr": 8.493998527526855,
+      "score": 0.41134908561659256,
+      "kind": "mover",
+      "known_match": "WISE 0855",
+      "pm_mas_yr": [
+        -8123.7,
+        673.2
+      ],
+      "offset_px": 0.561
+    },
+    {
+      "ra": 133.7581481114308,
+      "dec": -7.242248496763581,
+      "fx": 0.5034129692832765,
+      "fy": 0.5,
+      "x": 147,
+      "y": 146,
+      "epoch": 2,
+      "date": "2026-04-26",
+      "detector": 6,
+      "snr": 8.463808059692383,
+      "score": 0.4092493633200698,
+      "kind": "mover",
+      "known_match": "WISE 0855",
+      "pm_mas_yr": [
+        -8123.7,
+        673.2
+      ],
+      "offset_px": 0.591
+    }
+  ],
+  "variability": [],
+  "evaluation": {
+    "recovered": false,
+    "found": 3,
+    "images_checked": 6,
+    "exposures_used": 93,
+    "threshold_sigma": 5.0,
+    "matching_radius_px": 2.0,
+    "unmatched_peaks_per_image_mean": 105.167,
+    "images": [
+      {
+        "epoch": 0,
+        "detector": 5,
+        "date": "2025-05-06",
+        "found": true,
+        "unmatched_peaks": 63
+      },
+      {
+        "epoch": 1,
+        "detector": 5,
+        "date": "2025-11-07",
+        "found": false,
+        "unmatched_peaks": 175
+      },
+      {
+        "epoch": 2,
+        "detector": 5,
+        "date": "2026-05-02",
+        "found": true,
+        "unmatched_peaks": 124
+      },
+      {
+        "epoch": 0,
+        "detector": 6,
+        "date": "2025-05-05",
+        "found": false,
+        "unmatched_peaks": 40
+      },
+      {
+        "epoch": 1,
+        "detector": 6,
+        "date": "2025-11-14",
+        "found": false,
+        "unmatched_peaks": 127
+      },
+      {
+        "epoch": 2,
+        "detector": 6,
+        "date": "2026-04-26",
+        "found": true,
+        "unmatched_peaks": 102
+      }
+    ]
+  }
+}
