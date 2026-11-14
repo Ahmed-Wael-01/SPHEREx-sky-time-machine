@@ -24,3 +24,4 @@ science/output/
 # Logs
 *.log
 Claude outputs/
+data/
