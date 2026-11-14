@@ -1,0 +1,169 @@
+{
+  "ra": 269.446267,
+  "dec": 4.768204,
+  "fov": 0.5,
+  "source": "prebaked",
+  "candidates": [
+    {
+      "ra": 269.4479815,
+      "dec": 4.7664952,
+      "fx": 0.496587,
+      "fy": 0.503413,
+      "score": 0.9999208,
+      "kind": "mover",
+      "known_match": "Barnard's Star",
+      "pm_mas_yr": [
+        -801.6,
+        10362.4
+      ],
+      "snr": 63093.734375,
+      "epoch": 0,
+      "detector": 5,
+      "date": "2025-08-26",
+      "offset_px": 1.028
+    },
+    {
+      "ra": 269.4462672,
+      "dec": 4.7682036,
+      "fx": 0.5,
+      "fy": 0.5,
+      "score": 0.9999097,
+      "kind": "mover",
+      "known_match": "Barnard's Star",
+      "pm_mas_yr": [
+        -801.6,
+        10362.4
+      ],
+      "snr": 55353.5,
+      "epoch": 1,
+      "detector": 5,
+      "date": "2026-03-15",
+      "offset_px": 0.353
+    },
+    {
+      "ra": 269.4462672,
+      "dec": 4.7699119,
+      "fx": 0.5,
+      "fy": 0.496587,
+      "score": 0.9999522,
+      "kind": "mover",
+      "known_match": "Barnard's Star",
+      "pm_mas_yr": [
+        -801.6,
+        10362.4
+      ],
+      "snr": 104706.171875,
+      "epoch": 2,
+      "detector": 5,
+      "date": "2026-08-21",
+      "offset_px": 0.122
+    },
+    {
+      "ra": 269.4462672,
+      "dec": 4.7664952,
+      "fx": 0.5,
+      "fy": 0.503413,
+      "score": 0.9999167,
+      "kind": "mover",
+      "known_match": "Barnard's Star",
+      "pm_mas_yr": [
+        -801.6,
+        10362.4
+      ],
+      "snr": 60020.2304688,
+      "epoch": 0,
+      "detector": 6,
+      "date": "2025-08-21",
+      "offset_px": 0.389
+    },
+    {
+      "ra": 269.4462672,
+      "dec": 4.7699119,
+      "fx": 0.5,
+      "fy": 0.496587,
+      "score": 0.9998786,
+      "kind": "mover",
+      "known_match": "Barnard's Star",
+      "pm_mas_yr": [
+        -801.6,
+        10362.4
+      ],
+      "snr": 41190.3398438,
+      "epoch": 1,
+      "detector": 6,
+      "date": "2026-03-22",
+      "offset_px": 0.62
+    },
+    {
+      "ra": 269.4462672,
+      "dec": 4.7699119,
+      "fx": 0.5,
+      "fy": 0.496587,
+      "score": 0.9999184,
+      "kind": "mover",
+      "known_match": "Barnard's Star",
+      "pm_mas_yr": [
+        -801.6,
+        10362.4
+      ],
+      "snr": 61245.5,
+      "epoch": 2,
+      "detector": 6,
+      "date": "2026-08-18",
+      "offset_px": 0.104
+    }
+  ],
+  "variability": [],
+  "evaluation": {
+    "recovered": true,
+    "exposures_used": 119,
+    "threshold_sigma": 5,
+    "matching_radius_px": 2,
+    "unmatched_peaks_per_image_mean": 214,
+    "images": [
+      {
+        "epoch": 0,
+        "detector": 5,
+        "date": "2025-08-26",
+        "found": true,
+        "unmatched_peaks": 222
+      },
+      {
+        "epoch": 1,
+        "detector": 5,
+        "date": "2026-03-15",
+        "found": true,
+        "unmatched_peaks": 312
+      },
+      {
+        "epoch": 2,
+        "detector": 5,
+        "date": "2026-08-21",
+        "found": true,
+        "unmatched_peaks": 209
+      },
+      {
+        "epoch": 0,
+        "detector": 6,
+        "date": "2025-08-21",
+        "found": true,
+        "unmatched_peaks": 158
+      },
+      {
+        "epoch": 1,
+        "detector": 6,
+        "date": "2026-03-22",
+        "found": true,
+        "unmatched_peaks": 210
+      },
+      {
+        "epoch": 2,
+        "detector": 6,
+        "date": "2026-08-18",
+        "found": true,
+        "unmatched_peaks": 173
+      }
+    ]
+  },
+  "note": "Recovers known movers in D5/D6 difference frames. Candidate list contains matches to the predicted target position. Unmatched peaks are unvetted and can include other real sources."
+}
